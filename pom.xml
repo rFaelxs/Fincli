@@ -50,7 +50,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.rafaelxs.Main</mainClass>
+              <mainClass>com.rfaelxs.Main</mainClass>
             </manifest>
           </archive>
         </configuration>
