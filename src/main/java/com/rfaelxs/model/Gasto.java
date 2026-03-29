@@ -1,6 +1,7 @@
 package com.rfaelxs.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class Gasto {
@@ -58,12 +59,13 @@ public class Gasto {
 
     @Override
     public String toString() {
-        return "Gasto{" +
-                "Código do valor Gasto: " + id +
-                ", Valor do Gasto: " + valorGasto +
-                ", Tipo do Gasto: " + categoria +
-                ", Descrição do Gasto: " + descGasto + '\'' +
-                ", Data do Gasto: " + dataGasto +
-                '}';
+        String dataFormatada = dataGasto.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return "\n┌─────────────────────────────────────────" +
+               "\n│ ID:        " + id +
+               "\n│ Valor:     R$ " + String.format("%.2f", valorGasto) +
+               "\n│ Categoria: " + categoria +
+               "\n│ Descrição: " + descGasto +
+               "\n│ Data:      " + dataFormatada +
+               "\n└─────────────────────────────────────────";
     }
 }

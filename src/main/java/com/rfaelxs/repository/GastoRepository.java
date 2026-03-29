@@ -1,20 +1,39 @@
 package com.rfaelxs.repository;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.rfaelxs.model.Gasto;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.rfaelxs.model.Gasto;
 
 
 public class GastoRepository {
 
-
     private static final String ARQUIVO = "gasto.json";
-    Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new TypeAdapter<LocalDate>() {
+                @Override
+                public void write(JsonWriter out, LocalDate value) throws IOException {
+                    out.value(value.toString());
+                }
+
+                @Override
+                public LocalDate read(JsonReader in) throws IOException {
+                    return LocalDate.parse(in.nextString());
+                }
+            })
+            .create();
 
     public void salvarGasto(List<Gasto> gastos) {
         String json = gson.toJson(gastos);
@@ -26,13 +45,11 @@ public class GastoRepository {
     }
 
     public List<Gasto> carregarTodos() {
-        //Parte 1: Verifica se arquivo existe
         File arquivo = new File(ARQUIVO);
         if (!arquivo.exists()) {
             return new ArrayList<>();
         }
 
-        //Parte 2: Leitura e conversão
         try (FileReader reader = new FileReader(ARQUIVO)) {
             Type tipo = new TypeToken<List<Gasto>>() {
             }.getType();
@@ -42,6 +59,5 @@ public class GastoRepository {
             throw new RuntimeException(e);
         }
     }
-
 
 }
