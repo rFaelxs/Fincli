@@ -1,9 +1,13 @@
-# Fincli
-
+# FinCLI
 CLI de gerenciamento de finanças pessoais feito em Java. Registre, liste e analise seus gastos por categoria direto no terminal.
 
-## Funcionalidades
+## 🎯 Problema
+Jovens adultos perdem o controle financeiro por falta de um registro simples e rápido dos gastos do dia a dia. O FinCLI resolve isso com uma interface de linha de comando leve, sem distrações, que permite registrar receitas e despesas em segundos.
 
+## 👥 Público-alvo
+Jovens adultos brasileiros (18–30 anos) que querem acompanhar suas finanças pessoais de forma prática, especialmente estudantes e profissionais iniciantes que já têm familiaridade com o terminal.
+
+## Funcionalidades
 - Adicionar gastos com valor, categoria, descrição e data
 - Listar todos os gastos registrados
 - Remover um gasto pelo ID
@@ -11,12 +15,10 @@ CLI de gerenciamento de finanças pessoais feito em Java. Registre, liste e anal
 - Persistência em JSON local (`gasto.json`)
 
 ## Pré-requisitos
-
 - Java 21+
 - Maven 3.x
 
 ## Instalação e execução
-
 ```bash
 # Clone o repositório
 git clone https://github.com/rfaelxs/fincli.git
@@ -30,7 +32,6 @@ java -cp target/fincli-1.0.0.jar com.rfaelxs.Main
 ```
 
 ## Menu
-
 ```
 [1] Adicionar gasto
 [2] Listar gastos
@@ -40,13 +41,11 @@ java -cp target/fincli-1.0.0.jar com.rfaelxs.Main
 ```
 
 ### Formatos de data aceitos
-
 - `yyyy-MM-dd` (ex: 2025-01-15)
 - `yyyy/MM/dd` (ex: 2025/01/15)
 - `dd/MM/yyyy` (ex: 15/01/2025)
 
 ## Estrutura do projeto
-
 ```
 src/
 ├── main/java/com/rfaelxs/
@@ -60,12 +59,19 @@ src/
 ```
 
 ## Comandos úteis
-
 ```bash
 mvn test               # Rodar testes
 mvn checkstyle:check   # Verificar estilo de código
 ```
 
 ## CI
-
 O pipeline roda automaticamente em todo push/PR para `master`, executando testes e checkstyle com JDK 21.
+
+## 📌 Versão
+1.0.0
+
+## 👤 Autor
+Rafael Siqueira — [@rFaelxs](https://github.com/rFaelxs)
+
+## 🔗 Repositório
+https://github.com/rfaelxs/fincli
