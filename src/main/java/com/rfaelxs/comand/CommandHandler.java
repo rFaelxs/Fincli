@@ -1,6 +1,7 @@
 package com.rfaelxs.comand;
 
-import com.rfaelxs.model.Gasto;
+import com.rfaelxs.model.TipoTransacao;
+import com.rfaelxs.model.Transacao;
 import com.rfaelxs.service.GastoService;
 
 import java.time.LocalDate;
@@ -9,35 +10,57 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+/**
+ * Gerencia a interface de linha de comando (CLI) do sistema.
+ * Exibe o menu principal, lê as entradas do usuário e delega
+ * as operações ao {@link GastoService}.
+ */
 public class CommandHandler {
 
     private final GastoService gastoService;
     private final Scanner scanner;
 
-    public CommandHandler(GastoService service){
+    /**
+     * @param service serviço de transações usado para executar as operações do menu
+     */
+    public CommandHandler(GastoService service) {
         this.gastoService = service;
         this.scanner = new Scanner(System.in);
     }
 
-    public void menuExecucao(){
+    /**
+     * Inicia o loop principal do menu.
+     * Permanece em execução até o usuário escolher a opção 0 (sair).
+     * Opções disponíveis:
+     * <ul>
+     *   <li>1 - Adicionar transação</li>
+     *   <li>2 - Listar transações</li>
+     *   <li>3 - Remover transação por ID</li>
+     *   <li>4 - Resumo por categoria</li>
+     *   <li>0 - Encerrar</li>
+     * </ul>
+     */
+    public void menuExecucao() {
         int opcao = -1;
 
-        while(opcao != 0){
+        while (opcao != 0) {
             System.out.println("\n=== MENU PRINCIPAL ===");
-            System.out.println("1 - Adicionar novo gasto (add)");
-            System.out.println("2 - Ver lista de gastos (list)");
-            System.out.println("3 - Remover gasto por ID (remove)");
+            System.out.println("1 - Adicionar nova transação (add)");
+            System.out.println("2 - Ver lista de transações (list)");
+            System.out.println("3 - Remover transação por ID (remove)");
             System.out.println("4 - Resumo por Categoria (summary)");
             System.out.println("0 - Encerrar (exit)");
             System.out.print("Escolha uma opção: ");
 
             opcao = scanner.nextInt();
-
             scanner.nextLine();
 
             switch (opcao) {
                 case 1:
-                    System.out.println("\n-> Ação: Adicionando novo gasto...");
+                    System.out.println("\n-> Ação: Adicionando nova transação...");
+
+                    System.out.print("Tipo (ENTRADA/SAIDA): ");
+                    TipoTransacao tipo = TipoTransacao.valueOf(scanner.nextLine().toUpperCase());
 
                     System.out.print("Digite o valor: ");
                     double valor = scanner.nextDouble();
@@ -45,7 +68,6 @@ public class CommandHandler {
 
                     System.out.print("Digite a categoria: ");
                     String categoria = scanner.nextLine();
-
 
                     System.out.print("Digite a descrição: ");
                     String descricao = scanner.nextLine();
@@ -64,35 +86,38 @@ public class CommandHandler {
                         data = LocalDate.parse(dataTexto);
                     }
 
-                    gastoService.adicionarGasto(valor, categoria, descricao, data);
-                    System.out.println("\n✔ Gasto adicionado com sucesso!");
-                    System.out.println("  R$ " + String.format("%.2f", valor) + " | " + categoria + " | " + descricao);
+                    System.out.print("É essencial? (s/n): ");
+                    boolean essencial = scanner.nextLine().trim().equalsIgnoreCase("s");
+
+                    gastoService.adicionarTransacao(valor, categoria, descricao, data, tipo, essencial);
+                    System.out.println("\n✔ Transação adicionada com sucesso!");
+                    System.out.println("  " + tipo + " | R$ " + String.format("%.2f", valor) + " | " + categoria + " | " + descricao);
                     break;
 
                 case 2:
-                    List<Gasto> lista = gastoService.listarGastos();
+                    List<Transacao> lista = gastoService.listarTransacoes();
                     if (lista.isEmpty()) {
-                        System.out.println("\n  Nenhum gasto registrado.");
+                        System.out.println("\n  Nenhuma transação registrada.");
                     } else {
-                        System.out.println("\n===== LISTA DE GASTOS (" + lista.size() + " registro(s)) =====");
+                        System.out.println("\n===== LISTA DE TRANSAÇÕES (" + lista.size() + " registro(s)) =====");
                         lista.forEach(System.out::println);
                     }
                     break;
 
                 case 3:
-                    System.out.println("\n-> Ação: Remover gasto...");
-                    System.out.print("Digite o ID do gasto: ");
+                    System.out.println("\n-> Ação: Remover transação...");
+                    System.out.print("Digite o ID da transação: ");
 
                     String idTexto = scanner.nextLine();
                     UUID idFormatado = UUID.fromString(idTexto);
-                    gastoService.removerGasto(idFormatado);
-                    System.out.println("Gasto removido com sucesso!");
+                    gastoService.removerTransacao(idFormatado);
+                    System.out.println("Transação removida com sucesso!");
                     break;
 
                 case 4:
                     var resumo = gastoService.resumoPorCategoria();
                     if (resumo.isEmpty()) {
-                        System.out.println("\n  Nenhum gasto registrado.");
+                        System.out.println("\n  Nenhuma transação registrada.");
                     } else {
                         System.out.println("\n===== RESUMO POR CATEGORIA =====");
                         resumo.forEach((cat, total) ->

@@ -15,15 +15,15 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.rfaelxs.model.Transacao;
+import com.rfaelxs.model.User;
 
 /**
- * Responsável por persistir e recuperar transações financeiras em arquivo JSON.
+ * Responsável por persistir e recuperar usuários em arquivo JSON.
  * Utiliza Gson com adaptador customizado para serializar {@link LocalDate}.
  */
-public class GastoRepository {
+public class UserRepository {
 
-    private static final String ARQUIVO = "gasto.json";
+    private static final String ARQUIVOUSER = "user.json";
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new TypeAdapter<LocalDate>() {
                 @Override
@@ -39,36 +39,48 @@ public class GastoRepository {
             .create();
 
     /**
-     * Serializa a lista de transações e grava no arquivo JSON.
+     * Serializa a lista de usuários e grava no arquivo JSON.
      *
-     * @param transacoes lista completa de transações a ser persistida
+     * @param usuarios lista completa de usuários a ser persistida
      */
-    public void salvarTransacoes(List<Transacao> transacoes) {
-        String json = gson.toJson(transacoes);
-        try (FileWriter writer = new FileWriter(ARQUIVO)) {
-            writer.write(json);
+    public void salvarUsuarios(List<User> usuarios) {
+        String json = gson.toJson(usuarios);
+        try (FileWriter write = new FileWriter(ARQUIVOUSER)) {
+            write.write(json);
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar transações", e);
+            throw new RuntimeException("Erro ao salvar usuários", e);
         }
     }
 
     /**
-     * Carrega todas as transações do arquivo JSON.
+     * Carrega todos os usuários do arquivo JSON.
      * Retorna lista vazia se o arquivo ainda não existir.
      *
-     * @return lista de transações persistidas
+     * @return lista de usuários cadastrados
      */
-    public List<Transacao> carregarTodos() {
-        File arquivo = new File(ARQUIVO);
+    public List<User> carregarUsuarios() {
+        File arquivo = new File(ARQUIVOUSER);
         if (!arquivo.exists()) {
             return new ArrayList<>();
         }
 
-        try (FileReader reader = new FileReader(ARQUIVO)) {
-            Type tipo = new TypeToken<List<Transacao>>() {}.getType();
+        try (FileReader reader = new FileReader(ARQUIVOUSER)) {
+            Type tipo = new TypeToken<List<User>>() {}.getType();
             return gson.fromJson(reader, tipo);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao carregar usuários", e);
         }
+    }
+
+    /**
+     * Verifica se já existe um usuário cadastrado com o CPF informado.
+     *
+     * @param cpf CPF a ser verificado
+     * @return {@code true} se o CPF já estiver cadastrado
+     */
+    public boolean verificarCpfUsuario(String cpf) {
+        List<User> users = carregarUsuarios();
+        return users.stream()
+            .anyMatch(user -> user.getCpfUsuario().equals(cpf));
     }
 }

@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-import com.rfaelxs.model.Gasto;
+import com.rfaelxs.exception.ValorInvalidoException;
+import com.rfaelxs.model.TipoTransacao;
+import com.rfaelxs.model.Transacao;
 import com.rfaelxs.repository.GastoRepository;
 import com.rfaelxs.service.GastoService;
 
@@ -22,54 +25,49 @@ class AppTest {
 
     static class GastoRepositoryFake extends GastoRepository {
 
-        private List<Gasto> gastosSalvos = new ArrayList<>();
+        private List<Transacao> transacoesSalvas = new ArrayList<>();
 
         @Override
-        public void salvarGasto(List<Gasto> gastos) {
-            this.gastosSalvos = gastos;
+        public void salvarTransacoes(List<Transacao> transacoes) {
+            this.transacoesSalvas = transacoes;
         }
 
         @Override
-        public List<Gasto> carregarTodos() {
-            return gastosSalvos;
+        public List<Transacao> carregarTodos() {
+            return transacoesSalvas;
         }
-
     }
 
     @Test
-    void deveAdicionarGastoValido() {
+    void deveAdicionarTransacaoValida() throws ValorInvalidoException {
         GastoRepository fake = new GastoRepositoryFake();
         GastoService service = new GastoService(fake);
 
-        service.adicionarGasto(100.0,
-                "Alimentação",
-                "Mercado",
-                LocalDate.of(2025, 1, 10));
+        service.adicionarTransacao(100.0, "Alimentação", "Mercado", LocalDate.of(2025, 1, 10), TipoTransacao.SAIDA, true);
 
-        assertEquals(1, service.listarGastos().size());
+        assertEquals(1, service.listarTransacoes().size());
     }
 
     @Test
-    void deveRemoverGastoPorId() {
+    void deveRemoverTransacaoPorId() throws ValorInvalidoException {
         GastoRepository fake = new GastoRepositoryFake();
         GastoService service = new GastoService(fake);
 
-        service.adicionarGasto(100.0, "Alimentação", "Mercado", LocalDate.of(2025, 1, 10));
+        service.adicionarTransacao(100.0, "Alimentação", "Mercado", LocalDate.of(2025, 1, 10), TipoTransacao.SAIDA, true);
 
-        UUID id = service.listarGastos().get(0).getId();
-        service.removerGasto(id);
+        UUID id = service.listarTransacoes().get(0).getId();
+        service.removerTransacao(id);
 
-        assertEquals(0, service.listarGastos().size());
-
+        assertEquals(0, service.listarTransacoes().size());
     }
 
     @Test
-    void naoDeveAdicionarGastoComValorNegativo() {
+    void naoDeveAdicionarTransacaoComValorNegativo() {
         GastoRepository fake = new GastoRepositoryFake();
         GastoService service = new GastoService(fake);
 
-        service.adicionarGasto(-1.0, "Alimentação", "Mercado", LocalDate.of(2025, 1, 10));
-
-        assertEquals(0, service.listarGastos().size());
+        assertThrows(ValorInvalidoException.class, () ->
+            service.adicionarTransacao(-1.0, "Alimentação", "Mercado", LocalDate.of(2025, 1, 10), TipoTransacao.SAIDA, false)
+        );
     }
 }
