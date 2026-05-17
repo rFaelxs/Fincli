@@ -20,6 +20,9 @@ public class User {
      * @param idUsuario  UUID único gerado no cadastro
      * @param nmUsuario  Nome do usuário
      */
+    public User() {
+    }
+
     public User(String cpfUsuario, UUID idUsuario, String nmUsuario) {
         this.cpfUsuario = cpfUsuario;
         this.idUsuario = idUsuario;
