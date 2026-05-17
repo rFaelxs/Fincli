@@ -1,77 +1,119 @@
 # FinCLI
-CLI de gerenciamento de finanças pessoais feito em Java. Registre, liste e analise seus gastos por categoria direto no terminal.
+
+> **[⬇️ Download da última versão (JAR)](https://github.com/rFaelxs/fincli/releases/latest)**
+
+CLI de gestão financeira pessoal em Java. Registre receitas, despesas e reservas financeiras, acompanhe seu saldo e visualize a taxa Selic em tempo real — tudo direto no terminal.
 
 ## 🎯 Problema
-Jovens adultos perdem o controle financeiro por falta de um registro simples e rápido dos gastos do dia a dia. O FinCLI resolve isso com uma interface de linha de comando leve, sem distrações, que permite registrar receitas e despesas em segundos.
+
+Jovens adultos perdem o controle financeiro por falta de um registro simples e rápido. O FinCLI resolve isso com uma interface leve, sem distrações, que permite registrar e acompanhar as finanças em segundos.
 
 ## 👥 Público-alvo
-Jovens adultos brasileiros (18–30 anos) que querem acompanhar suas finanças pessoais de forma prática, especialmente estudantes e profissionais iniciantes que já têm familiaridade com o terminal.
 
-## Funcionalidades
-- Adicionar gastos com valor, categoria, descrição e data
-- Listar todos os gastos registrados
-- Remover um gasto pelo ID
-- Resumo de gastos agrupados por categoria
-- Persistência em JSON local (`gasto.json`)
+Jovens adultos brasileiros (18–30 anos) com familiaridade com o terminal que buscam acompanhar suas finanças de forma prática.
 
-## Pré-requisitos
-- Java 21+
-- Maven 3.x
+## ✨ Funcionalidades
 
-## Instalação e execução
+- **Autenticação**: cadastro e login por CPF; dados isolados por usuário (UUID)
+- **Transações**: adicionar, listar, editar e remover receitas/despesas por categoria
+- **Reservas financeiras**: criar metas, alocar e sacar saldo, com Reserva de Emergência protegida
+- **Dashboard**: saldo disponível, totais do mês, progresso da Reserva de Emergência e **taxa Selic atual** via API do Banco Central
+- **Extrato**: histórico cronológico de transações e movimentações de reservas
+- Persistência em JSON local por usuário (`data/{uuid}.json`)
+
+## 🌐 Integração com API pública
+
+A taxa Selic é obtida em tempo real da API pública do Banco Central do Brasil:
+
+```
+GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json
+```
+
+Em caso de falha de rede, o dashboard exibe "Indisponível" sem interromper a aplicação.
+
+## 🚀 Como executar
+
+### Opção 1 — Download direto (sem compilar)
+
+1. Acesse a página de [Releases](https://github.com/rFaelxs/fincli/releases/latest) e baixe `fincli-1.0.0.jar`
+2. Execute:
+
+```bash
+java -jar fincli-1.0.0.jar
+```
+
+> Pré-requisito: **Java 21+** instalado. Verifique com `java -version`.
+
+### Opção 2 — Compilar a partir do código-fonte
+
 ```bash
 # Clone o repositório
 git clone https://github.com/rfaelxs/fincli.git
 cd fincli
 
-# Compile e gere o JAR
-mvn clean package
+# Compile e gere o fat JAR (com todas as dependências)
+mvn clean package -DskipTests
 
 # Execute
-java -cp target/fincli-1.0.0.jar com.rfaelxs.Main
+java -jar target/fincli-1.0.0.jar
 ```
 
-## Menu
+> Pré-requisitos: **Java 21+** e **Maven 3.x**.
+
+## 🗂️ Menu principal
+
 ```
-[1] Adicionar gasto
-[2] Listar gastos
-[3] Remover gasto
-[4] Resumo por categoria
+[1] Dashboard
+[2] Transações  →  Adicionar / Listar / Editar / Remover / Resumo por categoria
+[3] Reservas    →  Criar / Listar / Alocar saldo / Sacar / Meta emergência / Excluir
+[4] Extrato
 [0] Sair
 ```
 
 ### Formatos de data aceitos
-- `yyyy-MM-dd` (ex: 2025-01-15)
-- `yyyy/MM/dd` (ex: 2025/01/15)
-- `dd/MM/yyyy` (ex: 15/01/2025)
 
-## Estrutura do projeto
+- `dd/MM/yyyy` (ex: 17/05/2026)
+- `yyyy-MM-dd` (ex: 2026-05-17)
+- `yyyy/MM/dd` (ex: 2026/05/17)
+
+## 🧪 Testes
+
+```bash
+mvn test               # Unit tests (Mockito) + Teste de integração (API BCB)
+mvn checkstyle:check   # Verificar estilo (Google Java Style)
+```
+
+## 📁 Estrutura do projeto
+
 ```
 src/
 ├── main/java/com/rfaelxs/
 │   ├── Main.java
-│   ├── model/         # Gasto.java
-│   ├── service/       # GastoService.java
-│   ├── repository/    # GastoRepository.java
-│   └── comand/        # CommandHandler.java
+│   ├── config/        # GsonConfig (TypeAdapter de LocalDate)
+│   ├── model/         # Transacao, Reserva, MovimentacaoReserva, DadosUsuario, User
+│   ├── service/       # TransacaoService, ReservaService, DashboardService, UserService
+│   ├── repository/    # UsuarioRepository, SelicRepository
+│   └── command/       # CommandHandler
 └── test/java/com/rfaelxs/
-    └── AppTest.java
+    ├── service/       # TransacaoServiceTest, ReservaServiceTest, DashboardServiceTest
+    └── repository/    # SelicRepositoryIntegrationTest
+data/
+├── perfis.json        # Índice de usuários (login por CPF)
+└── {uuid}.json        # Dados completos de cada usuário
 ```
 
-## Comandos úteis
-```bash
-mvn test               # Rodar testes
-mvn checkstyle:check   # Verificar estilo de código
-```
+## ⚙️ CI/CD
 
-## CI
 O pipeline roda automaticamente em todo push/PR para `master`, executando testes e checkstyle com JDK 21.
 
 ## 📌 Versão
+
 1.0.0
 
 ## 👤 Autor
+
 Rafael Siqueira — [@rFaelxs](https://github.com/rFaelxs)
 
 ## 🔗 Repositório
-https://github.com/rfaelxs/fincli
+
+<https://github.com/rfaelxs/fincli>

@@ -30,6 +30,9 @@ public class Transacao {
      * @param tipo           {@link TipoTransacao#ENTRADA} ou {@link TipoTransacao#SAIDA}
      * @param essencial      {@code true} se a transação é considerada essencial
      */
+    public Transacao() {
+    }
+
     public Transacao(double valorTransacao, String categoria, String descTransacao, LocalDate dataTransacao, TipoTransacao tipo, boolean essencial) {
         this.id = UUID.randomUUID();
         this.valorTransacao = valorTransacao;
