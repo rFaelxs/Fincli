@@ -1,119 +1,143 @@
 # FinCLI
 
-> **[⬇️ Download da última versão (JAR)](https://github.com/rFaelxs/fincli/releases/latest)**
+CLI de gestão financeira pessoal em Java — com API REST, banco de dados em nuvem (Supabase) e deploy contínuo no Render.
 
-CLI de gestão financeira pessoal em Java. Registre receitas, despesas e reservas financeiras, acompanhe seu saldo e visualize a taxa Selic em tempo real — tudo direto no terminal.
+## Integrantes
 
-## 🎯 Problema
+| Nome | Matrícula |
+|------|-----------|
+| Rafael Siqueira | — |
 
-Jovens adultos perdem o controle financeiro por falta de um registro simples e rápido. O FinCLI resolve isso com uma interface leve, sem distrações, que permite registrar e acompanhar as finanças em segundos.
+## Stack
 
-## 👥 Público-alvo
+| Camada | Tecnologia |
+|---|---|
+| Linguagem | Java 21 |
+| Build | Maven |
+| API REST | Javalin 6 |
+| Banco de dados | PostgreSQL via Supabase |
+| Serialização | Gson |
+| Testes | JUnit 5 + Mockito |
+| Estilo de código | Checkstyle (Google Java Style) |
+| CI/CD | GitHub Actions + Render |
+| API externa | BCB Selic API |
 
-Jovens adultos brasileiros (18–30 anos) com familiaridade com o terminal que buscam acompanhar suas finanças de forma prática.
-
-## ✨ Funcionalidades
+## Funcionalidades
 
 - **Autenticação**: cadastro e login por CPF; dados isolados por usuário (UUID)
 - **Transações**: adicionar, listar, editar e remover receitas/despesas por categoria
 - **Reservas financeiras**: criar metas, alocar e sacar saldo, com Reserva de Emergência protegida
-- **Dashboard**: saldo disponível, totais do mês, progresso da Reserva de Emergência e **taxa Selic atual** via API do Banco Central
+- **Dashboard**: saldo disponível, totais do mês, progresso da Reserva de Emergência e taxa Selic atual via API do Banco Central
 - **Extrato**: histórico cronológico de transações e movimentações de reservas
-- Persistência em JSON local por usuário (`data/{uuid}.json`)
 
-## 🌐 Integração com API pública
+## Configuração do banco de dados (Supabase)
 
-A taxa Selic é obtida em tempo real da API pública do Banco Central do Brasil:
+1. Crie um projeto em [supabase.com](https://supabase.com)
+2. Abra o **SQL Editor** e execute o conteúdo de [`schema.sql`](schema.sql)
+3. Copie a **Connection String** JDBC em `Settings > Database > Connection string`
 
-```
-GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json
-```
+## Como executar localmente
 
-Em caso de falha de rede, o dashboard exibe "Indisponível" sem interromper a aplicação.
-
-## 🚀 Como executar
-
-### Opção 1 — Download direto (sem compilar)
-
-1. Acesse a página de [Releases](https://github.com/rFaelxs/fincli/releases/latest) e baixe `fincli-1.0.0.jar`
-2. Execute:
+### Modo CLI (persistência em JSON local, sem banco)
 
 ```bash
-java -jar fincli-1.0.0.jar
+mvn exec:java -Dexec.mainClass="com.rfaelxs.Main"
 ```
 
-> Pré-requisito: **Java 21+** instalado. Verifique com `java -version`.
-
-### Opção 2 — Compilar a partir do código-fonte
+### Modo API REST (requer Supabase configurado)
 
 ```bash
-# Clone o repositório
-git clone https://github.com/rfaelxs/fincli.git
-cd fincli
+export DATABASE_URL="jdbc:postgresql://db.<projeto>.supabase.co:5432/postgres?user=postgres&password=<senha>&sslmode=require"
+export API_MODE=true
+mvn exec:java -Dexec.mainClass="com.rfaelxs.Main"
+# API disponível em http://localhost:8080
+```
 
-# Compile e gere o fat JAR (com todas as dependências)
+### Via JAR
+
+```bash
 mvn clean package -DskipTests
-
-# Execute
-java -jar target/fincli-1.0.0.jar
+java -jar target/fincli-1.0.0.jar           # modo CLI
+java -jar target/fincli-1.0.0.jar --api     # modo API
 ```
 
-> Pré-requisitos: **Java 21+** e **Maven 3.x**.
+## Endpoints da API
 
-## 🗂️ Menu principal
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/health` | Health check |
+| POST | `/api/auth/login` | `{"cpf":"..."}` |
+| POST | `/api/auth/cadastro` | `{"nome":"...","cpf":"..."}` |
+| GET | `/api/transacoes/{userId}` | Listar transações |
+| POST | `/api/transacoes/{userId}` | Adicionar transação |
+| PUT | `/api/transacoes/{userId}/{id}` | Editar transação |
+| DELETE | `/api/transacoes/{userId}/{id}` | Remover transação |
+| GET | `/api/reservas/{userId}` | Listar reservas |
+| POST | `/api/reservas/{userId}` | Criar reserva |
+| POST | `/api/reservas/{userId}/{id}/alocar` | `{"valor":X,"saldoDisponivel":Y}` |
+| POST | `/api/reservas/{userId}/{id}/sacar` | `{"valor":X}` |
+| DELETE | `/api/reservas/{userId}/{id}` | Excluir reserva |
+| GET | `/api/dashboard/{userId}` | Dashboard financeiro |
 
+**Payload de transação:**
+```json
+{
+  "valor": 1500.00,
+  "categoria": "Salário",
+  "descricao": "Salário maio",
+  "data": "2026-05-01",
+  "tipo": "ENTRADA",
+  "essencial": false
+}
 ```
-[1] Dashboard
-[2] Transações  →  Adicionar / Listar / Editar / Remover / Resumo por categoria
-[3] Reservas    →  Criar / Listar / Alocar saldo / Sacar / Meta emergência / Excluir
-[4] Extrato
-[0] Sair
-```
 
-### Formatos de data aceitos
-
-- `dd/MM/yyyy` (ex: 17/05/2026)
-- `yyyy-MM-dd` (ex: 2026-05-17)
-- `yyyy/MM/dd` (ex: 2026/05/17)
-
-## 🧪 Testes
+## Testes
 
 ```bash
-mvn test               # Unit tests (Mockito) + Teste de integração (API BCB)
-mvn checkstyle:check   # Verificar estilo (Google Java Style)
+mvn test                # unit tests (Mockito) + integração (API BCB)
+mvn checkstyle:check    # Google Java Style
 ```
 
-## 📁 Estrutura do projeto
+## Estrutura do projeto
 
 ```
 src/
 ├── main/java/com/rfaelxs/
 │   ├── Main.java
-│   ├── config/        # GsonConfig (TypeAdapter de LocalDate)
+│   ├── api/           # ApiServer (Javalin)
+│   ├── config/        # GsonConfig, DatabaseConfig
 │   ├── model/         # Transacao, Reserva, MovimentacaoReserva, DadosUsuario, User
 │   ├── service/       # TransacaoService, ReservaService, DashboardService, UserService
-│   ├── repository/    # UsuarioRepository, SelicRepository
+│   ├── repository/    # IUsuarioRepository, UsuarioRepository (JSON), UsuarioRepositoryDb (PG)
 │   └── command/       # CommandHandler
 └── test/java/com/rfaelxs/
     ├── service/       # TransacaoServiceTest, ReservaServiceTest, DashboardServiceTest
     └── repository/    # SelicRepositoryIntegrationTest
-data/
-├── perfis.json        # Índice de usuários (login por CPF)
-└── {uuid}.json        # Dados completos de cada usuário
+schema.sql              # DDL para criação das tabelas no Supabase
+render.yaml             # Configuração de deploy automático no Render
 ```
 
-## ⚙️ CI/CD
+## Deploy (Render)
 
-O pipeline roda automaticamente em todo push/PR para `master`, executando testes e checkstyle com JDK 21.
+1. Conecte o repositório ao Render — o `render.yaml` configura o serviço automaticamente
+2. Adicione a variável `DATABASE_URL` no painel do Render (`Environment > Add Environment Variable`)
+3. Cada push na `master` dispara o pipeline CI/CD e atualiza o deploy
 
-## 📌 Versão
+## CI/CD
 
-1.0.0
+Pipeline via GitHub Actions (`.github/workflows/ci.yml`):
+1. `mvn test` — falha se algum teste quebrar
+2. `mvn checkstyle:check` — falha se o estilo estiver fora do padrão
 
-## 👤 Autor
+## Fluxo de colaboração
+
+```
+Issue → branch feature/nome → desenvolvimento
+  → PR aberto → Actions roda testes
+      → revisão → merge na master
+          → deploy atualizado automaticamente
+```
+
+## Autor
 
 Rafael Siqueira — [@rFaelxs](https://github.com/rFaelxs)
-
-## 🔗 Repositório
-
-<https://github.com/rfaelxs/fincli>

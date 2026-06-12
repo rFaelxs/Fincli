@@ -5,7 +5,7 @@ import com.rfaelxs.model.DadosUsuario;
 import com.rfaelxs.model.Reserva;
 import com.rfaelxs.model.TipoTransacao;
 import com.rfaelxs.model.Transacao;
-import com.rfaelxs.repository.UsuarioRepository;
+import com.rfaelxs.repository.IUsuarioRepository;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class TransacaoService {
 
-  private final UsuarioRepository repository;
+  private final IUsuarioRepository repository;
   private final UUID idUsuario;
   private final DadosUsuario dados;
 
@@ -27,7 +27,7 @@ public class TransacaoService {
    * @param repository repositório unificado de dados
    * @param idUsuario  UUID do usuário logado
    */
-  public TransacaoService(UsuarioRepository repository, UUID idUsuario) {
+  public TransacaoService(IUsuarioRepository repository, UUID idUsuario) {
     this.repository = repository;
     this.idUsuario = idUsuario;
     this.dados = repository.carregarDados(idUsuario);

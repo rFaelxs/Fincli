@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: fincli-api
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/fincli-1.0.0.jar
+    envVars:
+      - key: API_MODE
+        value: "true"
+      - key: JAVA_VERSION
+        value: "21"
+      - key: DATABASE_URL
+        sync: false

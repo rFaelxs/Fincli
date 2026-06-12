@@ -1,20 +1,32 @@
 package com.rfaelxs;
 
+import com.rfaelxs.api.ApiServer;
 import com.rfaelxs.command.CommandHandler;
 import com.rfaelxs.model.User;
+import com.rfaelxs.repository.IUsuarioRepository;
 import com.rfaelxs.repository.SelicRepository;
 import com.rfaelxs.repository.UsuarioRepository;
+import com.rfaelxs.repository.UsuarioRepositoryDb;
 import com.rfaelxs.service.DashboardService;
 import com.rfaelxs.service.ReservaService;
 import com.rfaelxs.service.TransacaoService;
 import com.rfaelxs.service.UserService;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /** Ponto de entrada do FinCLI. Exibe o fluxo de autenticação antes do menu principal. */
 public class Main {
 
   public static void main(String[] args) {
-    UsuarioRepository usuarioRepository = new UsuarioRepository();
+    boolean apiMode = "true".equalsIgnoreCase(System.getenv("API_MODE"))
+        || Arrays.asList(args).contains("--api");
+
+    if (apiMode) {
+      new ApiServer(new UsuarioRepositoryDb()).start();
+      return;
+    }
+
+    IUsuarioRepository usuarioRepository = new UsuarioRepository();
     UserService userService = new UserService(usuarioRepository);
     Scanner scanner = new Scanner(System.in);
 
@@ -48,7 +60,8 @@ public class Main {
           if (usuarioLogado == null) {
             System.out.println("CPF já cadastrado. Faça login.");
           } else {
-            System.out.println("Cadastro realizado. Bem-vindo, " + usuarioLogado.getNmUsuario() + "!");
+            System.out.println("Cadastro realizado. Bem-vindo, " + usuarioLogado.getNmUsuario()
+                + "!");
           }
         }
         case "0" -> {

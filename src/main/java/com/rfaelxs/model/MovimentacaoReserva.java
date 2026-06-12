@@ -46,23 +46,53 @@ public class MovimentacaoReserva {
     return id;
   }
 
+  /** @param id UUID da movimentação (usado ao carregar do banco) */
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
   public String getIdReserva() {
     return idReserva;
+  }
+
+  /** @param idReserva identificador da reserva */
+  public void setIdReserva(String idReserva) {
+    this.idReserva = idReserva;
   }
 
   public String getNomeReserva() {
     return nomeReserva;
   }
 
+  /** @param nomeReserva nome da reserva */
+  public void setNomeReserva(String nomeReserva) {
+    this.nomeReserva = nomeReserva;
+  }
+
   public double getValor() {
     return valor;
+  }
+
+  /** @param valor valor movimentado */
+  public void setValor(double valor) {
+    this.valor = valor;
   }
 
   public TipoMovimentacaoReserva getTipo() {
     return tipo;
   }
 
+  /** @param tipo tipo da movimentação */
+  public void setTipo(TipoMovimentacaoReserva tipo) {
+    this.tipo = tipo;
+  }
+
   public LocalDate getData() {
     return data;
+  }
+
+  /** @param data data da movimentação */
+  public void setData(LocalDate data) {
+    this.data = data;
   }
 }

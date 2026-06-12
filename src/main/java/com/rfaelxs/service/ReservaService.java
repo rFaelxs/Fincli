@@ -5,7 +5,7 @@ import com.rfaelxs.model.DadosUsuario;
 import com.rfaelxs.model.MovimentacaoReserva;
 import com.rfaelxs.model.Reserva;
 import com.rfaelxs.model.TipoMovimentacaoReserva;
-import com.rfaelxs.repository.UsuarioRepository;
+import com.rfaelxs.repository.IUsuarioRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +18,7 @@ public class ReservaService {
 
   static final String ID_EMERGENCIA = "reserva-emergencia";
 
-  private final UsuarioRepository repository;
+  private final IUsuarioRepository repository;
   private final UUID idUsuario;
   private final DadosUsuario dados;
 
@@ -28,7 +28,7 @@ public class ReservaService {
    * @param repository repositório unificado de dados
    * @param idUsuario  UUID do usuário logado
    */
-  public ReservaService(UsuarioRepository repository, UUID idUsuario) {
+  public ReservaService(IUsuarioRepository repository, UUID idUsuario) {
     this.repository = repository;
     this.idUsuario = idUsuario;
     this.dados = repository.carregarDados(idUsuario);

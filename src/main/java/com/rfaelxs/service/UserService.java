@@ -3,7 +3,7 @@ package com.rfaelxs.service;
 import com.rfaelxs.model.DadosUsuario;
 import com.rfaelxs.model.Reserva;
 import com.rfaelxs.model.User;
-import com.rfaelxs.repository.UsuarioRepository;
+import com.rfaelxs.repository.IUsuarioRepository;
 import java.util.UUID;
 
 /**
@@ -12,14 +12,14 @@ import java.util.UUID;
  */
 public class UserService {
 
-  private final UsuarioRepository repository;
+  private final IUsuarioRepository repository;
 
   /**
    * Inicializa o serviço com o repositório unificado de dados de usuário.
    *
    * @param repository repositório responsável pela persistência
    */
-  public UserService(UsuarioRepository repository) {
+  public UserService(IUsuarioRepository repository) {
     this.repository = repository;
   }
 

@@ -18,7 +18,7 @@ import java.util.UUID;
  * Cada usuário tem seu arquivo em {@code data/{uuid}.json}.
  * O índice de perfis (para login por CPF) fica em {@code data/perfis.json}.
  */
-public class UsuarioRepository {
+public class UsuarioRepository implements IUsuarioRepository {
 
   private static final String DIR_DADOS = "data";
   private static final String ARQUIVO_PERFIS = DIR_DADOS + File.separator + "perfis.json";

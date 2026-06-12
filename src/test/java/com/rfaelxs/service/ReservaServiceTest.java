@@ -8,7 +8,7 @@ import com.rfaelxs.exception.ValorInvalidoException;
 import com.rfaelxs.model.DadosUsuario;
 import com.rfaelxs.model.Reserva;
 import com.rfaelxs.model.User;
-import com.rfaelxs.repository.UsuarioRepository;
+import com.rfaelxs.repository.IUsuarioRepository;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class ReservaServiceTest {
 
   @Mock
-  private UsuarioRepository repository;
+  private IUsuarioRepository repository;
 
   private UUID idUsuario;
   private DadosUsuario dados;

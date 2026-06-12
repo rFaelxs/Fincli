@@ -48,6 +48,11 @@ public class Transacao {
         return id;
     }
 
+    /** @param id UUID da transação (usado ao carregar do banco) */
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     /** @return valor monetário da transação */
     public double getValorTransacao() {
         return valorTransacao;
