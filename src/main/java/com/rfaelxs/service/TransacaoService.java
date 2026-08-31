@@ -22,15 +22,20 @@ public class TransacaoService {
   private final DadosUsuario dados;
 
   /**
-   * Inicializa o serviço carregando os dados do usuário a partir do repositório.
+   * Inicializa o serviço com os dados já carregados do usuário.
+   *
+   * <p>A instância de {@link DadosUsuario} <strong>deve</strong> ser a mesma compartilhada com
+   * {@link ReservaService}. Como cada mutação regrava o documento inteiro, dois serviços
+   * operando sobre cópias distintas sobrescrevem as alterações um do outro.
    *
    * @param repository repositório unificado de dados
    * @param idUsuario  UUID do usuário logado
+   * @param dados      dados do usuário, compartilhados entre os serviços da sessão
    */
-  public TransacaoService(UsuarioRepository repository, UUID idUsuario) {
+  public TransacaoService(UsuarioRepository repository, UUID idUsuario, DadosUsuario dados) {
     this.repository = repository;
     this.idUsuario = idUsuario;
-    this.dados = repository.carregarDados(idUsuario);
+    this.dados = dados;
   }
 
   /**

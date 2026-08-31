@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.rfaelxs.exception.ValorInvalidoException;
 import com.rfaelxs.model.DadosUsuario;
@@ -37,8 +36,7 @@ class TransacaoServiceTest {
   void setUp() {
     idUsuario = UUID.randomUUID();
     dados = new DadosUsuario(new User("000.000.000-00", idUsuario, "Teste"));
-    when(repository.carregarDados(idUsuario)).thenReturn(dados);
-    service = new TransacaoService(repository, idUsuario);
+    service = new TransacaoService(repository, idUsuario, dados);
   }
 
   @Test
