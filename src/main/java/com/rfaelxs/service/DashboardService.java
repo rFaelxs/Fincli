@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Agrega os dados para exibição do Dashboard de Saúde Financeira.
- * A taxa Selic é obtida uma única vez por sessão (cache em memória).
+ * A meta Selic é obtida uma única vez por sessão (cache em memória).
  */
 public class DashboardService {
 
@@ -77,10 +77,10 @@ public class DashboardService {
   }
 
   /**
-   * Retorna a taxa Selic atual, usando cache de sessão.
+   * Retorna a meta Selic anual vigente, usando cache de sessão.
    * Retorna {@code null} se a API do BCB estiver indisponível.
    *
-   * @return taxa Selic ou {@code null}
+   * @return meta Selic em % ao ano ou {@code null}
    */
   public Double obterSelic() {
     if (selicCached == null) {

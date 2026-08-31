@@ -7,19 +7,23 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 
 /**
- * Consulta a taxa Selic atual via API pública do Banco Central do Brasil.
+ * Consulta a meta Selic vigente via API pública do Banco Central do Brasil.
  * Em caso de falha de rede, retorna {@code null} sem lançar exceção.
+ *
+ * <p>Usa a série SGS 432 (meta Selic definida pelo Copom, em % ao ano). A série SGS 11,
+ * usada anteriormente, é a Selic efetiva <em>diária</em> (ex.: 0,0517% a.d.) e não deve ser
+ * exibida como "taxa Selic atual" — o valor apareceria no dashboard como 0,05%.
  */
 public class SelicRepository {
 
   private static final String URL_BCB =
-      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json";
+      "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json";
   private static final int TIMEOUT_MS = 5000;
 
   /**
-   * Retorna a taxa Selic anual mais recente.
+   * Retorna a meta Selic anual mais recente.
    *
-   * @return valor percentual (ex: 10.5) ou {@code null} se a API estiver indisponível
+   * @return valor percentual ao ano (ex: 14.0) ou {@code null} se a API estiver indisponível
    */
   public Double obterTaxaAtual() {
     try {

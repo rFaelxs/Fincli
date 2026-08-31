@@ -12,12 +12,16 @@ import org.junit.jupiter.api.Test;
 class SelicRepositoryIntegrationTest {
 
   @Test
-  void deveObterTaxaSelicDaApiDoBancoCentral() {
+  void deveObterMetaSelicAnualDaApiDoBancoCentral() {
     SelicRepository repository = new SelicRepository();
 
     Double taxa = repository.obterTaxaAtual();
 
     assumeTrue(taxa != null, "API do BCB indisponível — teste ignorado");
-    assertTrue(taxa > 0, "A taxa Selic deve ser um valor positivo");
+    assertTrue(taxa > 0, "A meta Selic deve ser um valor positivo");
+    // Faixa de sanidade: garante que a série consultada é a meta anual (% a.a.) e não a
+    // Selic efetiva diária (SGS 11), cujo valor fica na casa de 0,05% ao dia.
+    assertTrue(taxa >= 1.0 && taxa <= 50.0,
+        "A meta Selic deve estar em % ao ano; valor recebido: " + taxa);
   }
 }

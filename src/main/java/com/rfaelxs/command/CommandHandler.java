@@ -92,7 +92,7 @@ public class CommandHandler {
     double saidas = dashboardService.totalSaidasMes(mesAtual);
     double progresso = dashboardService.progressoEmergencia();
     Double selic = dashboardService.obterSelic();
-    String selicTexto = selic != null ? String.format("%.2f%%", selic) : "Indisponível";
+    String selicTexto = selic != null ? String.format("%.2f%% a.a.", selic) : "Indisponível";
 
     System.out.println("\n┌" + LINHA);
     System.out.println("│  DASHBOARD — " + mesAtual);
@@ -101,7 +101,7 @@ public class CommandHandler {
     System.out.printf("│  Entradas no mês  : R$ %.2f%n", entradas);
     System.out.printf("│  Saídas no mês    : R$ %.2f%n", saidas);
     System.out.printf("│  Reserva emergência: %.1f%%%n", progresso);
-    System.out.printf("│  Taxa Selic atual : %s%n", selicTexto);
+    System.out.printf("│  Meta Selic       : %s%n", selicTexto);
 
     List<Reserva> reservas = dashboardService.obterReservas();
     if (!reservas.isEmpty()) {

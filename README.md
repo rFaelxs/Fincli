@@ -2,7 +2,7 @@
 
 > **[⬇️ Download da última versão (JAR)](https://github.com/rFaelxs/fincli/releases/latest)**
 
-CLI de gestão financeira pessoal em Java. Registre receitas, despesas e reservas financeiras, acompanhe seu saldo e visualize a taxa Selic em tempo real — tudo direto no terminal.
+CLI de gestão financeira pessoal em Java. Registre receitas, despesas e reservas financeiras, acompanhe seu saldo e visualize a meta Selic em tempo real — tudo direto no terminal.
 
 ## 🎯 Problema
 
@@ -17,17 +17,19 @@ Jovens adultos brasileiros (18–30 anos) com familiaridade com o terminal que b
 - **Autenticação**: cadastro e login por CPF; dados isolados por usuário (UUID)
 - **Transações**: adicionar, listar, editar e remover receitas/despesas por categoria
 - **Reservas financeiras**: criar metas, alocar e sacar saldo, com Reserva de Emergência protegida
-- **Dashboard**: saldo disponível, totais do mês, progresso da Reserva de Emergência e **taxa Selic atual** via API do Banco Central
+- **Dashboard**: saldo disponível, totais do mês, progresso da Reserva de Emergência e **meta Selic vigente (% a.a.)** via API do Banco Central
 - **Extrato**: histórico cronológico de transações e movimentações de reservas
 - Persistência em JSON local por usuário (`data/{uuid}.json`)
 
 ## 🌐 Integração com API pública
 
-A taxa Selic é obtida em tempo real da API pública do Banco Central do Brasil:
+A meta Selic é obtida em tempo real da API pública do Banco Central do Brasil (série SGS 432 — meta Selic definida pelo Copom, em % ao ano):
 
 ```
-GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json
+GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json
 ```
+
+> A série SGS 11 é a Selic **efetiva diária** (ex.: `0.051660` = 0,0517% ao dia) e não deve ser exibida como "taxa Selic atual".
 
 Em caso de falha de rede, o dashboard exibe "Indisponível" sem interromper a aplicação.
 
