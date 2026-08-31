@@ -2,7 +2,6 @@ package com.rfaelxs.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 import com.rfaelxs.exception.ValorInvalidoException;
 import com.rfaelxs.model.DadosUsuario;
@@ -32,8 +31,7 @@ class ReservaServiceTest {
     dados = new DadosUsuario(new User("000.000.000-00", idUsuario, "Teste"));
     dados.getReservas().add(
         new Reserva(ReservaService.ID_EMERGENCIA, "Reserva de Emergência", 5000.0, true));
-    when(repository.carregarDados(idUsuario)).thenReturn(dados);
-    service = new ReservaService(repository, idUsuario);
+    service = new ReservaService(repository, idUsuario, dados);
   }
 
   @Test

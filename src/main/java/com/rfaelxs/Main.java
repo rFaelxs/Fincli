@@ -1,6 +1,7 @@
 package com.rfaelxs;
 
 import com.rfaelxs.command.CommandHandler;
+import com.rfaelxs.model.DadosUsuario;
 import com.rfaelxs.model.User;
 import com.rfaelxs.repository.SelicRepository;
 import com.rfaelxs.repository.UsuarioRepository;
@@ -59,10 +60,14 @@ public class Main {
       }
     }
 
+    // Carregado uma única vez e compartilhado: cada mutação regrava o documento inteiro,
+    // então serviços com cópias distintas apagariam as alterações um do outro.
+    DadosUsuario dados = usuarioRepository.carregarDados(usuarioLogado.getIdUsuario());
+
     TransacaoService transacaoService =
-        new TransacaoService(usuarioRepository, usuarioLogado.getIdUsuario());
+        new TransacaoService(usuarioRepository, usuarioLogado.getIdUsuario(), dados);
     ReservaService reservaService =
-        new ReservaService(usuarioRepository, usuarioLogado.getIdUsuario());
+        new ReservaService(usuarioRepository, usuarioLogado.getIdUsuario(), dados);
     DashboardService dashboardService =
         new DashboardService(transacaoService, reservaService, new SelicRepository());
 
