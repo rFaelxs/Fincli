@@ -35,6 +35,12 @@ public class TransacaoController {
     return transacaoService.listar(usuario).stream().map(TransacaoResponse::de).toList();
   }
 
+  /** @return 200 com a transação; 404 se não existir ou não for do usuário */
+  @GetMapping("/{id}")
+  public TransacaoResponse buscar(@UsuarioAtual Usuario usuario, @PathVariable UUID id) {
+    return TransacaoResponse.de(transacaoService.buscarPorId(usuario, id));
+  }
+
   /** @return 201 com a transação criada; 400 se o valor for negativo */
   @PostMapping
   public ResponseEntity<TransacaoResponse> criar(

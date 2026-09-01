@@ -87,6 +87,16 @@ public class TransacaoService {
     transacaoRepository.delete(buscar(usuario, publicId));
   }
 
+  /**
+   * Busca uma transação do usuário informado.
+   *
+   * @throws RecursoNaoEncontradoException se não existir ou não pertencer ao usuário
+   */
+  @Transactional(readOnly = true)
+  public Transacao buscarPorId(Usuario usuario, UUID publicId) {
+    return buscar(usuario, publicId);
+  }
+
   /** @return transações do usuário, da mais recente para a mais antiga */
   @Transactional(readOnly = true)
   public List<Transacao> listar(Usuario usuario) {

@@ -66,6 +66,12 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/cadastro", "/api/login", "/api/csrf").permitAll()
             .requestMatchers("/actuator/health").permitAll()
+            // Páginas do front servidas de resources/static — a UI em si é pública;
+            // todo dado continua atrás de /api/**.
+            .requestMatchers(org.springframework.http.HttpMethod.GET,
+                "/", "/index.html", "/assets/**",
+                "/login/**", "/cadastro/**", "/dashboard/**",
+                "/transacoes/**", "/reservas/**", "/extrato/**").permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(ex -> ex
             .authenticationEntryPoint((request, response, authException) ->

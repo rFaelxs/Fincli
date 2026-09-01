@@ -1,0 +1,27 @@
+/* ═══ Extrato ═══ */
+
+.feed { display: flex; flex-direction: column; }
+
+.feed-day {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: .66rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: .9rem 0 .4rem; border-bottom: 1px solid var(--rule);
+}
+.feed-day:first-child { padding-top: 0; }
+
+.item { display: flex; align-items: center; gap: .75rem; padding: .58rem 0; border-bottom: 1px solid var(--rule); }
+.item:last-child { border-bottom: 0; }
+
+.badge {
+  width: 30px; height: 30px; border-radius: 4px; flex: none;
+  display: grid; place-items: center; font-size: .82rem; font-weight: 700;
+}
+.badge.in  { background: var(--in-wash);  color: var(--in); }
+.badge.out { background: var(--out-wash); color: var(--out); }
+.badge.mov { background: var(--accent-wash); color: var(--accent); }
+
+.item .body { flex: 1 1 auto; min-width: 0; }
+.item .t { font-weight: 600; font-size: .87rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .s { font-size: .74rem; color: var(--ink-2); }
+.item .amt { font-weight: 500; font-size: .85rem; white-space: nowrap; }

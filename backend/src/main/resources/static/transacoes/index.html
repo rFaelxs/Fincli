@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transações · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/transacoes/transacoes.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side" id="sidebar"></aside>
+
+  <main>
+    <div class="head">
+      <div>
+        <h1>Transações</h1>
+        <span class="asof" id="asof"></span>
+      </div>
+      <a class="btn" href="/transacoes/create.html">+ Nova transação</a>
+    </div>
+
+    <div class="filters">
+      <select id="f-mes" aria-label="Mês"></select>
+      <select id="f-tipo" aria-label="Tipo">
+        <option value="">Todos os tipos</option>
+        <option value="ENTRADA">Entradas</option>
+        <option value="SAIDA">Saídas</option>
+      </select>
+      <input id="f-busca" type="search" placeholder="Buscar descrição ou categoria…" aria-label="Buscar">
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th>
+              <th style="text-align:right">Valor (R$)</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="corpo"></tbody>
+          <tfoot>
+            <tr><td colspan="4">Total do período</td><td class="num" id="total">—</td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/transacoes/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrar · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/login/login.css">
+</head>
+<body>
+
+<div class="auth-plane">
+  <form id="form-login" class="auth card">
+    <div class="wordmark" style="justify-content:center"><span class="prompt">❯</span>fincli</div>
+    <div class="auth-title">
+      <div class="t">Acesse sua conta</div>
+      <div class="sub">Receitas, despesas e reservas em um só lugar.</div>
+    </div>
+    <div class="form-erro" id="erro-login"></div>
+    <div class="field">
+      <label for="cpf">CPF</label>
+      <input id="cpf" class="mono" inputmode="numeric" placeholder="000.000.000-00" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" placeholder="••••••••" autocomplete="current-password" required>
+    </div>
+    <button class="btn" type="submit">Entrar</button>
+    <div class="auth-alt">Não tem conta? <a href="/cadastro/">Cadastre-se</a></div>
+  </form>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/login/login.js"></script>
+</body>
+</html>

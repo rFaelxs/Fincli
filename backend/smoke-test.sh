@@ -1,9 +1,28 @@
 #!/usr/bin/env bash
 # Teste de fumaça da API do FinCLI.
+# Idempotente: gera um CPF valido aleatorio por execucao, entao cada rodada usa
+# um usuario novo e as assercoes de valores absolutos permanecem exatas.
 API="http://localhost:8080/api"
 A=/tmp/fincli_a.jar   # cookie jar do usuario A
 B=/tmp/fincli_b.jar   # cookie jar do usuario B
 rm -f "$A" "$B"
+
+# Gera um CPF valido: 9 digitos aleatorios + 2 digitos verificadores (modulo 11).
+gerar_cpf() {
+  local d=() soma resto dv1 dv2 i
+  for i in $(seq 0 8); do d[i]=$((RANDOM % 10)); done
+  soma=0; for i in $(seq 0 8); do soma=$((soma + d[i] * (10 - i))); done
+  resto=$((soma % 11)); dv1=$(( resto < 2 ? 0 : 11 - resto ))
+  soma=0; for i in $(seq 0 8); do soma=$((soma + d[i] * (11 - i))); done
+  soma=$((soma + dv1 * 2))
+  resto=$((soma % 11)); dv2=$(( resto < 2 ? 0 : 11 - resto ))
+  printf "%s%s%s%s%s%s%s%s%s%s%s" "${d[@]}" "$dv1" "$dv2"
+}
+
+CPF_A=$(gerar_cpf)
+CPF_B=$(gerar_cpf)
+[ "$CPF_A" = "$CPF_B" ] && CPF_B=$(gerar_cpf)
+echo "usuario A: CPF $CPF_A · usuario B: CPF $CPF_B"
 
 csrf() { grep XSRF-TOKEN "$1" | awk '{print $7}' | tail -1; }
 
@@ -24,10 +43,10 @@ FALHAS=0
 echo "== sessao =="
 curl -s -c "$A" "$API/csrf" > /dev/null; ok "cookie XSRF-TOKEN emitido"
 
-code=$(req "$A" POST /cadastro '{"nome":"Rafael Teste","cpf":"111.444.777-35","senha":"senhaforte1"}')
+code=$(req "$A" POST /cadastro '{"nome":"Rafael Teste","cpf":"'$CPF_A'","senha":"senhaforte1"}')
 check "$code" 201 "cadastro cria usuario"
 
-code=$(req "$A" POST /cadastro '{"nome":"Outro","cpf":"111.444.777-35","senha":"senhaforte1"}')
+code=$(req "$A" POST /cadastro '{"nome":"Outro","cpf":"'$CPF_A'","senha":"senhaforte1"}')
 check "$code" 409 "CPF duplicado e recusado"
 
 code=$(req "$A" POST /cadastro '{"nome":"X","cpf":"123.456.789-00","senha":"senhaforte1"}')
@@ -36,10 +55,10 @@ check "$code" 400 "CPF com digito verificador invalido e recusado"
 code=$(req "$A" GET /me)
 check "$code" 401 "sem login, /me nega"
 
-code=$(req "$A" POST /login '{"cpf":"11144477735","senha":"errada"}')
+code=$(req "$A" POST /login '{"cpf":"'$CPF_A'","senha":"errada"}')
 check "$code" 401 "senha errada nega"
 
-code=$(req "$A" POST /login '{"cpf":"11144477735","senha":"senhaforte1"}')
+code=$(req "$A" POST /login '{"cpf":"'$CPF_A'","senha":"senhaforte1"}')
 check "$code" 200 "login autentica"
 
 code=$(req "$A" GET /me); check "$code" 200 "/me devolve usuario da sessao"
@@ -87,8 +106,8 @@ req "$A" GET /transacoes > /dev/null
 TX_ID=$(grep -o '"id":"[^"]*"' /tmp/body.txt | head -1 | cut -d'"' -f4)
 
 curl -s -c "$B" "$API/csrf" > /dev/null
-req "$B" POST /cadastro '{"nome":"Invasor","cpf":"529.982.247-25","senha":"senhaforte2"}' > /dev/null
-req "$B" POST /login '{"cpf":"52998224725","senha":"senhaforte2"}' > /dev/null
+req "$B" POST /cadastro '{"nome":"Invasor","cpf":"'$CPF_B'","senha":"senhaforte2"}' > /dev/null
+req "$B" POST /login '{"cpf":"'$CPF_B'","senha":"senhaforte2"}' > /dev/null
 ok "usuario B autenticado"
 
 code=$(req "$B" DELETE "/transacoes/$TX_ID")
