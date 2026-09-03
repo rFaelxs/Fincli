@@ -1,8 +1,15 @@
 # FinCLI
 
-> **[⬇️ Download da última versão (JAR)](https://github.com/rFaelxs/fincli/releases/latest)**
+Gestão financeira pessoal em Java. Registre receitas, despesas e reservas, acompanhe seu saldo e veja a meta Selic em tempo real — **no terminal ou no navegador**.
 
-CLI de gestão financeira pessoal em Java. Registre receitas, despesas e reservas financeiras, acompanhe seu saldo e visualize a meta Selic em tempo real — tudo direto no terminal.
+O projeto tem duas aplicações que compartilham as mesmas regras de negócio:
+
+| | Aplicação | Rodar | Dados em |
+|---|---|---|---|
+| 🖥️ | **CLI** — interface de terminal | `java -jar target/fincli-1.0.0.jar` | JSON local (`data/`) |
+| 🌐 | **Web** — API REST + interface web | `backend\run-dev.ps1` → http://localhost:8080 | SQL Server |
+
+> As duas mantêm bases separadas: uma conta criada no CLI não existe na Web, e vice-versa.
 
 ## 🎯 Problema
 
@@ -10,16 +17,21 @@ Jovens adultos perdem o controle financeiro por falta de um registro simples e r
 
 ## 👥 Público-alvo
 
-Jovens adultos brasileiros (18–30 anos) com familiaridade com o terminal que buscam acompanhar suas finanças de forma prática.
+Jovens adultos brasileiros (18–30 anos) que buscam acompanhar suas finanças de forma prática.
 
 ## ✨ Funcionalidades
 
-- **Autenticação**: cadastro e login por CPF; dados isolados por usuário (UUID)
+- **Autenticação**: cadastro e login por CPF; dados isolados por usuário
 - **Transações**: adicionar, listar, editar e remover receitas/despesas por categoria
 - **Reservas financeiras**: criar metas, alocar e sacar saldo, com Reserva de Emergência protegida
 - **Dashboard**: saldo disponível, totais do mês, progresso da Reserva de Emergência e **meta Selic vigente (% a.a.)** via API do Banco Central
 - **Extrato**: histórico cronológico de transações e movimentações de reservas
-- Persistência em JSON local por usuário (`data/{uuid}.json`)
+
+Exclusivo da versão Web:
+
+- Senha com hash **BCrypt** e validação de CPF pelos dígitos verificadores
+- Valores em `BigDecimal` / `DECIMAL(19,2)` — sem erro de ponto flutuante em moeda
+- Busca e filtros nas transações; proporção **essenciais × supérfluas** no dashboard
 
 ## 🌐 Integração com API pública
 
@@ -29,40 +41,62 @@ A meta Selic é obtida em tempo real da API pública do Banco Central do Brasil 
 GET https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json
 ```
 
-> A série SGS 11 é a Selic **efetiva diária** (ex.: `0.051660` = 0,0517% ao dia) e não deve ser exibida como "taxa Selic atual".
+> A série SGS 11 é a Selic **efetiva diária** (ex.: `0.051660` = 0,0517% ao dia) e não deve ser exibida como "taxa Selic atual". O raciocínio completo está em [`docs/spec-selic.md`](docs/spec-selic.md).
 
-Em caso de falha de rede, o dashboard exibe "Indisponível" sem interromper a aplicação.
+Em caso de falha de rede, o dashboard exibe "Indisponível" sem interromper a aplicação. Na versão Web o valor fica em cache de aplicação (TTL de 24h), com fallback para o último valor conhecido.
 
-## 🚀 Como executar
+---
 
-### Opção 1 — Download direto (sem compilar)
+## 🌐 Executando a versão Web
 
-1. Acesse a página de [Releases](https://github.com/rFaelxs/fincli/releases/latest) e baixe `fincli-1.0.0.jar`
-2. Execute:
+**Pré-requisitos:** Java 21+, Maven 3.x e um **SQL Server** acessível (instância local ou `docker compose up -d` na raiz).
 
-```bash
-java -jar fincli-1.0.0.jar
+**1. Prepare o banco** (uma vez só):
+
+```sql
+CREATE DATABASE fincli;
+GO
+CREATE LOGIN fincli_app WITH PASSWORD = '<sua-senha>', DEFAULT_DATABASE = fincli;
+GO
+USE fincli;
+CREATE USER fincli_app FOR LOGIN fincli_app;
+ALTER ROLE db_owner ADD MEMBER fincli_app;   -- o Flyway cria e altera o schema
+GO
 ```
 
-> Pré-requisito: **Java 21+** instalado. Verifique com `java -version`.
+O schema em si é criado pelo Flyway no primeiro start — não rode DDL à mão.
 
-### Opção 2 — Compilar a partir do código-fonte
+**2. Crie `backend\.env.local`** (já ignorado pelo git):
+
+```
+FINCLI_DB_USER=fincli_app
+FINCLI_DB_PASSWORD=<sua-senha>
+FINCLI_COOKIE_SECURE=false
+```
+
+**3. Suba:**
+
+```powershell
+cd backend
+.\run-dev.ps1
+```
+
+Abra **http://localhost:8080**. Não há front separado para rodar — as páginas são servidas pelo próprio backend.
+
+> **Não use `mvn spring-boot:run`.** Se o caminho do repositório tiver acento (como `Área de Trabalho`), o processo filho criado pelo plugin recebe o classpath corrompido e falha com `ClassNotFoundException`. Use `run-dev.ps1` ou `java -jar`.
+
+Detalhes de configuração, contrato completo da API e estrutura do front: [`backend/README.md`](backend/README.md).
+
+## 🖥️ Executando o CLI
 
 ```bash
-# Clone o repositório
-git clone https://github.com/rfaelxs/fincli.git
-cd fincli
-
-# Compile e gere o fat JAR (com todas as dependências)
 mvn clean package -DskipTests
-
-# Execute
 java -jar target/fincli-1.0.0.jar
 ```
 
-> Pré-requisitos: **Java 21+** e **Maven 3.x**.
+Ou baixe o JAR pronto em [Releases](https://github.com/rFaelxs/fincli/releases/latest).
 
-## 🗂️ Menu principal
+### Menu principal
 
 ```
 [1] Dashboard
@@ -78,35 +112,61 @@ java -jar target/fincli-1.0.0.jar
 - `yyyy-MM-dd` (ex: 2026-05-17)
 - `yyyy/MM/dd` (ex: 2026/05/17)
 
+---
+
 ## 🧪 Testes
 
 ```bash
-mvn test               # Unit tests (Mockito) + Teste de integração (API BCB)
-mvn checkstyle:check   # Verificar estilo (Google Java Style)
+mvn test                    # CLI — 16 testes (Mockito + integração com a API do BCB)
+mvn checkstyle:check        # Estilo (Google Java Style)
+
+cd backend
+mvn test                    # Web — 25 testes de regra de negócio, sem banco
+./smoke-test.sh             # Web — 22 checks ponta a ponta, com a API no ar
 ```
+
+O `smoke-test.sh` exercita o fluxo real contra o banco: cadastro, login, alocação seguida de transação, regras de saldo, isolamento entre usuários e logout. É idempotente — gera CPFs válidos aleatórios a cada execução.
 
 ## 📁 Estrutura do projeto
 
 ```
-src/
-├── main/java/com/rfaelxs/
-│   ├── Main.java
-│   ├── config/        # GsonConfig (TypeAdapter de LocalDate)
-│   ├── model/         # Transacao, Reserva, MovimentacaoReserva, DadosUsuario, User
-│   ├── service/       # TransacaoService, ReservaService, DashboardService, UserService
-│   ├── repository/    # UsuarioRepository, SelicRepository
-│   └── command/       # CommandHandler
-└── test/java/com/rfaelxs/
-    ├── service/       # TransacaoServiceTest, ReservaServiceTest, DashboardServiceTest
-    └── repository/    # SelicRepositoryIntegrationTest
-data/
-├── perfis.json        # Índice de usuários (login por CPF)
-└── {uuid}.json        # Dados completos de cada usuário
+.
+├── src/                      # 🖥️ CLI (Java puro + Gson)
+│   ├── main/java/com/rfaelxs/
+│   │   ├── Main.java · command/ · config/
+│   │   ├── model/            # Transacao, Reserva, MovimentacaoReserva, DadosUsuario, User
+│   │   ├── service/          # TransacaoService, ReservaService, DashboardService, UserService
+│   │   └── repository/       # UsuarioRepository, SelicRepository
+│   └── test/java/com/rfaelxs/
+│
+├── backend/                  # 🌐 Web (Spring Boot 3 + SQL Server)
+│   ├── src/main/java/com/rfaelxs/web/
+│   │   ├── domain/ · repository/ · service/ · api/ · security/ · config/
+│   └── src/main/resources/
+│       ├── db/migration/     # Flyway (V1__schema_inicial.sql)
+│       └── static/           # front: uma pasta por recurso
+│           ├── assets/       # base.css, api.js, shell.js (compartilhados)
+│           ├── login/ · cadastro/ · dashboard/ · extrato/
+│           ├── transacoes/   # index · create · update
+│           └── reservas/     # index · create · update · movimentar
+│
+├── docs/
+│   ├── spec-selic.md         # decisão da série SGS 432 e alternativas descartadas
+│   └── escopo-web.md         # escopo da migração, decisões e pendências
+│
+├── data/                     # dados do CLI (JSON por usuário, fora do git)
+└── docker-compose.yml        # SQL Server, para quem não tem instância local
 ```
+
+## ⚠️ Limitação conhecida
+
+**Não há recuperação de senha na versão Web.** O login é por CPF e não existe canal para provar identidade e redefinir a senha — quem esquecer perde o acesso à conta. A coluna `email` já existe no schema, opcional, reservada para esse fluxo. É a decisão em aberto que impede o uso em produção; o raciocínio e as alternativas estão em [`docs/escopo-web.md`](docs/escopo-web.md) §1.1.
 
 ## ⚙️ CI/CD
 
-O pipeline roda automaticamente em todo push/PR para `master`, executando testes e checkstyle com JDK 21.
+O pipeline roda em todo push/PR para `master`, executando testes e checkstyle com JDK 21.
+
+> **Cobertura atual:** o workflow builda apenas o projeto raiz (CLI). Os 25 testes do `backend/` ainda não rodam na CI — precisam de um step próprio.
 
 ## 📌 Versão
 
