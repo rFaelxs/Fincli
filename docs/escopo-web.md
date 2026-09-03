@@ -9,7 +9,7 @@ como **→ Recomendo**; onde a decisão ainda é sua, está marcada como **◻ D
 
 | Tema | Decisão | Consequência principal |
 |---|---|---|
-| Interface | **REST + SPA React** | Dois artefatos, dois builds; contrato de API (§4) vira o centro da spec |
+| Interface | **REST + MPA por recurso** (revisada — era SPA React) | Páginas HTML/CSS/JS por recurso em `static/`, servidas pelo backend; um artefato só, sem CORS em produção |
 | Login | **CPF + senha** | Responsabilidade LGPD é assumida (§1.5); **falta caminho de recuperação de senha** (§1.1) |
 | Dados existentes | **Começar do zero** | Sem importador; `data/*.json` é descartado |
 | Banco | **SQL Server** | Flyway + `mssql-jdbc`; tipos conforme §2.3 |
@@ -155,9 +155,15 @@ que os bloqueadores acima exigem: Spring Security (§1.1), Spring Data JPA + tra
 ◻ Se houver restrição de disciplina/entrega que obrigue outra coisa, registre na spec.
 
 ### 2.2 Forma da interface
-**Decidido: REST + SPA React.** Isso torna o **contrato de API (§4) a peça central da spec** —
-o backend deixa de renderizar tela e passa a ser consumido por um cliente independente. A
-spec precisa cravar, além dos endpoints:
+**Decidido (revisado): REST + MPA por recurso.** A decisão original era SPA React; foi
+revisada durante a implementação para páginas HTML/CSS/JS organizadas por recurso
+(`index`/`create`/`update`/`movimentar`, cada pasta com seu CSS e JS), servidas de
+`resources/static` pelo próprio backend. Consequências: um artefato só, sem CORS em
+produção, sem build de front — e o contrato de API (§4) continua sendo a fronteira, o que
+mantém aberta a porta para um SPA no futuro sem tocar o backend.
+
+O texto original da decisão SPA segue abaixo como registro do que precisaria mudar caso
+ela seja retomada:
 
 - **Estrutura do repositório:** monorepo com `backend/` e `frontend/`, ou dois repositórios?
 - **CORS:** quais origens são aceitas em dev e em produção.

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movimentar reserva · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/reservas/reservas.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side" id="sidebar"></aside>
+
+  <main>
+    <div class="head">
+      <div>
+        <h1 id="titulo">Movimentar</h1>
+        <span class="sub" id="subtitulo">Carregando…</span>
+      </div>
+    </div>
+
+    <form id="form" class="card form-card" hidden>
+      <div class="form-erro" id="erro"></div>
+      <div class="resumo-mov">
+        <span>Reserva: <b id="r-nome"></b></span>
+        <span>Guardado hoje: <b class="num" id="r-saldo"></b></span>
+        <span id="linha-disponivel" hidden>Saldo disponível: <b class="num" id="r-disponivel"></b></span>
+      </div>
+      <div class="field">
+        <label for="valor" id="rotulo-valor">Valor (R$)</label>
+        <input id="valor" class="num" type="number" step="0.01" min="0.01" placeholder="0,00" required>
+      </div>
+      <div class="form-acts">
+        <a class="btn ghost" href="/reservas/">Cancelar</a>
+        <button class="btn" type="submit" id="btn-ok">Confirmar</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/reservas/movimentar.js"></script>
+</body>
+</html>

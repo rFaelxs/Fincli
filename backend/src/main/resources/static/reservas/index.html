@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reservas · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/reservas/reservas.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side" id="sidebar"></aside>
+
+  <main>
+    <div class="head">
+      <div>
+        <h1>Reservas</h1>
+        <span class="asof num" id="asof"></span>
+      </div>
+      <a class="btn" href="/reservas/create.html">+ Nova reserva</a>
+    </div>
+
+    <div class="grid-res" id="grid"></div>
+  </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/reservas/index.js"></script>
+</body>
+</html>

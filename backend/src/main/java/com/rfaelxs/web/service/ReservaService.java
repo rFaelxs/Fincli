@@ -61,6 +61,16 @@ public class ReservaService {
         new Reserva(usuario, nome, Dinheiro.normalizar(metaValor), false));
   }
 
+  /**
+   * Busca uma reserva do usuário informado.
+   *
+   * @throws RecursoNaoEncontradoException se não existir ou não pertencer ao usuário
+   */
+  @Transactional(readOnly = true)
+  public Reserva buscarPorId(Usuario usuario, UUID publicId) {
+    return buscar(usuario, publicId);
+  }
+
   /** @return reservas do usuário, com a de emergência primeiro */
   @Transactional(readOnly = true)
   public List<Reserva> listar(Usuario usuario) {

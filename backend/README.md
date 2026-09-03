@@ -1,8 +1,35 @@
 # FinCLI Backend
 
-API REST do FinCLI. Spring Boot 3.3 · Java 21 · SQL Server · Flyway.
+API REST + front web do FinCLI. Spring Boot 3.3 · Java 21 · SQL Server · Flyway.
 
 Implementa as decisões travadas em [`../docs/escopo-web.md`](../docs/escopo-web.md).
+
+## Estrutura do front
+
+Páginas estáticas em `src/main/resources/static`, uma pasta por recurso, com CSS e JS
+próprios; o comum fica em `assets/`:
+
+```
+static/
+├── index.html            # raiz: redireciona p/ dashboard (com sessão) ou login
+├── assets/
+│   ├── css/base.css      # tokens, reset e componentes compartilhados
+│   └── js/
+│       ├── api.js        # fetch + CSRF, formatação, tema, guarda de sessão
+│       └── shell.js      # sidebar das páginas autenticadas
+├── login/                # index.html · login.css · login.js
+├── cadastro/             # index.html · cadastro.css · cadastro.js
+├── dashboard/            # index.html · dashboard.css · dashboard.js
+├── transacoes/           # index (busca/filtros) · create · update + transacoes.css
+├── reservas/             # index · create · update (meta) · movimentar (alocar/sacar)
+└── extrato/              # index.html · extrato.css · extrato.js
+```
+
+Convenção por recurso: `index` lista (com busca/filtros onde faz sentido), `create` cria,
+`update` edita, `movimentar` cobre alocar/sacar. Navegação é por links reais entre páginas;
+cada página autenticada valida a sessão via `App.guardar()` e monta a sidebar via
+`App.montarShell()`. O `WebConfig` faz o forward de `/transacoes/` → `/transacoes/index.html`
+(o Spring só resolve `index.html` na raiz).
 
 ## Pré-requisitos
 
@@ -31,6 +58,24 @@ O schema em si é criado pelo Flyway no primeiro start; não rode DDL à mão.
 
 ## Executando
 
+**Windows (recomendado).** Crie `backend\.env.local` — já ignorado pelo git — com:
+
+```
+FINCLI_DB_USER=fincli_app
+FINCLI_DB_PASSWORD=<senha do login fincli_app>
+FINCLI_COOKIE_SECURE=false
+```
+
+Depois, na pasta `backend\`:
+
+```powershell
+.\run-dev.ps1
+```
+
+O script carrega o `.env.local`, compila se o JAR não existir e sobe a aplicação.
+
+**Qualquer sistema, na mão:**
+
 ```bash
 export FINCLI_DB_USER=fincli_app
 export FINCLI_DB_PASSWORD='<sua-senha>'
@@ -40,7 +85,8 @@ mvn package -DskipTests
 java -jar target/fincli-backend-1.0.0.jar
 ```
 
-A API sobe em `http://localhost:8080`.
+Em ambos os casos a aplicação sobe em `http://localhost:8080` — abra no navegador.
+Pare com `Ctrl+C`.
 
 > **Use `java -jar`, não `mvn spring-boot:run`.** O caminho deste repositório contém um
 > acento (`Área de Trabalho`), e o processo filho que o plugin cria recebe o classpath com a
@@ -72,10 +118,12 @@ para receber o cookie `XSRF-TOKEN` e reenviá-lo no header `X-XSRF-TOKEN` em tod
 | `GET` | `/api/csrf` | 204 (emite o cookie) |
 | `GET` | `/api/dashboard?mes=yyyy-MM` | 200 |
 | `GET` | `/api/transacoes` | 200 |
+| `GET` | `/api/transacoes/{id}` | 200 · 404 |
 | `POST` | `/api/transacoes` | 201 · 400 |
 | `PUT` | `/api/transacoes/{id}` | 200 · 400 · 404 |
 | `DELETE` | `/api/transacoes/{id}` | 204 · 404 |
 | `GET` | `/api/reservas` | 200 |
+| `GET` | `/api/reservas/{id}` | 200 · 404 |
 | `POST` | `/api/reservas` | 201 · 400 |
 | `POST` | `/api/reservas/{id}/alocar` | 200 · 400 saldo insuficiente · 404 |
 | `POST` | `/api/reservas/{id}/sacar` | 200 · 400 saldo da reserva insuficiente · 404 |
@@ -122,4 +170,3 @@ e logout.
   não há fluxo. **Esta é a decisão que ainda bloqueia o cadastro em produção.**
 - Testes de repositório com Testcontainers (`escopo-web.md` §2.3).
 - Bloqueio por tentativas repetidas de login.
-- Frontend React (`escopo-web.md` §2.2).

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criar conta · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/cadastro/cadastro.css">
+</head>
+<body>
+
+<div class="auth-plane">
+  <form id="form-cadastro" class="auth card">
+    <div class="wordmark" style="justify-content:center"><span class="prompt">❯</span>fincli</div>
+    <div class="auth-title">
+      <div class="t">Criar conta</div>
+      <div class="sub">A Reserva de Emergência já vem criada.</div>
+    </div>
+    <div class="form-erro" id="erro-cadastro"></div>
+    <div class="field">
+      <label for="nome">Nome</label>
+      <input id="nome" placeholder="Seu nome" autocomplete="name" required maxlength="120">
+    </div>
+    <div class="field">
+      <label for="cpf">CPF</label>
+      <input id="cpf" class="mono" inputmode="numeric" placeholder="000.000.000-00" required>
+    </div>
+    <div class="field">
+      <label for="senha">Senha <span class="muted">(mínimo 8 caracteres)</span></label>
+      <input id="senha" type="password" placeholder="••••••••" autocomplete="new-password" required minlength="8" maxlength="100">
+    </div>
+    <button class="btn" type="submit">Cadastrar e entrar</button>
+    <div class="note-open">
+      <b>Atenção:</b> ainda não existe recuperação de senha — guarde-a com cuidado.
+    </div>
+    <div class="auth-alt">Já tem conta? <a href="/login/">Entrar</a></div>
+  </form>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/cadastro/cadastro.js"></script>
+</body>
+</html>

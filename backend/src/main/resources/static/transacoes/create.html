@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nova transação · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/transacoes/transacoes.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side" id="sidebar"></aside>
+
+  <main>
+    <div class="head">
+      <div>
+        <h1>Nova transação</h1>
+        <span class="sub">Registre uma entrada ou saída.</span>
+      </div>
+    </div>
+
+    <form id="form" class="card form-card">
+      <div class="form-erro" id="erro"></div>
+      <div class="field">
+        <label for="descricao">Descrição</label>
+        <input id="descricao" maxlength="255" placeholder="Ex.: Mercado do mês">
+      </div>
+      <div class="field">
+        <label for="categoria">Categoria</label>
+        <input id="categoria" maxlength="80" placeholder="Ex.: Alimentação" required>
+      </div>
+      <div class="field">
+        <label for="valor">Valor (R$)</label>
+        <input id="valor" class="num" type="number" step="0.01" min="0" placeholder="0,00" required>
+      </div>
+      <div class="field">
+        <label for="data">Data</label>
+        <input id="data" type="date" required>
+      </div>
+      <div class="field">
+        <label for="tipo">Tipo</label>
+        <select id="tipo">
+          <option value="SAIDA">Saída</option>
+          <option value="ENTRADA">Entrada</option>
+        </select>
+      </div>
+      <label class="check"><input type="checkbox" id="essencial"> Despesa essencial</label>
+      <div class="form-acts">
+        <a class="btn ghost" href="/transacoes/">Cancelar</a>
+        <button class="btn" type="submit">Salvar</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/transacoes/create.js"></script>
+</body>
+</html>

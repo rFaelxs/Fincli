@@ -36,6 +36,12 @@ public class ReservaController {
     return reservaService.listar(usuario).stream().map(ReservaResponse::de).toList();
   }
 
+  /** @return 200 com a reserva; 404 se não existir ou não for do usuário */
+  @GetMapping("/{id}")
+  public ReservaResponse buscar(@UsuarioAtual Usuario usuario, @PathVariable UUID id) {
+    return ReservaResponse.de(reservaService.buscarPorId(usuario, id));
+  }
+
   /** @return 201 com a reserva criada; 400 se a meta for negativa */
   @PostMapping
   public ResponseEntity<ReservaResponse> criar(

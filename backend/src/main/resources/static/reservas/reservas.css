@@ -1,0 +1,8 @@
+/* ═══ Reservas ═══ */
+
+.resumo-mov {
+  display: flex; flex-direction: column; gap: .2rem;
+  padding: .7rem .8rem; border: 1px solid var(--rule); border-radius: var(--r);
+  background: var(--surface-sunk); font-size: .8rem; color: var(--ink-2);
+}
+.resumo-mov b { color: var(--ink); font-weight: 600; }

@@ -1,0 +1,6 @@
+/* ═══ Transações ═══ */
+
+#f-busca { min-width: 15rem; flex: 1 1 auto; max-width: 24rem; }
+
+.acts { display: inline-flex; gap: .15rem; }
+.acts a { text-decoration: none; }
