@@ -58,6 +58,24 @@ O schema em si é criado pelo Flyway no primeiro start; não rode DDL à mão.
 
 ## Executando
 
+**Windows (recomendado).** Crie `backend\.env.local` — já ignorado pelo git — com:
+
+```
+FINCLI_DB_USER=fincli_app
+FINCLI_DB_PASSWORD=<senha do login fincli_app>
+FINCLI_COOKIE_SECURE=false
+```
+
+Depois, na pasta `backend\`:
+
+```powershell
+.\run-dev.ps1
+```
+
+O script carrega o `.env.local`, compila se o JAR não existir e sobe a aplicação.
+
+**Qualquer sistema, na mão:**
+
 ```bash
 export FINCLI_DB_USER=fincli_app
 export FINCLI_DB_PASSWORD='<sua-senha>'
@@ -67,7 +85,8 @@ mvn package -DskipTests
 java -jar target/fincli-backend-1.0.0.jar
 ```
 
-A API sobe em `http://localhost:8080`.
+Em ambos os casos a aplicação sobe em `http://localhost:8080` — abra no navegador.
+Pare com `Ctrl+C`.
 
 > **Use `java -jar`, não `mvn spring-boot:run`.** O caminho deste repositório contém um
 > acento (`Área de Trabalho`), e o processo filho que o plugin cria recebe o classpath com a
