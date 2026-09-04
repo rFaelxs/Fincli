@@ -37,4 +37,40 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
       @Param("tipo") TipoTransacao tipo,
       @Param("inicio") LocalDate inicio,
       @Param("fim") LocalDate fim);
+
+  /** @return transações do período, da mais recente para a mais antiga */
+  List<Transacao> findByUsuarioIdAndDataTransacaoBetweenOrderByDataTransacaoDescIdDesc(
+      Long usuarioId, LocalDate inicio, LocalDate fim);
+
+  /**
+   * Somas do período agrupadas por mês, tipo e natureza.
+   *
+   * <p>Cobre de uma vez os totais do mês corrente e o histórico de seis meses do Relatório;
+   * somar mês a mês custaria uma dúzia de idas ao banco para montar uma tela.
+   */
+  @Query("""
+      select new com.rfaelxs.web.repository.TotalMensal(
+          year(t.dataTransacao), month(t.dataTransacao), t.tipo, t.essencial, sum(t.valor))
+      from Transacao t
+      where t.usuario.id = :usuarioId and t.dataTransacao between :inicio and :fim
+      group by year(t.dataTransacao), month(t.dataTransacao), t.tipo, t.essencial
+      """)
+  List<TotalMensal> somarPorMes(
+      @Param("usuarioId") Long usuarioId,
+      @Param("inicio") LocalDate inicio,
+      @Param("fim") LocalDate fim);
+
+  /** @return saídas do período por categoria, da maior para a menor */
+  @Query("""
+      select new com.rfaelxs.web.repository.TotalCategoria(t.categoria, sum(t.valor))
+      from Transacao t
+      where t.usuario.id = :usuarioId and t.tipo = com.rfaelxs.web.domain.TipoTransacao.SAIDA
+        and t.dataTransacao between :inicio and :fim
+      group by t.categoria
+      order by sum(t.valor) desc
+      """)
+  List<TotalCategoria> somarSaidasPorCategoria(
+      @Param("usuarioId") Long usuarioId,
+      @Param("inicio") LocalDate inicio,
+      @Param("fim") LocalDate fim);
 }
