@@ -20,7 +20,7 @@
   // Raiz: decide entre dashboard (com sessão) e login (sem).
   fetch('/api/csrf')
     .then(() => fetch('/api/me'))
-    .then(r => location.replace(r.ok ? '/dashboard/' : '/login/'))
+    .then(r => location.replace(r.ok ? '/hoje/' : '/login/'))
     .catch(() => location.replace('/login/'));
 </script>
 </body>

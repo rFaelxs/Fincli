@@ -1,16 +1,22 @@
 package com.rfaelxs.web.api;
 
+import com.rfaelxs.web.api.dto.ContaPrevistaRequest;
 import com.rfaelxs.web.api.dto.ContaPrevistaResponse;
+import com.rfaelxs.web.domain.ContaPrevista;
 import com.rfaelxs.web.domain.Usuario;
 import com.rfaelxs.web.service.ContaPrevistaService;
+import jakarta.validation.Valid;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Contas previstas do usuário da sessão.
  *
- * <p>Não há POST: contas nascem pela barra de comando ({@code prever energia 210 dia 22}),
- * que é a forma de lançamento escolhida para o produto. Aqui ficam a listagem, que a tela
- * Hoje usa, e a exclusão, que é o "desfazer" de uma conta recém-criada.
+ * <p>No uso normal a conta nasce pela barra de comando
+ * ({@code prever energia 210 dia 22}) — foi a forma de cadastro escolhida, em vez de uma tela
+ * de formulário. O POST daqui serve ao "desfazer" de uma exclusão: recriar a conta com os
+ * campos exatos é mais honesto do que remontar o texto do comando e torcer para o parser
+ * devolver os mesmos valores.
  */
 @RestController
 @RequestMapping("/api/previstas")
@@ -44,6 +52,19 @@ public class ContaPrevistaController {
     return contaPrevistaService.doMes(usuario, referencia).stream()
         .map(c -> ContaPrevistaResponse.de(c, referencia))
         .toList();
+  }
+
+  /** @return 201 com a conta criada; 400 se o valor ou o dia forem inválidos */
+  @PostMapping
+  public ResponseEntity<ContaPrevistaResponse> criar(
+      @UsuarioAtual Usuario usuario, @Valid @RequestBody ContaPrevistaRequest req) {
+    ContaPrevista criada =
+        contaPrevistaService.criar(
+            usuario, req.nome(), req.valor(), req.diaVencimento(), req.mesReferencia());
+    YearMonth referencia =
+        req.mesReferencia() != null ? req.mesReferencia() : YearMonth.now();
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(ContaPrevistaResponse.de(criada, referencia));
   }
 
   /** @return 204; 404 se não existir ou não for do usuário */

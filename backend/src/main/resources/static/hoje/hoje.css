@@ -1,0 +1,176 @@
+/* ═══ Tela Hoje ═══ */
+
+.visualmente-oculto {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ── 1. Quanto dá para gastar ── */
+
+.heroi { display: flex; flex-direction: column; gap: var(--fin-s-3); }
+.heroi-linha { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+
+.heroi-valor {
+  font-family: var(--fin-font-mono); font-weight: 700;
+  font-size: clamp(42px, 7vw, 68px); line-height: 1; letter-spacing: -.04em;
+}
+/* No vermelho o número muda de cor, mas quem carrega o significado é o rótulo e a pílula:
+   cor sozinha não comunica (README, acessibilidade). */
+.heroi-valor.negativo { color: var(--fin-saida); }
+
+.pilula {
+  padding: 6px var(--fin-s-3); margin-bottom: var(--fin-s-2);
+  border-radius: var(--fin-r-pill);
+  background: var(--fin-surface); border: 1px solid var(--fin-border);
+  font-weight: 500; font-size: 14px; color: var(--fin-brand-deep);
+  white-space: nowrap;
+}
+.pilula.negativo { color: var(--fin-saida); border-color: var(--fin-dashed); }
+
+.heroi-texto {
+  max-width: 560px; font-size: 17px; line-height: 1.5;
+  color: var(--fin-text-2); text-wrap: pretty;
+}
+
+/* ── 2. Barra de comando ── */
+
+.comando-secao { display: flex; flex-direction: column; gap: var(--fin-s-3); }
+
+.comando {
+  display: flex; align-items: center; gap: var(--fin-s-3);
+  padding: var(--fin-s-4) 18px;
+  background: var(--fin-surface);
+  border: 1.5px solid var(--fin-ink);
+  border-radius: var(--fin-r-xl);
+  box-shadow: 0 2px 0 var(--fin-brand);
+}
+.comando:focus-within { box-shadow: 0 2px 0 var(--fin-brand-link); }
+
+.comando .prompt {
+  font-family: var(--fin-font-mono); font-weight: 700; font-size: 18px;
+  color: var(--fin-brand); line-height: 1;
+}
+.comando input {
+  flex: 1; border: 0; outline: none; background: transparent; padding: 0;
+  font-family: var(--fin-font-mono); font-size: 18px; letter-spacing: -.01em;
+  color: var(--fin-ink);
+}
+.comando input::placeholder { color: var(--fin-faint); }
+.comando .tecla {
+  font-family: var(--fin-font-mono); font-size: 11px; color: var(--fin-faint);
+  padding: var(--fin-s-1) var(--fin-s-2);
+  border: 1px solid var(--fin-border); border-radius: var(--fin-r-sm);
+  white-space: nowrap;
+}
+
+/* Destaque no estado vazio: sem lançamentos, a barra é o que se deve olhar. */
+.comando-secao.destaque .comando { box-shadow: 0 2px 0 var(--fin-brand-link); }
+
+.preview {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding-left: var(--fin-s-1);
+}
+.preview:not(:empty) { animation: finRiseIn .2s ease both; }
+.preview .rotulo { font-size: 13px; color: var(--fin-text-2); }
+.preview .dica { font-family: var(--fin-font-mono); font-size: 12px; color: var(--fin-text-3); }
+
+.chip-forte, .chip-fraco {
+  padding: var(--fin-s-1) var(--fin-s-3); border-radius: var(--fin-r-pill);
+  font-family: var(--fin-font-mono); font-size: 13px; white-space: nowrap;
+}
+.chip-forte {
+  font-weight: 500;
+  border: 1.5px solid var(--fin-brand); background: var(--fin-brand-tint);
+  color: var(--fin-brand-deep);
+}
+.chip-fraco { border: 1.5px dashed var(--fin-dashed); color: var(--fin-text-3); }
+
+.sugestoes {
+  display: flex; align-items: center; gap: var(--fin-s-2); flex-wrap: wrap;
+  padding-left: var(--fin-s-1);
+}
+.sugestoes .rotulo { font-size: 13px; color: var(--fin-text-2); }
+.sugestoes button {
+  padding: var(--fin-s-1) var(--fin-s-3); border-radius: var(--fin-r-pill);
+  border: 1px solid var(--fin-border); background: var(--fin-surface);
+  font-family: var(--fin-font-mono); font-size: 13px; color: var(--fin-text);
+  white-space: nowrap; transition: border-color .12s, color .12s, background .12s;
+}
+.sugestoes button:hover {
+  border-color: var(--fin-brand); color: var(--fin-brand-deep); background: var(--fin-hover);
+}
+
+/* ── 3. Os três números do mês ── */
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--fin-s-4); }
+.kpi { display: flex; flex-direction: column; gap: 10px; }
+.kpi-valor {
+  font-family: var(--fin-font-mono); font-weight: 700; font-size: 22px;
+  line-height: 1; letter-spacing: -.03em;
+}
+#kpi-entradas { color: var(--fin-entrada); }
+#kpi-saidas { color: var(--fin-saida); }
+#kpi-aportes { color: var(--fin-ink); }
+.barra-entrada { background: var(--fin-entrada) !important; }
+.barra-saida { background: var(--fin-saida) !important; }
+
+/* ── 4. Lançamentos ── */
+
+.secao { display: flex; flex-direction: column; gap: var(--fin-s-3); }
+.secao-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--fin-s-4); }
+
+.lista {
+  border: 1px solid var(--fin-border); border-radius: var(--fin-r-xl);
+  background: var(--fin-surface); overflow: hidden;
+}
+.linha {
+  display: flex; align-items: center; gap: var(--fin-s-4);
+  padding: var(--fin-s-3) var(--fin-s-5);
+  border-bottom: 1px solid var(--fin-hairline);
+}
+.linha:last-child { border-bottom: 0; }
+.linha .dia {
+  width: 46px; flex: none;
+  font-family: var(--fin-font-mono); font-size: 13px; color: var(--fin-faint);
+}
+.linha .desc { font-weight: 500; font-size: 15px; }
+.linha .cat { font-size: 13px; color: var(--fin-label); }
+.linha .valor {
+  margin-left: auto;
+  font-family: var(--fin-font-mono); font-weight: 700; font-size: 15px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.linha .valor.entrada { color: var(--fin-entrada); }
+.linha .valor.saida { color: var(--fin-saida); }
+.linha .valor.aporte { color: var(--fin-aporte); }
+.linha .vazio-lista { padding: var(--fin-s-5); color: var(--fin-faint); }
+
+@media (max-width: 560px) {
+  .linha { flex-wrap: wrap; gap: var(--fin-s-2) var(--fin-s-3); }
+  .linha .valor { margin-left: auto; }
+}
+
+/* ── 5. Contas a vencer ── */
+
+.previstas { display: flex; gap: var(--fin-s-3); flex-wrap: wrap; }
+.prevista {
+  position: relative;
+  display: flex; flex-direction: column; gap: var(--fin-s-1);
+  min-width: 150px; padding: var(--fin-s-3) var(--fin-s-4);
+  border: 1px dashed var(--fin-dashed); border-radius: var(--fin-r-lg);
+  background: var(--fin-bg);
+}
+.prevista .nome { font-weight: 500; font-size: 14px; padding-right: 18px; }
+.prevista .valor {
+  font-family: var(--fin-font-mono); font-weight: 700; font-size: 15px;
+  font-variant-numeric: tabular-nums; color: var(--fin-text);
+}
+.prevista .vence { font-family: var(--fin-font-mono); font-size: 12px; color: var(--fin-faint); }
+.prevista .tirar {
+  position: absolute; top: var(--fin-s-2); right: var(--fin-s-2);
+  width: 20px; height: 20px; border-radius: var(--fin-r-sm);
+  display: grid; place-items: center;
+  font-size: 14px; line-height: 1; color: var(--fin-faint);
+}
+.prevista .tirar:hover { background: var(--fin-chip-bg); color: var(--fin-saida); }

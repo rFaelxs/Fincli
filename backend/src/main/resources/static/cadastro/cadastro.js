@@ -14,7 +14,7 @@ document.getElementById('form-cadastro').addEventListener('submit', async ev => 
       body: { nome: document.getElementById('nome').value, cpf, senha }
     });
     await App.api('/login', { method: 'POST', silencioso: true, body: { cpf, senha } });
-    location.replace('/dashboard/');
+    location.replace('/hoje/');
   } catch (e) {
     App.erroForm('#erro-cadastro', e.message);
   }

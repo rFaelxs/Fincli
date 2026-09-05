@@ -14,7 +14,7 @@ document.getElementById('form-login').addEventListener('submit', async ev => {
         senha: document.getElementById('senha').value
       }
     });
-    location.replace('/dashboard/');
+    location.replace('/hoje/');
   } catch (e) {
     App.erroForm('#erro-login', e.status === 401 ? 'CPF ou senha inválidos.' : e.message);
   }
