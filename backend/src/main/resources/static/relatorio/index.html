@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relatório · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/relatorio/relatorio.css">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side" id="sidebar"></aside>
+
+  <main>
+    <section class="cabecalho">
+      <div>
+        <span class="eyebrow" id="eyebrow">RELATÓRIO</span>
+        <h1>Para onde foi o dinheiro</h1>
+      </div>
+      <select id="mes" aria-label="Mês do relatório"></select>
+    </section>
+
+    <!-- Barra de fluxo do mês -->
+    <section class="card fluxo-card">
+      <div class="fluxo" id="fluxo" role="img" aria-label="Composição do mês"></div>
+      <div class="fluxo-totais" id="totais"></div>
+    </section>
+
+    <!-- Sobra dos últimos 6 meses -->
+    <section class="secao">
+      <h2 class="titulo-secao">Sobra dos últimos 6 meses</h2>
+      <div class="card historico-card">
+        <div class="historico" id="historico"></div>
+        <div class="historico-meses" id="historico-meses"></div>
+      </div>
+    </section>
+
+    <!-- Perguntas do mês -->
+    <section class="secao">
+      <h2 class="titulo-secao">Perguntas do mês</h2>
+      <div id="perguntas" class="perguntas"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/relatorio/relatorio.js"></script>
+</body>
+</html>
