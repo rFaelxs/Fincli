@@ -45,6 +45,9 @@ window.App = (function () {
   /** '2026-09' → 'setembro de 2026' */
   const mesPorExtenso = iso => MESES[Number(iso.slice(5, 7)) - 1] + ' de ' + iso.slice(0, 4);
 
+  /** '2026-09' → 'setembro' — sem o ano, para uso no meio de uma frase */
+  const soMes = iso => MESES[Number(iso.slice(5, 7)) - 1];
+
   /** '2026-09' → 'set' */
   const mesCurto = iso => MESES_CURTOS[Number(iso.slice(5, 7)) - 1];
 
@@ -156,7 +159,7 @@ window.App = (function () {
   return {
     api, guardar, initPublico, toast, esc, qs,
     moeda, moedaAbs, moedaCurta, inteiro, pct,
-    diaMes, diaPorExtenso, mesPorExtenso, mesCurto, mesAno,
+    diaMes, diaPorExtenso, mesPorExtenso, soMes, mesCurto, mesAno,
     erroForm, limparErro, preencherMeses, ultimosMeses
   };
 })();

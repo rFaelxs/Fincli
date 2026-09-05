@@ -23,8 +23,15 @@ function pintarFluxo(d) {
     barra.innerHTML = '<div class="faixa-seg sobra" style="flex:1">nada lançado neste mês</div>';
     barra.setAttribute('aria-label', 'Nada lançado neste mês.');
   } else {
-    barra.innerHTML = partes.map(p =>
-      `<div class="faixa-seg ${p.chave}" style="flex:${p.valor}">${p.rotulo}</div>`).join('');
+    // Segmento estreito fica sem rótulo em vez de exibir "supér" cortado ao meio. O nome
+    // continua no title e nos totais logo abaixo, então nada se perde.
+    const CABE_ROTULO = 12;
+    barra.innerHTML = partes.map(p => {
+      const fatia = (p.valor / total) * 100;
+      const texto = fatia >= CABE_ROTULO ? p.rotulo : '';
+      return `<div class="faixa-seg ${p.chave}" style="flex:${p.valor}"
+                   title="${p.rotulo} ${App.moeda(p.valor)}">${texto}</div>`;
+    }).join('');
     // A barra é decorativa para quem lê a tela; o texto abaixo dela tem os mesmos números.
     barra.setAttribute('aria-label', partes
       .map(p => `${p.rotulo} ${App.moeda(p.valor)}`).join('. ') + '.');
@@ -34,7 +41,7 @@ function pintarFluxo(d) {
     ['ENTROU', '+' + App.moedaAbs(d.entradas), 'entrada'],
     ['ESSENCIAIS', '−' + App.moedaAbs(d.essenciais), 'saida'],
     ['SUPÉRFLUAS', '−' + App.moedaAbs(d.superfluas), 'saida'],
-    ['GUARDEI', (Number(d.aportes) < 0 ? '−' : '↳ ') + App.moedaAbs(d.aportes), 'aporte'],
+    ['GUARDEI', (Number(d.aportes) < 0 ? '−' : '') + App.moedaAbs(d.aportes), 'aporte'],
     ['SOBRA', (Number(d.sobra) < 0 ? '−' : '') + App.moedaAbs(d.sobra), '']
   ].map(([rot, val, cls]) =>
     `<div><span class="rot">${rot}</span><span class="val ${cls}">${val}</span></div>`).join('');

@@ -31,7 +31,7 @@ function pintarHeroi(d) {
     : App.moeda(d.porDia) + ' por dia · ' + d.diasRestantes
       + (d.diasRestantes === 1 ? ' dia' : ' dias');
 
-  const mes = App.mesPorExtenso(d.mes);
+  const mes = App.soMes(d.mes);
   if (vazio) {
     $('#heroi-rotulo').textContent = 'SEM LANÇAMENTOS AINDA';
     valor.textContent = App.moeda(0);
@@ -57,9 +57,10 @@ function pintarKpis(d) {
   const proporcao = v => (entradas > 0 ? Math.min(100, (Number(v) / entradas) * 100) : 0);
 
   // O sinal vem sempre junto do valor: entrada e saída não podem se distinguir só pela cor.
+  // Aporte não tem sinal — o dinheiro não sumiu, mudou de lugar, e quem diz isso é o rótulo.
   definir('#kpi-entradas', '+' + App.moedaAbs(d.entradas));
   definir('#kpi-saidas', '−' + App.moedaAbs(d.saidas));
-  definir('#kpi-aportes', (Number(d.aportes) < 0 ? '−' : '↳ ') + App.moedaAbs(d.aportes));
+  definir('#kpi-aportes', (Number(d.aportes) < 0 ? '−' : '') + App.moedaAbs(d.aportes));
 
   $('#bar-entradas').style.width = entradas > 0 ? '100%' : '0%';
   $('#bar-saidas').style.width = proporcao(d.saidas) + '%';
@@ -74,9 +75,13 @@ function definir(seletor, texto) {
 
 /* ── Lançamentos ── */
 
-const SINAL = { ENTRADA: '+', SAIDA: '−', APORTE: '↳ ', SAQUE: '↰ ' };
+// Movimentação de reserva não é entrada nem saída: fica sem sinal e ganha um selo com o
+// verbo. Setas como ↳ faltam na JetBrains Mono e o navegador desenha um glifo qualquer no
+// lugar — o que aparecia na tela era lixo, não um símbolo.
+const SINAL = { ENTRADA: '+', SAIDA: '−', APORTE: '', SAQUE: '' };
 const CLASSE = { ENTRADA: 'entrada', SAIDA: 'saida', APORTE: 'aporte', SAQUE: 'aporte' };
-const LEITURA = { ENTRADA: 'entrada', SAIDA: 'saída', APORTE: 'guardado', SAQUE: 'sacado' };
+const LEITURA = { ENTRADA: 'entrada de', SAIDA: 'saída de', APORTE: 'guardado', SAQUE: 'sacado' };
+const SELO = { APORTE: 'guardado', SAQUE: 'sacado' };
 
 function pintarLancamentos(itens) {
   const lista = $('#lancamentos');
@@ -90,8 +95,9 @@ function pintarLancamentos(itens) {
       <span class="desc">${App.esc(l.descricao)}</span>
       <span class="cat">${App.esc(l.categoria)}</span>
       ${l.essencial ? '<span class="chip">essencial</span>' : ''}
+      ${SELO[l.tipo] ? `<span class="chip">${SELO[l.tipo]}</span>` : ''}
       <span class="valor ${CLASSE[l.tipo]}">
-        <span class="visualmente-oculto">${LEITURA[l.tipo]} de </span>${SINAL[l.tipo]}${App.moedaAbs(l.valor)}
+        <span class="visualmente-oculto">${LEITURA[l.tipo]} </span>${SINAL[l.tipo]}${App.moedaAbs(l.valor)}
       </span>
     </div>`).join('');
 }
@@ -99,7 +105,7 @@ function pintarLancamentos(itens) {
 /* ── Contas a vencer ── */
 
 function pintarPrevistas(previstas, mes) {
-  $('#titulo-previstas').textContent = 'Ainda vence em ' + App.mesPorExtenso(mes).split(' de ')[0];
+  $('#titulo-previstas').textContent = 'Ainda vence em ' + App.soMes(mes);
   const alvo = $('#previstas');
 
   if (!previstas.length) {

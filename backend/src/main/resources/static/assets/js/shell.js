@@ -78,9 +78,13 @@ App.carregarGuardado = async function () {
 
     val.textContent = App.moeda(total);
     val.classList.remove('esqueleto');
+
+    // O percentual da emergência só aparece se houver meta: "emergência 0,0%" numa reserva
+    // sem meta parece fracasso, quando na verdade não há nada a medir.
+    const temMeta = emergencia && Number(emergencia.metaValor) > 0;
     leg.textContent = reservas.length
       ? `em ${reservas.length} ${reservas.length === 1 ? 'reserva' : 'reservas'}`
-        + (emergencia ? ` · emergência ${App.pct(emergencia.progresso)}` : '')
+        + (temMeta ? ` · emergência ${App.pct(emergencia.progresso)}` : '')
       : 'nenhuma reserva ainda';
   } catch (e) {
     val.textContent = '—';
