@@ -114,6 +114,14 @@ class ComandoControllerTest {
         .andExpect(jsonPath("$.detail").value("Saldo insuficiente para esta alocação."));
   }
 
+  /** Regressão: sem handler próprio, a exceção caía na rede de segurança e virava 500. */
+  @Test
+  void caminhoInexistenteDa404ENao500() throws Exception {
+    mvc.perform(post("/api/comando/inexistente")
+            .contentType(MediaType.APPLICATION_JSON).content("{}"))
+        .andExpect(status().isNotFound());
+  }
+
   @Test
   void textoVazioNemChegaAoServico() throws Exception {
     mvc.perform(json("   "))

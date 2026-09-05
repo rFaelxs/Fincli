@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * Traduz exceções de domínio em respostas {@code application/problem+json} (RFC 7807).
@@ -74,6 +75,17 @@ public class TratadorDeErros {
         problema(HttpStatus.BAD_REQUEST, "Requisição inválida", "Verifique os campos enviados.");
     detalhe.setProperty("campos", campos);
     return detalhe;
+  }
+
+  /**
+   * Arquivo estático que não existe.
+   *
+   * <p>Sem este handler a exceção cai na rede de segurança abaixo e vira 500 com "Erro
+   * interno" no log — um caminho de CSS digitado errado passaria por falha de servidor.
+   */
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ProblemDetail recursoEstaticoAusente(NoResourceFoundException e) {
+    return problema(HttpStatus.NOT_FOUND, "Não encontrado", "Recurso não encontrado.");
   }
 
   /**
