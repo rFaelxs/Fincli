@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.rfaelxs.web.domain.ContaPrevista;
@@ -14,6 +17,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -108,6 +113,23 @@ class ContaPrevistaServiceTest {
   @Test
   void somarSemContasDaZeroComDuasCasas() {
     assertEquals(new BigDecimal("0.00"), ContaPrevistaService.somar(List.of()));
+  }
+
+  /**
+   * A conta de outro usuário é indistinguível de uma conta inexistente.
+   *
+   * <p>A consulta filtra por id público <strong>e</strong> dono; trocar para {@code findById}
+   * abriria um IDOR (escopo-web.md §4), e é isso que o {@code verify} trava.
+   */
+  @Test
+  void naoRemoveContaDeOutroUsuario() {
+    UUID deOutro = UUID.randomUUID();
+    when(repository.findByPublicIdAndUsuarioId(eq(deOutro), any())).thenReturn(Optional.empty());
+
+    assertThrows(RecursoNaoEncontradoException.class, () -> service.remover(usuario, deOutro));
+
+    verify(repository).findByPublicIdAndUsuarioId(eq(deOutro), any());
+    verify(repository, never()).delete(any());
   }
 
   private ContaPrevista conta(String nome, String valor, int dia) {

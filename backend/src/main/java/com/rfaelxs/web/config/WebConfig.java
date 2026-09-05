@@ -15,7 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
   private static final List<String> PAGINAS =
-      List.of("login", "cadastro", "dashboard", "transacoes", "reservas", "extrato");
+      List.of(
+          "login", "cadastro", "hoje", "relatorio",
+          "dashboard", "transacoes", "reservas", "extrato");
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {

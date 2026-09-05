@@ -70,7 +70,7 @@ public class SecurityConfig {
             // todo dado continua atrás de /api/**.
             .requestMatchers(org.springframework.http.HttpMethod.GET,
                 "/", "/index.html", "/assets/**",
-                "/login/**", "/cadastro/**", "/dashboard/**",
+                "/login/**", "/cadastro/**", "/hoje/**", "/relatorio/**", "/dashboard/**",
                 "/transacoes/**", "/reservas/**", "/extrato/**").permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(ex -> ex
