@@ -3,25 +3,37 @@
 .feed { display: flex; flex-direction: column; }
 
 .feed-day {
-  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  font-size: .66rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--ink-muted);
-  padding: .9rem 0 .4rem; border-bottom: 1px solid var(--rule);
+  font-family: var(--fin-font-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--fin-label);
+  padding: var(--fin-s-4) 0 var(--fin-s-2);
+  border-bottom: 1px solid var(--fin-border);
 }
 .feed-day:first-child { padding-top: 0; }
 
-.item { display: flex; align-items: center; gap: .75rem; padding: .58rem 0; border-bottom: 1px solid var(--rule); }
+.item {
+  display: flex; align-items: center; gap: var(--fin-s-3);
+  padding: var(--fin-s-3) 0; border-bottom: 1px solid var(--fin-hairline);
+}
 .item:last-child { border-bottom: 0; }
 
+/* O símbolo do selo não é decoração: é o que distingue entrada de saída sem depender da cor. */
 .badge {
-  width: 30px; height: 30px; border-radius: 4px; flex: none;
-  display: grid; place-items: center; font-size: .82rem; font-weight: 700;
+  width: 30px; height: 30px; border-radius: var(--fin-r-md); flex: none;
+  display: grid; place-items: center;
+  font-family: var(--fin-font-mono); font-size: 14px; font-weight: 700;
+  background: var(--fin-chip-bg); color: var(--fin-text);
 }
-.badge.in  { background: var(--in-wash);  color: var(--in); }
-.badge.out { background: var(--out-wash); color: var(--out); }
-.badge.mov { background: var(--accent-wash); color: var(--accent); }
+.badge.in  { color: var(--fin-entrada); }
+.badge.out { color: var(--fin-saida); }
+.badge.mov { background: var(--fin-brand-tint); color: var(--fin-aporte); }
 
 .item .body { flex: 1 1 auto; min-width: 0; }
-.item .t { font-weight: 600; font-size: .87rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.item .s { font-size: .74rem; color: var(--ink-2); }
-.item .amt { font-weight: 500; font-size: .85rem; white-space: nowrap; }
+.item .t {
+  font-weight: 500; font-size: 15px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.item .s { font-size: 13px; color: var(--fin-label); }
+.item .amt {
+  font-family: var(--fin-font-mono); font-weight: 700; font-size: 15px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}

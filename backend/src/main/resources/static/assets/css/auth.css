@@ -1,0 +1,25 @@
+/* ═══ Login e cadastro ═══
+ *
+ * Um arquivo só: as duas telas eram CSS idêntico duplicado em duas pastas.
+ */
+
+.auth-plane { display: grid; place-items: center; min-height: 100vh; padding: var(--fin-s-4); }
+
+.auth {
+  width: 100%; max-width: 24rem;
+  display: flex; flex-direction: column; gap: var(--fin-s-4);
+  padding: var(--fin-s-6);
+  border-radius: var(--fin-r-2xl);
+}
+
+.auth .marca { display: grid; place-items: center; }
+.auth .marca img { width: 150px; height: auto; display: block; }
+
+.auth-title { text-align: center; display: flex; flex-direction: column; gap: var(--fin-s-1); }
+.auth-title .t { font-weight: 600; font-size: 19px; letter-spacing: -.01em; }
+
+.auth .btn { width: 100%; }
+
+.auth-alt { font-size: 14px; color: var(--fin-text); text-align: center; }
+.auth-alt a { font-weight: 500; }
+.auth-alt a:hover { text-decoration: underline; }

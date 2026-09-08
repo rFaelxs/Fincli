@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
   private static final List<String> PAGINAS =
-      List.of("login", "cadastro", "dashboard", "transacoes", "reservas", "extrato");
+      List.of("login", "cadastro", "hoje", "relatorio", "transacoes", "reservas", "extrato");
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
@@ -24,5 +24,10 @@ public class WebConfig implements WebMvcConfigurer {
       registry.addViewController("/" + pagina + "/")
           .setViewName("forward:/" + pagina + "/index.html");
     }
+
+    // A tela Hoje substituiu o Dashboard. O redirecionamento existe para que um link ou
+    // favorito antigo não caia em 404.
+    registry.addRedirectViewController("/dashboard", "/hoje/");
+    registry.addRedirectViewController("/dashboard/", "/hoje/");
   }
 }

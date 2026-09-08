@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoje · FinCLI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/hoje/hoje.css">
+</head>
+<body>
+
+<a class="pular" href="#comando">Pular para a barra de comando</a>
+
+<div class="shell">
+  <aside class="side" id="sidebar"></aside>
+
+  <main>
+    <!-- 1. Quanto dá para gastar -->
+    <section class="heroi">
+      <span class="eyebrow" id="heroi-rotulo">DÁ PRA GASTAR</span>
+      <div class="heroi-linha">
+        <span class="heroi-valor num esqueleto" id="livre">R$ 0,00</span>
+        <span class="pilula" id="ritmo"></span>
+      </div>
+      <p class="heroi-texto" id="heroi-texto"></p>
+    </section>
+
+    <!-- 2. Barra de comando -->
+    <section class="comando-secao">
+      <label class="visualmente-oculto" for="comando">Lançar por texto</label>
+      <div class="comando">
+        <span class="prompt" aria-hidden="true">&rsaquo;</span>
+        <input id="comando" type="text" autocomplete="off" spellcheck="false"
+               placeholder="mercado 120 ontem essencial"
+               aria-describedby="preview">
+        <kbd class="tecla" aria-hidden="true">Ctrl K</kbd>
+      </div>
+
+      <div id="preview" class="preview" aria-live="polite"></div>
+      <div id="sugestoes" class="sugestoes"></div>
+      <div id="faixa" hidden></div>
+    </section>
+
+    <!-- 3. O mês em três números -->
+    <section class="kpis">
+      <div class="card kpi">
+        <span class="label">ENTROU</span>
+        <span class="kpi-valor num esqueleto" id="kpi-entradas">R$ 0,00</span>
+        <div class="meter"><i id="bar-entradas" class="barra-entrada" style="width:100%"></i></div>
+      </div>
+      <div class="card kpi">
+        <span class="label">SAIU</span>
+        <span class="kpi-valor num esqueleto" id="kpi-saidas">R$ 0,00</span>
+        <div class="meter"><i id="bar-saidas" class="barra-saida" style="width:0%"></i></div>
+      </div>
+      <div class="card kpi">
+        <span class="label">GUARDEI</span>
+        <span class="kpi-valor num esqueleto" id="kpi-aportes">R$ 0,00</span>
+        <div class="meter"><i id="bar-aportes" style="width:0%"></i></div>
+      </div>
+    </section>
+
+    <!-- 4. Últimos lançamentos -->
+    <section class="secao">
+      <div class="secao-head">
+        <h2 class="titulo-secao">Últimos lançamentos</h2>
+        <a class="link-secao" href="/relatorio/">ver o mês inteiro →</a>
+      </div>
+      <div class="lista" id="lancamentos"></div>
+    </section>
+
+    <!-- 5. A justificativa do número do topo -->
+    <section class="secao">
+      <h2 class="titulo-secao" id="titulo-previstas">Ainda vence este mês</h2>
+      <div class="previstas" id="previstas"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/shell.js"></script>
+<script src="/assets/js/comando.js"></script>
+<script src="/hoje/hoje.js"></script>
+</body>
+</html>
