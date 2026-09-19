@@ -42,12 +42,6 @@ fincli:
   cors:
     # Origem do SPA em desenvolvimento (Vite).
     origens: ${FINCLI_CORS_ORIGENS:http://localhost:5173}
-  selic:
-    # Série SGS 432 — meta Selic definida pelo Copom, em % ao ano (docs/spec-selic.md).
-    url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json
-    # A meta muda a cada ~45 dias; consultar uma vez por dia é folgado.
-    ttl: 24h
-    timeout: 5s
 
 logging:
   level:

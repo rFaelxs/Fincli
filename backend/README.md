@@ -116,7 +116,7 @@ para receber o cookie `XSRF-TOKEN` e reenviá-lo no header `X-XSRF-TOKEN` em tod
 | `POST` | `/api/logout` | 204 |
 | `GET` | `/api/me` | 200 · 401 |
 | `GET` | `/api/csrf` | 204 (emite o cookie) |
-| `GET` | `/api/dashboard?mes=yyyy-MM` | 200 |
+| `GET` | `/api/saldo` | 200 |
 | `GET` | `/api/transacoes` | 200 |
 | `GET` | `/api/transacoes/{id}` | 200 · 404 |
 | `POST` | `/api/transacoes` | 201 · 400 |
@@ -161,8 +161,6 @@ e logout.
   um cookie `HttpOnly` não é legível por JavaScript.
 - **Reserva travada com `PESSIMISTIC_WRITE`** durante alocação e saque, e o saldo disponível
   é lido dentro da transação, depois do lock.
-- **Meta Selic da série SGS 432**, com cache de aplicação (TTL 24h) e fallback para o último
-  valor conhecido. Integração descartada no [ADR 0004](../docs/adr/0004-selic-descartada.md).
 
 ## Pendências
 

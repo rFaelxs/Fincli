@@ -79,9 +79,10 @@ check "$code" 200 "alocacao de R$ 500 aceita"
 req "$A" POST /transacoes '{"valor":50.00,"categoria":"Mercado","descricao":"Compra","data":"2026-08-02","tipo":"SAIDA","essencial":true}' > /dev/null
 ok "saida de R$ 50 registrada DEPOIS da alocacao"
 
-req "$A" GET /dashboard > /dev/null
-echo "       dashboard: $(cat /tmp/body.txt)"
+req "$A" GET /saldo > /dev/null
+echo "       saldo: $(cat /tmp/body.txt)"
 SALDO=$(grep -o '"saldoDisponivel":[0-9.]*' /tmp/body.txt | cut -d: -f2)
+req "$A" GET /reservas > /dev/null
 SALDO_RES=$(grep -o '"saldoAtual":[0-9.]*' /tmp/body.txt | head -1 | cut -d: -f2)
 check "$SALDO" "450.00" "saldo disponivel = 1000 - 50 - 500"
 check "$SALDO_RES" "500.00" "alocacao SOBREVIVEU a transacao posterior"
@@ -116,18 +117,17 @@ check "$code" 404 "B nao consegue apagar transacao de A"
 code=$(req "$B" POST "/reservas/$RES_ID/alocar" '{"valor":1.00}')
 check "$code" 404 "B nao consegue alocar na reserva de A"
 
-req "$B" GET /dashboard > /dev/null
+req "$B" GET /saldo > /dev/null
 SALDO_B=$(grep -o '"saldoDisponivel":[0-9.]*' /tmp/body.txt | cut -d: -f2)
 check "$SALDO_B" "0.00" "B ve apenas os proprios dados"
 
 echo
-echo "== extrato e selic =="
+echo "== extrato =="
 req "$A" GET /extrato > /dev/null
 echo "       extrato: $(cat /tmp/body.txt)"
-
-req "$A" GET /dashboard > /dev/null
-SELIC=$(grep -o '"selicMetaAnual":[0-9.]*' /tmp/body.txt | cut -d: -f2)
-[ -n "$SELIC" ] && ok "meta Selic do BCB: $SELIC% a.a." || bad "selic" "valor" "nulo"
+grep -q '"origem":"TRANSACAO"' /tmp/body.txt && grep -q '"origem":"RESERVA"' /tmp/body.txt \
+  && ok "extrato junta transacoes e movimentacoes de reserva" \
+  || bad "extrato" "TRANSACAO e RESERVA" "$(grep -o '"origem":"[A-Z]*"' /tmp/body.txt | sort -u | tr '\n' ' ')"
 
 code=$(req "$A" POST /logout)
 check "$code" 204 "logout encerra a sessao"
