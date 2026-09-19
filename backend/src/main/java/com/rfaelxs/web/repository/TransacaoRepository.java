@@ -27,17 +27,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
       """)
   BigDecimal somarPorTipo(@Param("usuarioId") Long usuarioId, @Param("tipo") TipoTransacao tipo);
 
-  @Query("""
-      select coalesce(sum(t.valor), 0) from Transacao t
-      where t.usuario.id = :usuarioId and t.tipo = :tipo
-        and t.dataTransacao between :inicio and :fim
-      """)
-  BigDecimal somarPorTipoNoPeriodo(
-      @Param("usuarioId") Long usuarioId,
-      @Param("tipo") TipoTransacao tipo,
-      @Param("inicio") LocalDate inicio,
-      @Param("fim") LocalDate fim);
-
   /** @return transações do período, da mais recente para a mais antiga */
   List<Transacao> findByUsuarioIdAndDataTransacaoBetweenOrderByDataTransacaoDescIdDesc(
       Long usuarioId, LocalDate inicio, LocalDate fim);

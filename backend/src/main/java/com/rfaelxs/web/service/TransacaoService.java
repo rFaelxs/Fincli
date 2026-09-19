@@ -7,7 +7,6 @@ import com.rfaelxs.web.repository.ReservaRepository;
 import com.rfaelxs.web.repository.TransacaoRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -117,24 +116,6 @@ public class TransacaoService {
     BigDecimal saidas = transacaoRepository.somarPorTipo(usuario.getId(), TipoTransacao.SAIDA);
     BigDecimal alocado = reservaRepository.somarSaldoAlocado(usuario.getId());
     return Dinheiro.normalizar(entradas.subtract(saidas).subtract(alocado));
-  }
-
-  /** @return soma das entradas do mês informado */
-  @Transactional(readOnly = true)
-  public BigDecimal totalEntradasMes(Usuario usuario, YearMonth mes) {
-    return somarMes(usuario, TipoTransacao.ENTRADA, mes);
-  }
-
-  /** @return soma das saídas do mês informado */
-  @Transactional(readOnly = true)
-  public BigDecimal totalSaidasMes(Usuario usuario, YearMonth mes) {
-    return somarMes(usuario, TipoTransacao.SAIDA, mes);
-  }
-
-  private BigDecimal somarMes(Usuario usuario, TipoTransacao tipo, YearMonth mes) {
-    return Dinheiro.normalizar(
-        transacaoRepository.somarPorTipoNoPeriodo(
-            usuario.getId(), tipo, mes.atDay(1), mes.atEndOfMonth()));
   }
 
   private Transacao buscar(Usuario usuario, UUID publicId) {

@@ -12,7 +12,6 @@ import com.rfaelxs.web.repository.ReservaRepository;
 import com.rfaelxs.web.repository.TransacaoRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,19 +73,6 @@ class TransacaoServiceTest {
     when(reservaRepository.somarSaldoAlocado(any())).thenReturn(BigDecimal.ZERO);
 
     assertEquals(new BigDecimal("0.10"), service.calcularSaldoDisponivel(usuario));
-  }
-
-  @Test
-  void deveSomarEntradasDoMesPeloPeriodoCorreto() {
-    YearMonth agosto = YearMonth.of(2026, 8);
-    when(transacaoRepository.somarPorTipoNoPeriodo(
-            any(),
-            eq(TipoTransacao.ENTRADA),
-            eq(LocalDate.of(2026, 8, 1)),
-            eq(LocalDate.of(2026, 8, 31))))
-        .thenReturn(new BigDecimal("3500.00"));
-
-    assertEquals(new BigDecimal("3500.00"), service.totalEntradasMes(usuario, agosto));
   }
 
   @Test
