@@ -1,7 +1,6 @@
 package com.rfaelxs.web.api.dto;
 
-import com.rfaelxs.web.domain.MovimentacaoReserva;
-import com.rfaelxs.web.domain.Transacao;
+import com.rfaelxs.web.service.ItemExtrato;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -20,23 +19,8 @@ public record ExtratoItemResponse(
     String categoria,
     String descricao) {
 
-  public static ExtratoItemResponse de(Transacao t) {
+  public static ExtratoItemResponse de(ItemExtrato i) {
     return new ExtratoItemResponse(
-        "TRANSACAO",
-        t.getDataTransacao(),
-        t.getValor(),
-        t.getTipo().name(),
-        t.getCategoria(),
-        t.getDescricao());
-  }
-
-  public static ExtratoItemResponse de(MovimentacaoReserva m) {
-    return new ExtratoItemResponse(
-        "RESERVA",
-        m.getDataMovimento(),
-        m.getValor(),
-        m.getTipo().name(),
-        "Reserva",
-        m.getReservaNome());
+        i.origem(), i.data(), i.valor(), i.tipo(), i.categoria(), i.descricao());
   }
 }

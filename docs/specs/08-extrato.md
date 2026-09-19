@@ -22,7 +22,7 @@ A rota mora hoje no `DashboardController`, que faz a junção e a ordenação. A
 
 ## Comportamento
 
-1. A tela carrega com uma chamada a `GET /api/extrato` e exibe os itens na ordem recebida.
+1. A tela carrega com uma chamada a `GET /api/extrato` e exibe os itens na ordem recebida. No mesmo dia, as transações vêm antes das movimentações de reserva.
 2. O título é "Extrato" e o subtítulo, "transações e movimentações de reserva · cronológico".
 3. Os itens são agrupados por dia, com um cabeçalho por data no formato "16 de set. de 2026".
 4. Um novo cabeçalho aparece sempre que a data muda em relação ao item anterior.
@@ -50,6 +50,7 @@ A rota mora hoje no `DashboardController`, que faz a junção e a ordenação. A
 - [ ] CA-EXT-10: Dado um segundo usuário com lançamentos, quando `GET /api/extrato` é chamado pelo primeiro, então nenhum item do segundo aparece.
 - [ ] CA-EXT-11: Dada uma reserva renomeada depois de uma alocação, quando o extrato é aberto, então o item mostra o nome gravado no momento do movimento.
 - [ ] CA-EXT-12: Dado um aporte desfeito pela barra de comando, quando o extrato é aberto, então a alocação e o saque aparecem como dois itens.
+- [ ] CA-EXT-13: Dadas uma transação e uma alocação, ambas em `2026-09-16`, quando `GET /api/extrato` responde, então a transação vem antes da alocação.
 
 ## Estrutura Angular
 
@@ -69,11 +70,9 @@ O agrupamento por dia é feito na tela, sobre a lista já ordenada pelo servidor
 ## Observação sobre o estado atual
 
 - O endpoint devolve o histórico inteiro, sem filtro nem paginação: a resposta cresce sem limite com o tempo de uso.
-- A junção e a ordenação acontecem no controller, e não há teste automatizado cobrindo essa rota. O teste do serviço precisa existir antes de a lógica mudar de lugar.
-- A ordenação usa só a data, sem critério de desempate: dois itens do mesmo dia podem trocar de posição entre duas chamadas.
+- A ordenação usa só a data. O desempate vem de a ordenação ser estável: no mesmo dia, as transações ficam antes das movimentações, cada grupo na ordem do repositório. Não é um critério declarado, e mudar a junção muda a ordem.
 - O cabeçalho de data é montado com `new Date(iso + 'T00:00:00')`; no Angular a data ISO é tratada como texto, sem conversão.
 
 ## Propostas
 
-- Desempatar itens do mesmo dia por origem e identificador, para que a ordem seja estável entre chamadas.
 - Aceitar `?mes=` no endpoint e paginar, antes que o histórico torne a tela lenta.
