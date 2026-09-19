@@ -1,6 +1,6 @@
 package com.rfaelxs.web.api.dto;
 
-import com.rfaelxs.web.service.ResumoService;
+import com.rfaelxs.web.service.resumo.Lancamento;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -21,7 +21,7 @@ public record LancamentoResponse(
     String tipo,
     BigDecimal valor) {
 
-  public static LancamentoResponse de(ResumoService.Lancamento l) {
+  public static LancamentoResponse de(Lancamento l) {
     return new LancamentoResponse(
         l.id(), l.data(), l.descricao(), l.categoria(), l.essencial(), l.tipo().name(), l.valor());
   }

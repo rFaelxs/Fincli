@@ -3,7 +3,8 @@ package com.rfaelxs.web.api;
 import com.rfaelxs.web.api.dto.HojeResponse;
 import com.rfaelxs.web.api.dto.RelatorioResponse;
 import com.rfaelxs.web.domain.Usuario;
-import com.rfaelxs.web.service.ResumoService;
+import com.rfaelxs.web.service.resumo.GestaoService;
+import com.rfaelxs.web.service.resumo.RelatorioService;
 import java.time.YearMonth;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ResumoController {
 
-  private final ResumoService resumoService;
+  private final GestaoService gestaoService;
+  private final RelatorioService relatorioService;
 
-  public ResumoController(ResumoService resumoService) {
-    this.resumoService = resumoService;
+  public ResumoController(GestaoService gestaoService, RelatorioService relatorioService) {
+    this.gestaoService = gestaoService;
+    this.relatorioService = relatorioService;
   }
 
-  /** Números da tela Hoje, sempre do mês corrente — a pergunta é sobre agora. */
+  /**
+   * Números da tela Gestão, sempre do mês corrente — a pergunta é sobre agora.
+   *
+   * <p>A rota guarda o nome antigo da tela, Hoje, para não mudar o contrato.
+   */
   @GetMapping("/hoje")
   public HojeResponse hoje(@UsuarioAtual Usuario usuario) {
-    return HojeResponse.de(resumoService.hoje(usuario));
+    return HojeResponse.de(gestaoService.montar(usuario));
   }
 
   /**
@@ -43,6 +50,6 @@ public class ResumoController {
       @UsuarioAtual Usuario usuario,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") YearMonth mes) {
     return RelatorioResponse.de(
-        resumoService.relatorio(usuario, mes != null ? mes : YearMonth.now()));
+        relatorioService.montar(usuario, mes != null ? mes : YearMonth.now()));
   }
 }

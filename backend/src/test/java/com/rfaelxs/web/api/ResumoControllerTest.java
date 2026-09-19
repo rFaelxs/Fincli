@@ -11,7 +11,16 @@ import com.rfaelxs.web.domain.ContaPrevista;
 import com.rfaelxs.web.domain.Usuario;
 import com.rfaelxs.web.repository.TotalCategoria;
 import com.rfaelxs.web.security.UsuarioPrincipal;
-import com.rfaelxs.web.service.ResumoService;
+import com.rfaelxs.web.service.resumo.Gestao;
+import com.rfaelxs.web.service.resumo.GestaoService;
+import com.rfaelxs.web.service.resumo.Lancamento;
+import com.rfaelxs.web.service.resumo.Projecao;
+import com.rfaelxs.web.service.resumo.Relatorio;
+import com.rfaelxs.web.service.resumo.RelatorioService;
+import com.rfaelxs.web.service.resumo.RitmoReserva;
+import com.rfaelxs.web.service.resumo.SobraMensal;
+import com.rfaelxs.web.service.resumo.TipoLancamento;
+import com.rfaelxs.web.service.resumo.Totais;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -30,7 +39,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
- * Contrato HTTP das telas Hoje e Relatório.
+ * Contrato HTTP das telas Gestão e Relatório.
  *
  * <p>Os filtros de segurança ficam de fora: o que se verifica aqui é a forma do JSON e o
  * repasse do usuário da sessão para o serviço. A autorização por dono é testada onde ela
@@ -43,7 +52,8 @@ class ResumoControllerTest {
 
   @Autowired private MockMvc mvc;
 
-  @MockBean private ResumoService resumoService;
+  @MockBean private GestaoService gestaoService;
+  @MockBean private RelatorioService relatorioService;
 
   private Usuario usuario;
 
@@ -62,7 +72,7 @@ class ResumoControllerTest {
 
   @Test
   void hojeDevolveONumeroLivreEAsListas() throws Exception {
-    when(resumoService.hoje(any())).thenReturn(hoje());
+    when(gestaoService.montar(any())).thenReturn(hoje());
 
     mvc.perform(get("/api/hoje"))
         .andExpect(status().isOk())
@@ -81,7 +91,7 @@ class ResumoControllerTest {
 
   @Test
   void relatorioAceitaOMesNaQueryString() throws Exception {
-    when(resumoService.relatorio(any(), eq(YearMonth.of(2026, 8)))).thenReturn(relatorio());
+    when(relatorioService.montar(any(), eq(YearMonth.of(2026, 8)))).thenReturn(relatorio());
 
     mvc.perform(get("/api/relatorio").param("mes", "2026-08"))
         .andExpect(status().isOk())
@@ -94,7 +104,7 @@ class ResumoControllerTest {
 
   @Test
   void reservaParadaVaiComPrevisaoNula() throws Exception {
-    when(resumoService.relatorio(any(), any())).thenReturn(relatorioComReservaParada());
+    when(relatorioService.montar(any(), any())).thenReturn(relatorioComReservaParada());
 
     mvc.perform(get("/api/relatorio"))
         .andExpect(status().isOk())
@@ -104,14 +114,14 @@ class ResumoControllerTest {
 
   // ── dados de apoio ──
 
-  private ResumoService.Hoje hoje() {
+  private Gestao hoje() {
     YearMonth setembro = YearMonth.of(2026, 9);
     ContaPrevista cartao =
         new ContaPrevista(usuario, "Cartão de crédito", new BigDecimal("980.00"), 20, null);
     ContaPrevista energia =
         new ContaPrevista(usuario, "Energia", new BigDecimal("210.00"), 22, null);
 
-    return new ResumoService.Hoje(
+    return new Gestao(
         LocalDate.of(2026, 9, 16),
         setembro,
         new BigDecimal("2376.60"),
@@ -119,25 +129,25 @@ class ResumoControllerTest {
         14,
         totais(),
         new BigDecimal("1190.00"),
-        List.of(new ResumoService.Lancamento(
+        List.of(new Lancamento(
             UUID.randomUUID(),
             LocalDate.of(2026, 9, 3),
             "Mercado do mês",
             "Alimentação",
             true,
-            ResumoService.TipoLancamento.SAIDA,
+            TipoLancamento.SAIDA,
             new BigDecimal("742.18"))),
         List.of(cartao, energia));
   }
 
-  private ResumoService.Relatorio relatorio() {
-    return new ResumoService.Relatorio(
+  private Relatorio relatorio() {
+    return new Relatorio(
         YearMonth.of(2026, 8),
         totais(),
-        List.of(new ResumoService.SobraMensal(
+        List.of(new SobraMensal(
             YearMonth.of(2026, 8), new BigDecimal("3566.60"))),
         List.of(new TotalCategoria("Moradia", new BigDecimal("1269.90"))),
-        List.of(new ResumoService.RitmoReserva(
+        List.of(new RitmoReserva(
             UUID.randomUUID(),
             "Viagem Chile",
             new BigDecimal("3000.00"),
@@ -146,17 +156,17 @@ class ResumoControllerTest {
             new BigDecimal("300.00"),
             YearMonth.of(2027, 7),
             true)),
-        new ResumoService.Projecao(
+        new Projecao(
             new BigDecimal("2813.40"), new BigDecimal("980.00"), new BigDecimal("3686.60")));
   }
 
-  private ResumoService.Relatorio relatorioComReservaParada() {
-    return new ResumoService.Relatorio(
+  private Relatorio relatorioComReservaParada() {
+    return new Relatorio(
         YearMonth.of(2026, 9),
         totais(),
         List.of(),
         List.of(),
-        List.of(new ResumoService.RitmoReserva(
+        List.of(new RitmoReserva(
             UUID.randomUUID(),
             "Curso de inglês",
             new BigDecimal("640.00"),
@@ -165,12 +175,12 @@ class ResumoControllerTest {
             new BigDecimal("0.00"),
             null,
             false)),
-        new ResumoService.Projecao(
+        new Projecao(
             new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00")));
   }
 
-  private static ResumoService.Totais totais() {
-    return new ResumoService.Totais(
+  private static Totais totais() {
+    return new Totais(
         new BigDecimal("7480.00"),
         new BigDecimal("2813.40"),
         new BigDecimal("2000.00"),

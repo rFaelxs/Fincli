@@ -1,12 +1,12 @@
 package com.rfaelxs.web.api.dto;
 
-import com.rfaelxs.web.service.ResumoService;
+import com.rfaelxs.web.service.resumo.Gestao;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Tela Hoje.
+ * Tela Gestão, servida por {@code GET /api/hoje}.
  *
  * @param livre          o número grande: sobra do mês já descontadas as contas a vencer; pode
  *                       ser negativo, e nesse caso a tela muda de cor e de texto
@@ -31,7 +31,7 @@ public record HojeResponse(
     List<LancamentoResponse> ultimosLancamentos,
     List<ContaPrevistaResponse> previstas) {
 
-  public static HojeResponse de(ResumoService.Hoje h) {
+  public static HojeResponse de(Gestao h) {
     return new HojeResponse(
         h.hoje(),
         h.mes().toString(),

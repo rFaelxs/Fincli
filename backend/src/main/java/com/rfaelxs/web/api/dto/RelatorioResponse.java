@@ -1,6 +1,6 @@
 package com.rfaelxs.web.api.dto;
 
-import com.rfaelxs.web.service.ResumoService;
+import com.rfaelxs.web.service.resumo.Relatorio;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -53,7 +53,7 @@ public record RelatorioResponse(
   public record Projecao(BigDecimal jaSaiu, BigDecimal aindaVence, BigDecimal sobraPrevista) {
   }
 
-  public static RelatorioResponse de(ResumoService.Relatorio r) {
+  public static RelatorioResponse de(Relatorio r) {
     return new RelatorioResponse(
         r.mes().toString(),
         r.totais().entradas(),
