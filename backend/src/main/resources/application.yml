@@ -38,11 +38,6 @@ server:
         # FINCLI_COOKIE_SECURE=false.
         secure: ${FINCLI_COOKIE_SECURE:true}
 
-fincli:
-  cors:
-    # Origem do SPA em desenvolvimento (Vite).
-    origens: ${FINCLI_CORS_ORIGENS:http://localhost:5173}
-
 logging:
   level:
     root: INFO

@@ -1,8 +1,6 @@
 package com.rfaelxs.web.security;
 
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,9 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * Autenticação por sessão em cookie {@code HttpOnly}, com CSRF habilitado.
@@ -27,16 +22,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * <p>Escolha registrada no ADR 0006: mesmo sendo um SPA, o token não vai para
  * {@code localStorage} — qualquer XSS no front-end o leria. Um cookie {@code HttpOnly} não é
  * legível por JavaScript, e o custo é ter de lidar com CSRF, que o Spring já resolve.
+ *
+ * <p>Sem CORS: o front é servido pelo mesmo host, ou pelo proxy do {@code ng serve} em
+ * desenvolvimento (ADR 0002).
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-  private final List<String> origensPermitidas;
-
-  public SecurityConfig(@Value("${fincli.cors.origens}") List<String> origensPermitidas) {
-    this.origensPermitidas = origensPermitidas;
-  }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -56,8 +48,7 @@ public class SecurityConfig {
     CsrfTokenRequestAttributeHandler csrfHandler = new CsrfTokenRequestAttributeHandler();
     csrfHandler.setCsrfRequestAttributeName(null);
 
-    http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(csrf -> csrf
+    http.csrf(csrf -> csrf
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .csrfTokenRequestHandler(csrfHandler))
         .sessionManagement(session -> session
@@ -89,20 +80,6 @@ public class SecurityConfig {
         .httpBasic(basic -> basic.disable());
 
     return http.build();
-  }
-
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(origensPermitidas);
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    config.setAllowedHeaders(List.of("*"));
-    // Obrigatório para que o navegador envie o cookie de sessão em requisições cross-origin.
-    config.setAllowCredentials(true);
-
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/api/**", config);
-    return source;
   }
 
   private static void responderJson(HttpServletResponse response, HttpStatus status, String detalhe)

@@ -102,7 +102,6 @@ Pare com `Ctrl+C`.
 | `FINCLI_DB_PASSWORD` | — (obrigatória) | Senha do login |
 | `FINCLI_PORT` | `8080` | Porta HTTP |
 | `FINCLI_COOKIE_SECURE` | `true` | `false` só em dev sobre HTTP |
-| `FINCLI_CORS_ORIGENS` | `http://localhost:5173` | Origens aceitas (SPA) |
 
 ## Contrato da API
 
