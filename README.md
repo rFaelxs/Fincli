@@ -25,31 +25,41 @@ Jovens adultos brasileiros (18–30 anos) que buscam acompanhar as próprias fin
 ```
 fincli/
 ├── backend/            # Spring Boot 3, Java 21, SQL Server, Flyway
+├── frontend/           # Angular 22 (SPA), empacotado no JAR do backend
 ├── docs/
-│   ├── specs/          # comportamento de cada tela, a preservar na reescrita
+│   ├── specs/          # comportamento de cada tela, com critérios de aceite
 │   └── adr/            # decisões de arquitetura
-├── .github/workflows/  # CI
+├── .github/workflows/  # CI com um job por projeto
 └── docker-compose.yml  # SQL Server de desenvolvimento
 ```
 
 ## 🚀 Como executar
 
-Pré-requisitos: **Java 21**, **Maven 3.9** e **Docker** (ou um SQL Server 2019+ acessível).
+Pré-requisitos: **Java 21**, **Maven 3.9** e **Docker** (ou um SQL Server 2019+ acessível). Para desenvolver o front, **Node 24.15+**.
 
 ```bash
 docker compose up -d        # SQL Server de desenvolvimento
-cd backend
 ```
 
-Configure as credenciais e suba a aplicação seguindo o [backend/README.md](backend/README.md). Ela abre em `http://localhost:8080`.
+Configure as credenciais e suba a aplicação seguindo o [backend/README.md](backend/README.md). O JAR serve API e front juntos em `http://localhost:8080`.
+
+Para trabalhar no front com recarga automática, deixe o backend no ar e rode, em `frontend/`:
+
+```bash
+npm ci
+npm start                   # http://localhost:4200, com /api repassado ao backend
+```
 
 ## 🧪 Testes
 
 ```bash
 cd backend
-mvn test                # regras de negócio, sem banco
-mvn checkstyle:check    # estilo (Google Java Style)
-./smoke-test.sh         # ponta a ponta, contra a aplicação rodando
+mvn test                    # regras de negócio e contrato HTTP, sem banco
+mvn checkstyle:check        # estilo (Google Java Style)
+./smoke-test.sh             # ponta a ponta, contra a aplicação rodando
+
+cd ../frontend
+npm test -- --watch=false   # formatação, gramática da barra de comando, serviços e telas
 ```
 
 ## 📚 Documentação

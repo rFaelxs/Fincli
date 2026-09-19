@@ -1,6 +1,6 @@
 # Specs da reescrita — FinCLI
 
-Oito specs, uma por módulo, escritas a partir do código que roda hoje: `backend/src/main/resources/static/**`, os controllers e os services. Elas descrevem o comportamento a preservar na migração do front para Angular, com o backend mantido e as regras de negócio intactas.
+Oito specs, uma por módulo, escritas a partir do código que rodava antes da reescrita — o front em `backend/src/main/resources/static/**`, hoje removido, e os controllers e services. Elas descrevem o comportamento que o front Angular preserva, com o backend mantido e as regras de negócio intactas. O histórico do git guarda o front antigo para comparação.
 
 | Spec | Rotas Angular | Endpoints principais |
 |---|---|---|

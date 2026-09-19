@@ -90,4 +90,83 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!--
+      Empacota o front Angular dentro do JAR (ADR 0002): mvn package -Pfront.
+
+      Fica num profile para que mvn test, no CI e no dia a dia, continue rodando sem Node. O
+      plugin baixa um Node fixo para target/, então o build não depende do Node da máquina.
+    -->
+    <profile>
+      <id>front</id>
+      <properties>
+        <frontend.dir>${project.basedir}/../frontend</frontend.dir>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>2.0.2</version>
+            <configuration>
+              <workingDirectory>${frontend.dir}</workingDirectory>
+              <installDirectory>${project.build.directory}</installDirectory>
+              <!-- O Angular 22 exige Node 24.15 ou mais novo (ADR 0001). -->
+              <nodeVersion>v24.19.0</nodeVersion>
+            </configuration>
+            <executions>
+              <execution>
+                <id>instalar-node</id>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>npm-ci</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>ci</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>build-angular</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>run build</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- O build do Angular vira o static/ do JAR, de onde o Spring o serve. -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copiar-front</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${frontend.dir}/dist/fincli/browser</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

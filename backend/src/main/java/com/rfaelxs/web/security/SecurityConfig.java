@@ -57,14 +57,11 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/cadastro", "/api/login", "/api/csrf").permitAll()
             .requestMatchers("/actuator/health").permitAll()
-            // Páginas do front servidas de resources/static — a UI em si é pública;
-            // todo dado continua atrás de /api/**.
-            .requestMatchers(org.springframework.http.HttpMethod.GET,
-                "/", "/index.html", "/assets/**",
-                "/login/**", "/cadastro/**", "/hoje/**", "/relatorio/**",
-                "/transacoes/**", "/reservas/**", "/extrato/**",
-                // Rota aposentada: só redireciona para /hoje/, para não quebrar favoritos.
-                "/dashboard", "/dashboard/").permitAll()
+            // Todo dado mora em /api/**, e ali a sessão é obrigatória.
+            .requestMatchers("/api/**").authenticated()
+            // O front em si é público: index.html, chunks do build e assets. Quem decide o que
+            // mostrar sem sessão é o roteador do Angular, que pergunta a /api/me.
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/**").permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(ex -> ex
             .authenticationEntryPoint((request, response, authException) ->

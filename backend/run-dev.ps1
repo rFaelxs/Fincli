@@ -46,8 +46,10 @@ if ($emUso) {
 
 Push-Location $raiz
 try {
-  Write-Host 'Compilando...' -ForegroundColor Cyan
-  mvn -q package -DskipTests
+  # -Pfront empacota o Angular no JAR (ADR 0002). Para trabalhar so no front, use ng serve
+  # em frontend com o backend no ar: ele recarrega a cada alteracao.
+  Write-Host 'Compilando backend e front...' -ForegroundColor Cyan
+  mvn -q package -Pfront -DskipTests
   if ($LASTEXITCODE -ne 0) { throw "mvn package falhou (codigo $LASTEXITCODE)." }
 } finally {
   Pop-Location

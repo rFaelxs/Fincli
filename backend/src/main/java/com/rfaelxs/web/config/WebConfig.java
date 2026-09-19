@@ -6,28 +6,37 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Rotas das páginas do front (resources/static, uma pasta por recurso).
+ * Fallback de SPA: as rotas do Angular devolvem o {@code index.html}, e o roteador do front
+ * decide a tela (ADR 0002).
  *
- * <p>O Spring só resolve {@code index.html} automaticamente na raiz; para as pastas
- * ({@code /login/}, {@code /transacoes/}, ...) o forward precisa ser explícito.
+ * <p>A lista é explícita, e não um "pega tudo": aqui as view controllers têm prioridade sobre os
+ * arquivos estáticos, e um padrão genérico engoliria {@code /assets/**} e os chunks do build.
+ * Caminho fora da lista continua dando 404. A raiz já é resolvida pelo Spring Boot, que serve o
+ * {@code index.html} em {@code /}.
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-  private static final List<String> PAGINAS =
-      List.of("login", "cadastro", "hoje", "relatorio", "transacoes", "reservas", "extrato");
+  /** Espelho das rotas de {@code frontend/src/app/app.routes.ts}. */
+  private static final List<String> ROTAS_DO_FRONT =
+      List.of(
+          "/login", "/cadastro", "/gestao", "/relatorio", "/extrato",
+          "/transacoes", "/transacoes/**", "/reservas", "/reservas/**");
+
+  /**
+   * Endereços de telas renomeadas. Redirecionam para que um link ou favorito antigo não caia em
+   * 404: Hoje virou Gestão, e o Dashboard foi substituído por ela antes disso.
+   */
+  private static final List<String> ROTAS_ANTIGAS =
+      List.of("/hoje", "/hoje/", "/dashboard", "/dashboard/");
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    for (String pagina : PAGINAS) {
-      registry.addViewController("/" + pagina).setViewName("forward:/" + pagina + "/index.html");
-      registry.addViewController("/" + pagina + "/")
-          .setViewName("forward:/" + pagina + "/index.html");
+    for (String rota : ROTAS_DO_FRONT) {
+      registry.addViewController(rota).setViewName("forward:/index.html");
     }
-
-    // A tela Hoje substituiu o Dashboard. O redirecionamento existe para que um link ou
-    // favorito antigo não caia em 404.
-    registry.addRedirectViewController("/dashboard", "/hoje/");
-    registry.addRedirectViewController("/dashboard/", "/hoje/");
+    for (String rota : ROTAS_ANTIGAS) {
+      registry.addRedirectViewController(rota, "/gestao");
+    }
   }
 }
