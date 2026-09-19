@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Normalização de valores monetários (escopo-web.md §1.4).
+ * Normalização de valores monetários (ADR 0008).
  *
  * <p>Toda entrada é fixada em duas casas antes de qualquer comparação ou aritmética, para que
  * {@code 10.005} e {@code 10.00} não produzam saldos que divergem do que o usuário vê.

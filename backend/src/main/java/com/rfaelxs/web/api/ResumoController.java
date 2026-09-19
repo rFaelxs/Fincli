@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * As duas telas do redesign.
  *
  * <p>Nenhuma das rotas aceita id de usuário: o dono vem da sessão, como todo o resto da API
- * (escopo-web.md §4).
+ * (ADR 0006).
  */
 @RestController
 @RequestMapping("/api")

@@ -24,7 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 /**
  * Autenticação por sessão em cookie {@code HttpOnly}, com CSRF habilitado.
  *
- * <p>Escolha registrada no escopo-web.md §2.4: mesmo sendo um SPA, o token não vai para
+ * <p>Escolha registrada no ADR 0006: mesmo sendo um SPA, o token não vai para
  * {@code localStorage} — qualquer XSS no front-end o leria. Um cookie {@code HttpOnly} não é
  * legível por JavaScript, e o custo é ter de lidar com CSRF, que o Spring já resolve.
  */

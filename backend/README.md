@@ -2,7 +2,7 @@
 
 API REST + front web do FinCLI. Spring Boot 3.3 · Java 21 · SQL Server · Flyway.
 
-Implementa as decisões travadas em [`../docs/escopo-web.md`](../docs/escopo-web.md).
+As decisões de arquitetura estão em [`../docs/adr/`](../docs/adr/).
 
 ## Estrutura do front
 
@@ -162,11 +162,11 @@ e logout.
 - **Reserva travada com `PESSIMISTIC_WRITE`** durante alocação e saque, e o saldo disponível
   é lido dentro da transação, depois do lock.
 - **Meta Selic da série SGS 432**, com cache de aplicação (TTL 24h) e fallback para o último
-  valor conhecido. Ver [`../docs/spec-selic.md`](../docs/spec-selic.md).
+  valor conhecido. Integração descartada no [ADR 0004](../docs/adr/0004-selic-descartada.md).
 
 ## Pendências
 
-- Recuperação de senha (`escopo-web.md` §1.1). A coluna `email` já existe e é opcional, mas
+- Recuperação de senha ([ADR 0007](../docs/adr/0007-cpf-e-senha.md)). A coluna `email` já existe e é opcional, mas
   não há fluxo. **Esta é a decisão que ainda bloqueia o cadastro em produção.**
-- Testes de repositório com Testcontainers (`escopo-web.md` §2.3).
+- Testes de repositório com Testcontainers ([ADR 0008](../docs/adr/0008-persistencia.md)).
 - Bloqueio por tentativas repetidas de login.

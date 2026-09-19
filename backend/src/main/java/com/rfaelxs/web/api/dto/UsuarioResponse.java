@@ -8,7 +8,7 @@ import java.util.UUID;
  *
  * @param id   identificador público
  * @param nome nome de exibição
- * @param cpf  CPF mascarado — o valor completo nunca sai da aplicação (escopo-web.md §1.5)
+ * @param cpf  CPF mascarado — o valor completo nunca sai da aplicação (ADR 0007)
  */
 public record UsuarioResponse(UUID id, String nome, String cpf) {
 

@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
  * @param nome  nome de exibição
  * @param cpf   CPF com ou sem máscara; validado pelos dígitos verificadores
  * @param senha senha em texto puro, gravada como hash BCrypt
- * @param email opcional, reservado para futura redefinição de senha (escopo-web.md §1.1)
+ * @param email opcional, reservado para futura redefinição de senha (ADR 0007)
  */
 public record CadastroRequest(
     @NotBlank(message = "Informe seu nome.")

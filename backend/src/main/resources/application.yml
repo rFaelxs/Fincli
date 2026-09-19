@@ -3,7 +3,7 @@ spring:
     name: fincli-backend
 
   datasource:
-    # Credenciais nunca ficam no repositório (escopo-web.md §2.6). Defina as variáveis de
+    # Credenciais nunca ficam no repositório (ADR 0008). Defina as variáveis de
     # ambiente antes de subir — ver backend/README.md.
     url: ${FINCLI_DB_URL:jdbc:sqlserver://localhost:1433;databaseName=fincli;encrypt=true;trustServerCertificate=true}
     username: ${FINCLI_DB_USER}

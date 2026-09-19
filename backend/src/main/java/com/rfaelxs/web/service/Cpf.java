@@ -4,7 +4,7 @@ package com.rfaelxs.web.service;
  * Normalização e validação de CPF.
  *
  * <p>O CLI aceitava qualquer texto como CPF. Como aqui o CPF é a credencial de login
- * (escopo-web.md §1.1), ele passa a ser validado pelos dígitos verificadores.
+ * (ADR 0007), ele passa a ser validado pelos dígitos verificadores.
  */
 public final class Cpf {
 

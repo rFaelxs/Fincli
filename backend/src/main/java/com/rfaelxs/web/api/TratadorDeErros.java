@@ -20,7 +20,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
  * Traduz exceções de domínio em respostas {@code application/problem+json} (RFC 7807).
  *
  * <p>O SPA precisa de um corpo de erro previsível para exibir mensagem ao usuário
- * (escopo-web.md §2.2).
+ * (ADR 0001).
  */
 @RestControllerAdvice
 public class TratadorDeErros {
@@ -57,7 +57,7 @@ public class TratadorDeErros {
    * Falha de autenticação.
    *
    * <p>A mensagem é sempre a mesma para CPF inexistente e senha errada — distinguir os dois
-   * permitiria descobrir quem tem conta testando CPFs (escopo-web.md §1.1).
+   * permitiria descobrir quem tem conta testando CPFs (ADR 0007).
    */
   @ExceptionHandler(AuthenticationException.class)
   public ProblemDetail naoAutenticado(AuthenticationException e) {

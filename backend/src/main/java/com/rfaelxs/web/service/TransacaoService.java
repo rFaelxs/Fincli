@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * <p>Diferente da versão CLI, o serviço não guarda estado do usuário: cada operação recebe o
  * dono e vai ao banco. Era o estado em campo que causava a perda de dados no CLI
- * (escopo-web.md §1.2).
+ * (ADR 0008).
  */
 @Service
 public class TransacaoService {

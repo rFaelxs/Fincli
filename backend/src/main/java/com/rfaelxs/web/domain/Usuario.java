@@ -11,7 +11,7 @@ import java.util.UUID;
 import org.hibernate.annotations.Nationalized;
 
 /**
- * Usuário da aplicação. O login é feito por CPF + senha (escopo-web.md §1.1).
+ * Usuário da aplicação. O login é feito por CPF + senha (ADR 0007).
  *
  * <p>{@code id} é interno e nunca sai da camada de persistência; a API expõe {@link #publicId}.
  */
@@ -36,7 +36,7 @@ public class Usuario {
 
   /**
    * Opcional, usado exclusivamente para redefinição de senha. Nulo enquanto a decisão sobre
-   * recuperação de senha não for fechada (escopo-web.md §1.1).
+   * recuperação de senha não for fechada (ADR 0007).
    */
   @Nationalized
   @Column(length = 254)

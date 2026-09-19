@@ -21,7 +21,7 @@ public class UsuarioDetailsService implements UserDetailsService {
    * {@inheritDoc}
    *
    * <p>A mensagem é sempre genérica: dizer "CPF não encontrado" permitiria descobrir quem tem
-   * conta na aplicação apenas testando CPFs (escopo-web.md §1.1).
+   * conta na aplicação apenas testando CPFs (ADR 0007).
    */
   @Override
   @Transactional(readOnly = true)

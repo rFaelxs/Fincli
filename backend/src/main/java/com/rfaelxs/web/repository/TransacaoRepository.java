@@ -17,7 +17,7 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 
   /**
    * Busca por id público <strong>e</strong> dono. Consultar sempre pelos dois é o que impede
-   * que um usuário alcance o recurso de outro (escopo-web.md §4).
+   * que um usuário alcance o recurso de outro (ADR 0006).
    */
   Optional<Transacao> findByPublicIdAndUsuarioId(UUID publicId, Long usuarioId);
 

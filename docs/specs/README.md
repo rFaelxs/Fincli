@@ -32,6 +32,8 @@ Ordem sugerida de construção: shell e autenticação; depois transações, res
 | `GET /api/dashboard` | Removido junto com a tela antiga; a leitura de saldo passa para `/api/saldo`. |
 | `GET /api/extrato` | Muda de controller, sem mudar o corpo da resposta. |
 
+As decisões que moldam estas specs — Angular, empacotamento no JAR, sessão em cookie, saída do CLI e da Selic — estão nos [ADRs](../adr/).
+
 ## Sobre os identificadores
 
 Não existe documento de requisitos no repositório. Os ids **RF** vêm do mapa das specs da reescrita e os **RN** foram numerados aqui: todos estão marcados como **proposto** dentro de cada spec, e precisam ser conferidos contra o documento de requisitos antes de virarem referência.

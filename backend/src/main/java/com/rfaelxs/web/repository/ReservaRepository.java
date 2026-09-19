@@ -19,7 +19,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
   /**
    * Trava a linha da reserva para alocação e saque. Sem isso, duas requisições simultâneas
-   * leriam o mesmo saldo e uma sobrescreveria a outra (escopo-web.md §1.3).
+   * leriam o mesmo saldo e uma sobrescreveria a outra (ADR 0008).
    */
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query("select r from Reserva r where r.publicId = :publicId and r.usuario.id = :usuarioId")

@@ -43,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
  *   porDia     = livre / dias que faltam para o fim do mês
  * </pre>
  *
- * <p>Tudo em {@code BigDecimal} escala 2 HALF_UP (escopo-web.md §1.4). Nenhuma soma percorre a
+ * <p>Tudo em {@code BigDecimal} escala 2 HALF_UP (ADR 0008). Nenhuma soma percorre a
  * lista inteira de transações em memória: as agregações vêm do banco.
  */
 @Service

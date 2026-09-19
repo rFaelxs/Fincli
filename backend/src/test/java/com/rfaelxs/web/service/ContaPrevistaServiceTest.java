@@ -119,7 +119,7 @@ class ContaPrevistaServiceTest {
    * A conta de outro usuário é indistinguível de uma conta inexistente.
    *
    * <p>A consulta filtra por id público <strong>e</strong> dono; trocar para {@code findById}
-   * abriria um IDOR (escopo-web.md §4), e é isso que o {@code verify} trava.
+   * abriria um IDOR (ADR 0006), e é isso que o {@code verify} trava.
    */
   @Test
   void naoRemoveContaDeOutroUsuario() {

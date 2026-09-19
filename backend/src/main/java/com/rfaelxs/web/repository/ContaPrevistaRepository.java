@@ -24,6 +24,6 @@ public interface ContaPrevistaRepository extends JpaRepository<ContaPrevista, Lo
       """)
   List<ContaPrevista> doMes(@Param("usuarioId") Long usuarioId, @Param("mes") String mes);
 
-  /** Busca por id público <strong>e</strong> dono (IDOR — escopo-web.md §4). */
+  /** Busca por id público <strong>e</strong> dono (IDOR — ADR 0006). */
   Optional<ContaPrevista> findByPublicIdAndUsuarioId(UUID publicId, Long usuarioId);
 }
