@@ -32,7 +32,7 @@ Lista, criação, edição e exclusão de entradas e saídas, com filtro por mê
 2. O filtro de mês oferece os 6 últimos meses por extenso e começa no mês corrente. Não há opção "todos os meses".
 3. O filtro de tipo oferece "Todos os tipos", "Entradas" e "Saídas".
 4. O campo de busca casa com a descrição ou a categoria, ignorando maiúsculas, e filtra a cada tecla digitada.
-5. Trocar qualquer filtro refaz a chamada e repinta a tabela.
+5. Trocar qualquer filtro repinta a tabela. A lista é buscada ao abrir a tela e depois de cada exclusão.
 6. O contador ao lado do título mostra "N lançamento(s)" com o total já filtrado.
 7. As colunas são "Data", "Descrição", "Categoria", "Tipo", "Valor (R$)" e a coluna de ações.
 8. A data aparece como `16/09`, sem o ano.
@@ -123,6 +123,7 @@ Reaproveita `shared/ui` (card, chip, estado vazio, toast), `shared/format` (moed
 - `GET /api/transacoes` devolve o histórico inteiro e os três filtros rodam no cliente. Com muitos lançamentos, a lista cresce sem paginação.
 - O total do período é somado na tela, a partir dos valores já filtrados; é a única conta que o front faz com dinheiro.
 - O filtro de mês não tem opção "todos", então não há como ver o histórico completo numa tela só.
+- O front antigo preenchia a data com `valueAsDate = new Date()`, que usa a data UTC: depois das 21h no horário de Brasília, o campo nascia com o dia seguinte. O Angular usa a data local, como o item 23 descreve.
 - A coluna de valor mostra o número sem "R$", diferente do resto do produto, porque a unidade está no cabeçalho.
 
 ## Propostas

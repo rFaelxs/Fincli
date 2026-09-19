@@ -1,0 +1,24 @@
+.heroi { display: flex; flex-direction: column; gap: var(--fin-s-3); }
+.heroi-linha { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+
+.heroi-valor {
+  font-family: var(--fin-font-mono); font-weight: 700;
+  font-size: clamp(42px, 7vw, 68px); line-height: 1; letter-spacing: -.04em;
+}
+/* No vermelho o número muda de cor, mas quem carrega o significado é o rótulo e a pílula:
+   cor sozinha não comunica (README, acessibilidade). */
+.heroi-valor.negativo { color: var(--fin-saida); }
+
+.pilula {
+  padding: 6px var(--fin-s-3); margin-bottom: var(--fin-s-2);
+  border-radius: var(--fin-r-pill);
+  background: var(--fin-surface); border: 1px solid var(--fin-border);
+  font-weight: 500; font-size: 14px; color: var(--fin-brand-deep);
+  white-space: nowrap;
+}
+.pilula.negativo { color: var(--fin-saida); border-color: var(--fin-dashed); }
+
+.heroi-texto {
+  max-width: 560px; font-size: 17px; line-height: 1.5;
+  color: var(--fin-text-2); text-wrap: pretty;
+}

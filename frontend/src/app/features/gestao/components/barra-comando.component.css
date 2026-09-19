@@ -1,0 +1,65 @@
+.comando-secao { display: flex; flex-direction: column; gap: var(--fin-s-3); }
+
+.comando {
+  display: flex; align-items: center; gap: var(--fin-s-3);
+  padding: var(--fin-s-4) 18px;
+  background: var(--fin-surface);
+  border: 1.5px solid var(--fin-ink);
+  border-radius: var(--fin-r-xl);
+  box-shadow: 0 2px 0 var(--fin-brand);
+}
+.comando:focus-within { box-shadow: 0 2px 0 var(--fin-brand-link); }
+
+.comando .prompt {
+  font-family: var(--fin-font-mono); font-weight: 700; font-size: 18px;
+  color: var(--fin-brand); line-height: 1;
+}
+.comando input {
+  flex: 1; border: 0; outline: none; background: transparent; padding: 0;
+  font-family: var(--fin-font-mono); font-size: 18px; letter-spacing: -.01em;
+  color: var(--fin-ink);
+}
+.comando input::placeholder { color: var(--fin-faint); }
+.comando .tecla {
+  font-family: var(--fin-font-mono); font-size: 11px; color: var(--fin-faint);
+  padding: var(--fin-s-1) var(--fin-s-2);
+  border: 1px solid var(--fin-border); border-radius: var(--fin-r-sm);
+  white-space: nowrap;
+}
+
+/* Destaque no estado vazio: sem lançamentos, a barra é o que se deve olhar. */
+.comando-secao.destaque .comando { box-shadow: 0 2px 0 var(--fin-brand-link); }
+
+.preview {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding-left: var(--fin-s-1);
+}
+.preview:not(:empty) { animation: finRiseIn .2s ease both; }
+.preview .rotulo { font-size: 13px; color: var(--fin-text-2); }
+.preview .dica { font-family: var(--fin-font-mono); font-size: 12px; color: var(--fin-text-3); }
+
+.chip-forte, .chip-fraco {
+  padding: var(--fin-s-1) var(--fin-s-3); border-radius: var(--fin-r-pill);
+  font-family: var(--fin-font-mono); font-size: 13px; white-space: nowrap;
+}
+.chip-forte {
+  font-weight: 500;
+  border: 1.5px solid var(--fin-brand); background: var(--fin-brand-tint);
+  color: var(--fin-brand-deep);
+}
+.chip-fraco { border: 1.5px dashed var(--fin-dashed); color: var(--fin-text-3); }
+
+.sugestoes {
+  display: flex; align-items: center; gap: var(--fin-s-2); flex-wrap: wrap;
+  padding-left: var(--fin-s-1);
+}
+.sugestoes .rotulo { font-size: 13px; color: var(--fin-text-2); }
+.sugestoes button {
+  padding: var(--fin-s-1) var(--fin-s-3); border-radius: var(--fin-r-pill);
+  border: 1px solid var(--fin-border); background: var(--fin-surface);
+  font-family: var(--fin-font-mono); font-size: 13px; color: var(--fin-text);
+  white-space: nowrap; transition: border-color .12s, color .12s, background .12s;
+}
+.sugestoes button:hover {
+  border-color: var(--fin-brand); color: var(--fin-brand-deep); background: var(--fin-hover);
+}

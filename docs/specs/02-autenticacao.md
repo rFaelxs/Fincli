@@ -68,24 +68,19 @@ O CPF pode ir com ou sem máscara: o servidor remove tudo que não é dígito. `
 
 ```
 features/auth/
+├── auth.css                   # o CSS das duas telas, referenciado por ambas
 ├── pages/
 │   ├── login.page.ts          # rota /login
 │   └── cadastro.page.ts       # rota /cadastro
-├── components/
-│   ├── campo-cpf.component.ts # máscara de exibição; envia o texto como digitado
-│   └── erro-formulario.component.ts
 └── data/
-    └── auth.service.ts        # POST /api/cadastro, POST /api/login
+    └── auth.service.ts        # POST /api/cadastro e /api/login, silenciosos
 
-core/auth/
-├── sessao.service.ts          # csrf(), me() silencioso, signal do usuário
-└── publico.guard.ts           # com sessão, redireciona /login e /cadastro para /gestao
-
-shared/forms/
-└── validadores.ts             # CPF (dígitos verificadores) e tamanho de senha
+core/auth/guardas.ts           # publicoGuard: com sessão, /login e /cadastro vão para /gestao
+shared/ui/erro-formulario.component.ts
 ```
 
-Componentes standalone com formulários reativos; estado em Signals; sem NgRx.
+A validação dos campos é a nativa do navegador (`required`, `minlength`, `maxlength`), mantida com `ngNativeValidate`: o Angular a desliga por padrão. O CPF não tem máscara nem validação no cliente, como hoje. Componentes standalone com formulários reativos; estado em Signals; sem NgRx.
+
 
 ## Observação sobre o estado atual
 

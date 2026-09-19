@@ -94,18 +94,19 @@ porDia     = livre / máx(diasRestantes, 1)
 ```
 features/gestao/
 ├── pages/
-│   └── gestao.page.ts               # rota /gestao; um signal com a resposta de /api/hoje
+│   └── gestao.page.ts               # rota /gestao; fornece o GestaoStore
 ├── components/
 │   ├── heroi-livre.component.ts     # rótulo, número grande, pílula e texto de apoio
 │   ├── kpis-do-mes.component.ts     # ENTROU, SAIU, GUARDEI e os três medidores
 │   ├── lista-lancamentos.component.ts
 │   └── contas-previstas.component.ts
 └── data/
-    ├── gestao.service.ts            # GET /api/hoje
-    └── previstas.service.ts         # POST e DELETE /api/previstas
+    ├── gestao-api.service.ts        # /api/hoje, /api/comando, /api/previstas e o desfazer
+    └── gestao.store.ts              # estado da tela em Signals: dados, faixa, texto, desfazer
 ```
 
-Reaproveita `shared/ui` (card, chip, medidor, faixa de aviso, estado vazio), `shared/format` (moeda, moedaAbs, diaMes, diaPorExtenso, soMes) e `core/api`. A barra de comando entra aqui como componente, especificada em [04-barra-de-comando.md](04-barra-de-comando.md). Componentes standalone; estado em Signals; sem NgRx.
+O `GestaoStore` nasce e morre com a página; os componentes leem dele em vez de receber tudo por input. A barra de comando entra aqui como componente, especificada em [04-barra-de-comando.md](04-barra-de-comando.md). Componentes standalone; estado em Signals; sem NgRx.
+
 
 ## Observação sobre o estado atual
 

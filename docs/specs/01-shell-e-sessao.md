@@ -69,30 +69,31 @@ A moldura de toda rota autenticada: abre a sessão, monta a barra lateral, mostr
 ```
 core/
 ├── api/
-│   ├── api.client.ts          # fetch tipado, header X-XSRF-TOKEN, 204 sem corpo
-│   ├── problema.ts            # lê problem+json: detail + campos
-│   └── modelos/               # UsuarioResponse, ReservaResponse
+│   ├── modelos.ts             # corpos da API; datas e meses como texto
+│   └── problema.ts            # lê problem+json: detail + campos
 ├── auth/
-│   ├── sessao.service.ts      # csrf(), me() silencioso, logout(), signal do usuário
-│   └── autenticado.guard.ts   # guarda de rota; sem sessão redireciona para /login
+│   ├── sessao.service.ts      # iniciar() = csrf + me silencioso; signal do usuário; sair()
+│   └── guardas.ts             # autenticadoGuard e publicoGuard
 └── http/
+    ├── silencioso.ts          # HttpContextToken das chamadas em que 401 é resposta
     └── nao-autorizado.interceptor.ts   # 401 → /login, exceto em chamadas silenciosas
 
 layout/shell/
-├── shell.component.ts         # <router-outlet> dentro da moldura
+├── shell.component.ts         # moldura, link de pulo e atalhos G e R
 ├── components/
 │   ├── barra-lateral.component.ts
-│   ├── card-guardado.component.ts      # signal do total; falha em silêncio
+│   ├── card-guardado.component.ts
 │   └── rodape-usuario.component.ts
 └── data/
-    └── guardado.service.ts    # GET /api/reservas para o card
+    └── guardado.service.ts    # GET /api/reservas para o card; falha em silêncio
 
 shared/
-├── ui/toast.component.ts      # role="status", 3,2 s
-└── format/                    # pipes moeda, moedaAbs, pct, mesPorExtenso
+├── ui/                        # toast, faixa de aviso, medidor, erro de formulário
+└── format/                    # formatos.ts (funções) e pipes.ts
 ```
 
-Componentes standalone; estado em Signals; sem NgRx.
+O XSRF usa o suporte nativo do `HttpClient`, com os nomes do backend. Cada serviço de feature chama o `HttpClient` direto; não há cliente HTTP próprio por cima dele. O card "GUARDADO" recarrega a cada navegação concluída, como cada página do front antigo fazia ao abrir. Card, chip e estado vazio são classes do `base.css`, não componentes. Componentes standalone; estado em Signals; sem NgRx.
+
 
 ## Observação sobre o estado atual
 

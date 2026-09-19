@@ -1,0 +1,83 @@
+/* ═══ FinCLI · design tokens ═══
+ *
+ * Vindos de design_handoff_fincli_dashboard/design-tokens.css. Nenhum hex solto nas páginas:
+ * cor, raio e espaçamento saem daqui. A paleta é só clara — o handoff define as cores como
+ * finais e não desenhou um tema escuro, então inventar um seria decidir por conta.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* superfícies */
+  --fin-bg: #FBFAF8;
+  --fin-surface: #FFFDFB;
+  --fin-border: #E4E0DA;
+  --fin-hairline: #F0EDE8;
+  --fin-track: #EDEAE4;
+  --fin-dashed: #D6D1C8;
+  --fin-chip-bg: #F3F1EC;
+
+  /* texto */
+  --fin-ink: #1A1626;
+  --fin-text: #5B5568;
+  --fin-text-2: #4A4458;
+  --fin-text-3: #6E6880;
+  --fin-label: #8E88A0;
+  --fin-faint: #A29CB4;
+
+  /* marca */
+  --fin-brand: #B39BFF;
+  --fin-brand-deep: #3C2E86;
+  --fin-brand-link: #5B3DD6;
+  --fin-brand-tint: #F1EDFF;
+  --fin-brand-tint-border: #DCD2FF;
+  --fin-brand-ink: #241A46;
+  --fin-hover: #FAF8FF;
+
+  /* semântico */
+  --fin-entrada: #1F6F5C;
+  --fin-saida: #C0392B;
+  --fin-aporte: #5B3DD6;
+  --fin-reserva-faixa: #EFEAE2;
+
+  /* tipografia */
+  --fin-font-ui: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fin-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* raio */
+  --fin-r-sm: 6px;
+  --fin-r-md: 9px;
+  --fin-r-lg: 11px;
+  --fin-r-xl: 14px;
+  --fin-r-2xl: 16px;
+  --fin-r-pill: 20px;
+
+  /* espaçamento */
+  --fin-s-1: 4px;
+  --fin-s-2: 8px;
+  --fin-s-3: 12px;
+  --fin-s-4: 16px;
+  --fin-s-5: 20px;
+  --fin-s-6: 26px;
+  --fin-s-7: 34px;
+  --fin-s-8: 44px;
+}
+
+/* Todo número: mono, tabular e sem quebra. Sem `tabular-nums` as colunas de valor dançam
+   conforme os dígitos mudam. */
+.fin-num {
+  font-family: var(--fin-font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.fin-card {
+  background: var(--fin-surface);
+  border: 1px solid var(--fin-border);
+  border-radius: var(--fin-r-xl);
+}
+
+@keyframes finRiseIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}

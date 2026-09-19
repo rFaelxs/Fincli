@@ -23,6 +23,16 @@ Reescrever o front em Angular, num projeto próprio em `frontend/`, na versão e
 
 A funcionalidade de cada tela é preservada ao pé da letra; as specs em `docs/specs/` citam os textos e comportamentos a manter.
 
+## Versão
+
+Angular **22.1.8**, a estável na criação do projeto (2026-09-18), com:
+
+- Node **24.15 ou mais novo** — o CLI do Angular 22 recusa versões anteriores; o projeto nasceu com o 24.19 LTS;
+- TypeScript 6, com `strict` ligado por padrão;
+- aplicação **zoneless**, que casa com o estado em Signals;
+- **Vitest** como executor de testes, padrão do Angular 22, rodando em Node sem navegador;
+- sem SSR: o build é estático e servido pelo Spring (ADR 0002).
+
 ## Consequências
 
 - Passa a existir um build de front, com dependências npm e um job de CI próprio.

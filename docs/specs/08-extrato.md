@@ -56,16 +56,16 @@ A rota mora hoje no `DashboardController`, que faz a junção e a ordenação. A
 
 ```
 features/extrato/
+├── extrato.ts                      # linhasDoExtrato(): cabeçalho do dia, símbolo, rótulo e sinal
 ├── pages/
-│   └── extrato.page.ts             # rota /extrato; signal com a lista
-├── components/
-│   ├── grupo-do-dia.component.ts   # cabeçalho de data
-│   └── item-extrato.component.ts   # símbolo, título, rótulo e valor
+│   ├── extrato.page.ts             # rota /extrato
+│   └── extrato.page.css
 └── data/
     └── extrato.service.ts          # GET /api/extrato
 ```
 
-O agrupamento por dia é feito na tela, sobre a lista já ordenada pelo servidor. Reaproveita `shared/ui` (card, estado vazio, toast), `shared/format` (moeda, moedaAbs, datas) e `core/api`. Componentes standalone; estado em Signals; sem NgRx.
+Os itens ficam direto no `.feed`, sem componente em volta de cada um: o CSS depende de `.feed-day:first-child` e `.item:last-child` numa lista plana. A lógica de apresentação fica numa função pura, testada à parte. Componentes standalone; estado em Signals; sem NgRx.
+
 
 ## Observação sobre o estado atual
 

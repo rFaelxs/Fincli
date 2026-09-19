@@ -115,7 +115,7 @@ Reaproveita `shared/ui` (card, medidor, estado vazio), `shared/format` (moeda, m
 ## Observação sobre o estado atual
 
 - O seletor mostra só os 12 últimos meses: não há como abrir um mês mais antigo, mesmo havendo dados.
-- Os três acordeões perdem o estado de aberto ao trocar de mês, porque o bloco é reconstruído inteiro.
+- O estado de aberto dos três acordeões vive fora da tela: trocar de mês, ou sair e voltar ao Relatório, mantém cada pergunta como o usuário deixou.
 - O percentual de supérfluas sobre as saídas é calculado na tela, a partir de dois números que a API devolve.
 
 ## Propostas

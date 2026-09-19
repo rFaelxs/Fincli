@@ -107,23 +107,25 @@ A resposta de `POST /api/comando` traz `tipo`, `id`, `reservaId`, `valor`, `desc
 
 ```
 features/gestao/
+├── comando/
+│   ├── gramatica.ts                   # espelho de ComandoParser.java, só para o preview
+│   └── gramatica.spec.ts              # os mesmos casos de ComandoParserTest
 ├── components/
-│   ├── barra-comando.component.ts     # campo, tecla, envio, Esc e Ctrl/⌘K
-│   ├── preview-comando.component.ts   # região aria-live com os chips
-│   ├── sugestoes-comando.component.ts
-│   └── faixa-comando.component.ts     # confirmação, desfazer e erro
+│   └── barra-comando.component.ts     # campo, preview aria-live, sugestões, faixa, Esc e Ctrl/⌘K
 └── data/
-    ├── comando.service.ts             # POST /api/comando
-    └── desfazer.service.ts            # apaga transação, conta, ou saca da reserva
+    ├── gestao-api.service.ts          # POST /api/comando e as chamadas do desfazer
+    └── gestao.store.ts                # texto, preview, faixa e o último lançamento desfazível
 ```
 
-O parser do cliente vive em `features/gestao/comando/gramatica.ts`, espelhando `ComandoParser.java`, e é coberto por testes unitários com os mesmos casos de `ComandoParserTest`. Reaproveita `shared/format` e `core/api`. Componentes standalone; estado em Signals; sem NgRx.
+Reaproveita `shared/ui/faixa-aviso.component.ts` e `shared/format`. Componentes standalone; estado em Signals; sem NgRx.
+
 
 ## Observação sobre o estado atual
 
 - A gramática existe duas vezes: em `ComandoParser.java` e no parser do cliente. Divergência entre os dois produz um preview que promete o que não acontece. A fonte única foi adiada nas decisões da reescrita.
 - O "desfazer" guarda o último lançamento em memória; recarregar a tela perde a ação.
 - Desfazer um aporte não apaga a movimentação original: ela fica no extrato, com o saque ao lado.
+- No front antigo, as sugestões e a faixa eram escondidas com o atributo `hidden`, mas o CSS declara `display: flex` nas duas classes, e isso vence o `hidden`. Na prática as sugestões nunca sumiam, e depois do primeiro "desfazer" ficava uma faixa vazia na tela. O Angular implementa o que os itens 23 e 37 descrevem.
 
 ## A confirmar
 
