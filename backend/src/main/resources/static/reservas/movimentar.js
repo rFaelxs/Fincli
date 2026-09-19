@@ -25,7 +25,7 @@ const textos = {
 
     if (acao === 'alocar') {
       // O teto de quem aloca é o saldo disponível — mostrado para orientar antes do erro.
-      const d = await App.api('/dashboard');
+      const d = await App.api('/saldo');
       document.getElementById('r-disponivel').textContent = App.moeda(d.saldoDisponivel);
       document.getElementById('linha-disponivel').hidden = false;
     }
