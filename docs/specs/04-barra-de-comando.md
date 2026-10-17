@@ -130,3 +130,4 @@ Reaproveita `shared/ui/faixa-aviso.component.ts` e `shared/format`. Componentes 
 ## A confirmar
 
 - Se o parser do cliente passa a ser gerado a partir das tabelas do servidor, ou se as duas cópias continuam sincronizadas à mão com testes espelhados.
+- **Adiado na reescrita (2026-10-17):** atalhos e foco por teclado. Ficaram fora da primeira entrega do Angular os itens 16 e 17 (tecla mostrada ao lado do campo e `Ctrl+K`/`⌘K`), os CA-CMD-23 e 32, e, na spec 03, o item 23 e o CA-GESTAO-20 (link "Pular para a barra de comando"). `Enter` e `Esc` continuam, por serem o comportamento básico do campo. Os atalhos `G` e `R` do shell (spec 01) não são afetados.

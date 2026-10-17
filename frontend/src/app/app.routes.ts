@@ -30,7 +30,11 @@ export const routes: Routes = [
     component: ShellComponent,
     canActivate: [autenticadoGuard],
     children: [
-      provisoria('gestao', 'Gestão'),
+      {
+        path: 'gestao',
+        title: 'Gestão · FinCLI',
+        loadComponent: () => import('./features/gestao/pages/gestao.page').then((m) => m.GestaoPage),
+      },
       provisoria('relatorio', 'Relatório'),
       { path: 'transacoes', loadChildren: () => import('./features/transacoes/transacoes.routes') },
       { path: 'reservas', loadChildren: () => import('./features/reservas/reservas.routes') },

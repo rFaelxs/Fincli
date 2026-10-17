@@ -84,14 +84,14 @@ describe('ShellComponent', () => {
 
   // CA-SHELL-08
   it('falha no card não derruba a tela', async () => {
-    await harness.navigateByUrl('/gestao');
+    await harness.navigateByUrl('/relatorio');
     http.expectOne('/api/reservas').flush({}, { status: 500, statusText: 'Erro' });
     await esperar();
     harness.fixture.detectChanges();
 
     expect(tela().querySelector('.resumo .val')?.textContent).toBe('—');
     expect(tela().querySelector('.resumo .leg')?.textContent).toBe('não consegui carregar');
-    expect(tela().querySelector('main h1')?.textContent).toBe('Gestão');
+    expect(tela().querySelector('main h1')?.textContent).toBe('Relatório');
   });
 
   // CA-SHELL-09 e item 11

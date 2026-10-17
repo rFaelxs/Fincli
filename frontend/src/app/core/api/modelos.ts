@@ -49,6 +49,64 @@ export interface ItemExtrato {
   descricao: string | null;
 }
 
+export type TipoLancamento = 'ENTRADA' | 'SAIDA' | 'APORTE' | 'SAQUE';
+
+/** Uma linha de "últimos lançamentos" da Gestão. `id` é nulo em movimentação de reserva. */
+export interface Lancamento {
+  id: string | null;
+  data: string;
+  descricao: string;
+  categoria: string;
+  essencial: boolean;
+  tipo: TipoLancamento;
+  valor: number;
+}
+
+/** Conta prevista dentro do mês, com o vencimento já ajustado ao tamanho do mês. */
+export interface ContaPrevista {
+  id: string;
+  nome: string;
+  valor: number;
+  diaVencimento: number;
+  vencimento: string;
+  recorrente: boolean;
+}
+
+/** `GET /api/hoje`: os números da Gestão, todos calculados no servidor (spec 03). */
+export interface Hoje {
+  hoje: string;
+  /** `yyyy-MM`. */
+  mes: string;
+  fimDoMes: string;
+  diasRestantes: number;
+  livre: number;
+  porDia: number;
+  entradas: number;
+  saidas: number;
+  essenciais: number;
+  superfluas: number;
+  aportes: number;
+  sobra: number;
+  previstasTotal: number;
+  ultimosLancamentos: Lancamento[];
+  previstas: ContaPrevista[];
+}
+
+export type TipoComando = 'ENTRADA' | 'SAIDA' | 'APORTE' | 'PREVISTA';
+
+/** `POST /api/comando`: o que foi criado e como desfazer (spec 04). */
+export interface ResultadoComando {
+  tipo: TipoComando;
+  /** Transação ou conta criada; nulo em aporte. */
+  id: string | null;
+  /** Só em aporte: o desfazer saca o mesmo valor dessa reserva. */
+  reservaId: string | null;
+  valor: number;
+  descricao: string;
+  categoria: string;
+  mensagem: string;
+}
+
 /** Corpo de erro `application/problem+json`. */
 export interface Problema {
   status?: number;
