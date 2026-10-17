@@ -38,6 +38,11 @@ build/
 .DS_Store
 
 ### FinCLI ###
+# Dados locais e build do CLI antigo, que ainda podem existir no disco. `data/` guarda perfis
+# de usuários: nunca versionar.
+dependency-reduced-pom.xml
+data/
+
 # Credenciais de desenvolvimento — nunca versionar
 .env.local
 backend/.env.local
