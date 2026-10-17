@@ -56,6 +56,10 @@ describe('ShellComponent', () => {
       .toEqual(['Gestão', 'Relatório', 'Transações', 'Reservas', 'Extrato']);
     const atuais = links.filter((a) => a.getAttribute('aria-current') === 'page');
     expect(atuais.map((a) => a.textContent?.trim())).toEqual(['Transações']);
+    expect(links.map((a) => a.getAttribute('data-cy'))).toEqual([
+      'shell-nav-gestao', 'shell-nav-relatorio', 'shell-nav-transacoes', 'shell-nav-reservas',
+      'shell-nav-extrato',
+    ]);
   });
 
   // Item 5

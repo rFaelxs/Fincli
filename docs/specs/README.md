@@ -23,6 +23,7 @@ Ordem sugerida de construção: shell e autenticação; depois transações, res
 - **Dinheiro.** BRL em pt-BR; o sinal `+` ou `−` vem da tela, junto do rótulo.
 - **Erros.** `application/problem+json`, com `detail` e, na validação, um objeto `campos` com a mensagem por campo.
 - **Sessão.** Cookie `HttpOnly` com CSRF: `GET /api/csrf` emite o cookie `XSRF-TOKEN`, reenviado no header `X-XSRF-TOKEN` em toda mutação.
+- **Seletores de teste.** Todo elemento interativo, e todo texto que um teste ponta a ponta vá conferir, leva `data-cy="<tela>-<elemento>"`, em kebab-case, português e sem acento: `login-cpf`, `shell-sair`, `transacoes-total`. Itens que se repetem usam o mesmo valor (`transacao-linha`), e as ações dentro deles também (`transacao-editar`); o teste escolhe o item pelo conteúdo. O `data-cy` existe só para os testes (Cypress, no futuro) e não substitui o `id`, que liga o `<label for>` ao campo. Peças comuns usam o nome da peça: `form-erro`, `toast`.
 
 ## Mudanças no contrato
 

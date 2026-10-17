@@ -29,17 +29,17 @@ export const CREDENCIAIS_INVALIDAS = 'CPF ou senha inválidos.';
       <form class="form-card" ngNativeValidate [formGroup]="form" (ngSubmit)="entrar()">
         <div class="field">
           <label for="cpf">CPF</label>
-          <input id="cpf" formControlName="cpf" inputmode="numeric" autocomplete="username"
-            placeholder="000.000.000-00" required>
+          <input id="cpf" data-cy="login-cpf" formControlName="cpf" inputmode="numeric"
+            autocomplete="username" placeholder="000.000.000-00" required>
         </div>
         <div class="field">
           <label for="senha">Senha</label>
-          <input id="senha" type="password" formControlName="senha" autocomplete="current-password"
-            placeholder="••••••••" required>
+          <input id="senha" data-cy="login-senha" type="password" formControlName="senha"
+            autocomplete="current-password" placeholder="••••••••" required>
         </div>
-        <button class="btn" type="submit">Entrar</button>
+        <button class="btn" type="submit" data-cy="login-entrar">Entrar</button>
       </form>
-      <p class="auth-alt">Não tem conta? <a routerLink="/cadastro">Cadastre-se</a></p>
+      <p class="auth-alt">Não tem conta? <a routerLink="/cadastro" data-cy="login-ir-cadastro">Cadastre-se</a></p>
     </main>
   </div>`,
 })

@@ -17,7 +17,8 @@ function ehCampoDeTexto(alvo: EventTarget | null): boolean {
 @Component({
   selector: 'app-shell',
   imports: [RouterOutlet, BarraLateralComponent],
-  template: `<a class="pular" href="#conteudo" (click)="pular($event)">Pular para o conteúdo</a>
+  template: `<a class="pular" href="#conteudo" (click)="pular($event)" data-cy="shell-pular"
+      >Pular para o conteúdo</a>
     <div class="shell">
       <app-barra-lateral />
       <main id="conteudo" tabindex="-1" #conteudo><router-outlet /></main>

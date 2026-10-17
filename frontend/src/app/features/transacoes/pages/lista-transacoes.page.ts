@@ -18,9 +18,9 @@ import { Filtros, contador, filtrar, totalDoPeriodo, ultimosMeses } from '../tra
     <header class="head">
       <div class="titulo-com-contador">
         <h1>Transações</h1>
-        <span class="asof">{{ contador(visiveis().length) }}</span>
+        <span class="asof" data-cy="transacoes-contador">{{ contador(visiveis().length) }}</span>
       </div>
-      <a class="btn" routerLink="/transacoes/nova">+ Nova transação</a>
+      <a class="btn" routerLink="/transacoes/nova" data-cy="transacoes-nova">+ Nova transação</a>
     </header>
     <app-filtros-transacoes [filtros]="filtros()" [meses]="meses" (mudou)="filtrarPor($event)" />
     <app-tabela-transacoes [transacoes]="visiveis()" [total]="total()" (excluir)="excluir($event)" />

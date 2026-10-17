@@ -16,34 +16,35 @@ import { ErroFormularioComponent } from '../../../shared/ui/erro-formulario.comp
     <app-erro-formulario [mensagem]="erro()" />
     <div class="field">
       <label for="descricao">Descrição</label>
-      <input id="descricao" formControlName="descricao" maxlength="255"
-        placeholder="Ex.: Mercado do mês">
+      <input id="descricao" data-cy="transacao-descricao" formControlName="descricao"
+        maxlength="255" placeholder="Ex.: Mercado do mês">
     </div>
     <div class="field">
       <label for="categoria">Categoria</label>
-      <input id="categoria" formControlName="categoria" maxlength="80" required
-        placeholder="Ex.: Alimentação">
+      <input id="categoria" data-cy="transacao-categoria" formControlName="categoria"
+        maxlength="80" required placeholder="Ex.: Alimentação">
     </div>
     <div class="field">
       <label for="valor">Valor (R$)</label>
-      <input id="valor" type="number" formControlName="valor" step="0.01" min="0"
-        inputmode="decimal" required>
+      <input id="valor" data-cy="transacao-valor" type="number" formControlName="valor"
+        step="0.01" min="0" inputmode="decimal" required>
     </div>
     <div class="field">
       <label for="data">Data</label>
-      <input id="data" type="date" formControlName="data" required>
+      <input id="data" data-cy="transacao-data" type="date" formControlName="data" required>
     </div>
     <div class="field">
       <label for="tipo">Tipo</label>
-      <select id="tipo" formControlName="tipo">
+      <select id="tipo" data-cy="transacao-tipo" formControlName="tipo">
         <option value="SAIDA">Saída</option>
         <option value="ENTRADA">Entrada</option>
       </select>
     </div>
-    <label class="check"><input type="checkbox" formControlName="essencial"> Despesa essencial</label>
+    <label class="check"><input type="checkbox" data-cy="transacao-essencial"
+      formControlName="essencial"> Despesa essencial</label>
     <div class="form-acts">
-      <a class="btn ghost" routerLink="/transacoes">Cancelar</a>
-      <button class="btn" type="submit">{{ rotuloEnvio() }}</button>
+      <a class="btn ghost" routerLink="/transacoes" data-cy="transacao-cancelar">Cancelar</a>
+      <button class="btn" type="submit" data-cy="transacao-salvar">{{ rotuloEnvio() }}</button>
     </div>
   </form>`,
 })

@@ -25,24 +25,25 @@ import { AuthService } from '../data/auth.service';
       <form class="form-card" ngNativeValidate [formGroup]="form" (ngSubmit)="cadastrar()">
         <div class="field">
           <label for="nome">Nome</label>
-          <input id="nome" formControlName="nome" autocomplete="name" maxlength="120" required>
+          <input id="nome" data-cy="cadastro-nome" formControlName="nome" autocomplete="name"
+            maxlength="120" required>
         </div>
         <div class="field">
           <label for="cpf">CPF</label>
-          <input id="cpf" formControlName="cpf" inputmode="numeric" autocomplete="username"
-            placeholder="000.000.000-00" required>
+          <input id="cpf" data-cy="cadastro-cpf" formControlName="cpf" inputmode="numeric"
+            autocomplete="username" placeholder="000.000.000-00" required>
         </div>
         <div class="field">
           <label for="senha">Senha (mínimo 8 caracteres)</label>
-          <input id="senha" type="password" formControlName="senha" autocomplete="new-password"
-            placeholder="••••••••" minlength="8" maxlength="100" required>
+          <input id="senha" data-cy="cadastro-senha" type="password" formControlName="senha"
+            autocomplete="new-password" placeholder="••••••••" minlength="8" maxlength="100" required>
         </div>
-        <button class="btn" type="submit">Cadastrar e entrar</button>
+        <button class="btn" type="submit" data-cy="cadastro-enviar">Cadastrar e entrar</button>
       </form>
       <p class="auth-alt">
         Atenção: ainda não existe recuperação de senha — guarde-a com cuidado.
       </p>
-      <p class="auth-alt">Já tem conta? <a routerLink="/login">Entrar</a></p>
+      <p class="auth-alt">Já tem conta? <a routerLink="/login" data-cy="cadastro-ir-login">Entrar</a></p>
     </main>
   </div>`,
 })

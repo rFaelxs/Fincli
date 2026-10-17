@@ -17,12 +17,13 @@ export const ITENS_NAVEGACAO = [
   selector: 'app-barra-lateral',
   imports: [RouterLink, RouterLinkActive, CardGuardadoComponent, RodapeUsuarioComponent],
   template: `<aside class="side">
-    <a class="marca" routerLink="/gestao" aria-label="FinCLI, ir para Gestão">
+    <a class="marca" routerLink="/gestao" aria-label="FinCLI, ir para Gestão" data-cy="shell-marca">
       <img src="assets/img/fincli-logo.png" alt="" width="168" height="64">
     </a>
     <nav aria-label="Principal">
       @for (item of itens; track item.rota) {
-        <a [routerLink]="item.rota" routerLinkActive="" ariaCurrentWhenActive="page">
+        <a [routerLink]="item.rota" routerLinkActive="" ariaCurrentWhenActive="page"
+          [attr.data-cy]="'shell-nav' + item.rota.replace('/', '-')">
           <span class="ponto" aria-hidden="true"></span>{{ item.rotulo }}
         </a>
       }

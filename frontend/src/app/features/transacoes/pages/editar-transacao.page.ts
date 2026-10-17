@@ -18,7 +18,7 @@ type Carga =
     <header class="head">
       <div>
         <h1>Editar transação</h1>
-        <p class="sub">{{ subtitulo() }}</p>
+        <p class="sub" data-cy="transacao-subtitulo">{{ subtitulo() }}</p>
       </div>
     </header>
     @if (carga(); as c) {

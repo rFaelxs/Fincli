@@ -21,7 +21,7 @@ export class ToastService {
 /** O aviso em si, montado uma vez na raiz da aplicação. */
 @Component({
   selector: 'app-toast',
-  template: `<div class="toast" [class.on]="!!toast.mensagem()" role="status">
+  template: `<div class="toast" [class.on]="!!toast.mensagem()" role="status" data-cy="toast">
     {{ toast.mensagem() }}
   </div>`,
 })

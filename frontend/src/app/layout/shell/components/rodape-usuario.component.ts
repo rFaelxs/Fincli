@@ -6,13 +6,13 @@ import { iniciais, mesPorExtenso } from '../../../shared/format/formatos';
   selector: 'app-rodape-usuario',
   template: `<div class="side-foot">
     <div class="user">
-      <div class="avatar" aria-hidden="true">{{ avatar() }}</div>
+      <div class="avatar" aria-hidden="true" data-cy="shell-avatar">{{ avatar() }}</div>
       <div>
-        <div class="who">{{ nome() }}</div>
+        <div class="who" data-cy="shell-usuario-nome">{{ nome() }}</div>
         <div class="quando">{{ mes }}</div>
       </div>
     </div>
-    <button class="btn ghost" type="button" (click)="sair.emit()">Sair</button>
+    <button class="btn ghost" type="button" (click)="sair.emit()" data-cy="shell-sair">Sair</button>
   </div>`,
   host: { style: 'display: contents' },
 })

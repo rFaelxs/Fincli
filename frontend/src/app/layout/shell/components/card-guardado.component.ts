@@ -13,8 +13,8 @@ import { GuardadoService } from '../data/guardado.service';
   selector: 'app-card-guardado',
   template: `<div class="resumo">
     <span class="rot">GUARDADO</span>
-    <span class="val" [class.esqueleto]="carregando()">{{ valor() }}</span>
-    <span class="leg">{{ legenda() }}</span>
+    <span class="val" [class.esqueleto]="carregando()" data-cy="shell-guardado-valor">{{ valor() }}</span>
+    <span class="leg" data-cy="shell-guardado-legenda">{{ legenda() }}</span>
   </div>`,
   host: { style: 'display: contents' },
 })

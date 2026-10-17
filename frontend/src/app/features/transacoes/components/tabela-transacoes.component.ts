@@ -22,7 +22,7 @@ import { totalFormatado, valorDaLinha } from '../transacoes';
       </thead>
       <tbody>
         @for (t of transacoes(); track t.id) {
-          <tr>
+          <tr data-cy="transacao-linha">
             <td class="date">{{ diaMes(t.data) }}</td>
             <td class="desc">
               @if (t.descricao) {
@@ -46,19 +46,21 @@ import { totalFormatado, valorDaLinha } from '../transacoes';
               [class.money-out]="t.tipo === 'SAIDA'">{{ valorDaLinha(t) }}</td>
             <td>
               <a class="link-secao" [routerLink]="['/transacoes', t.id, 'editar']"
-                [attr.aria-label]="'Editar ' + (t.descricao || t.categoria)">Editar</a>
+                [attr.aria-label]="'Editar ' + (t.descricao || t.categoria)"
+                data-cy="transacao-editar">Editar</a>
               <button class="btn danger" type="button" (click)="excluir.emit(t)"
-                [attr.aria-label]="'Excluir ' + (t.descricao || t.categoria)">Excluir</button>
+                [attr.aria-label]="'Excluir ' + (t.descricao || t.categoria)"
+                data-cy="transacao-excluir">Excluir</button>
             </td>
           </tr>
         } @empty {
-          <tr><td colspan="6" class="vazio">Nenhuma transação encontrada.</td></tr>
+          <tr><td colspan="6" class="vazio" data-cy="transacoes-vazio">Nenhuma transação encontrada.</td></tr>
         }
       </tbody>
       <tfoot>
         <tr>
           <td colspan="4">Total do período</td>
-          <td class="num">{{ totalFormatado(total()) }}</td>
+          <td class="num" data-cy="transacoes-total">{{ totalFormatado(total()) }}</td>
           <td></td>
         </tr>
       </tfoot>
