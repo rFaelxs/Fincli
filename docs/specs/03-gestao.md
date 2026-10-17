@@ -49,7 +49,7 @@ porDia     = livre / máx(diasRestantes, 1)
 9. Com `entradas`, `saidas` e `aportes` todos iguais a zero, o rótulo vira "SEM LANÇAMENTOS AINDA", o número grande mostra "R$ 0,00", a pílula mostra "setembro está em branco", o texto vira "Lance o primeiro gasto na barra abaixo — é só escrever o que aconteceu." e a barra de comando recebe destaque.
 10. Os três KPIs são "ENTROU", "SAIU" e "GUARDEI". "ENTROU" mostra `+` antes do valor, "SAIU" mostra `−`, e "GUARDEI" só mostra `−` quando `aportes` é negativo.
 11. O medidor de "ENTROU" fica cheio quando há entradas e vazio quando não há. Os de "SAIU" e "GUARDEI" mostram a proporção sobre as entradas, limitada a 100%.
-12. A seção "Últimos lançamentos" lista até 6 itens do mês, do mais recente para o mais antigo, com o link "ver o mês inteiro →" para `/relatorio`.
+12. A seção "Últimos lançamentos" lista até 6 itens do mês, do mais recente para o mais antigo, com o link "ver o mês inteiro →" para `/relatorio`. A ordem é a do extrato: no mesmo dia, transações antes de movimentações e, em cada origem, o lançado por último primeiro. O corte em 6 vem depois da ordenação.
 13. Cada linha mostra o dia no formato `16/09`, a descrição, a categoria, o chip "essencial" quando a transação é essencial e o valor.
 14. Transação de entrada mostra `+` e de saída mostra `−`. Movimentação de reserva não leva sinal e ganha o chip "guardado" ou "sacado".
 15. Cada valor carrega um rótulo só para leitor de tela: "entrada de", "saída de", "guardado" ou "sacado".
