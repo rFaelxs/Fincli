@@ -27,4 +27,4 @@ O dinheiro era `double`, que acumula erro de ponto flutuante em somas de moeda.
 
 - O desenvolvimento precisa de um SQL Server: `docker compose up -d` na raiz sobe um.
 - Credenciais nunca ficam no repositório; vêm de variáveis de ambiente.
-- Os testes de serviço rodam sem banco, com mock. Testes de repositório contra banco real (Testcontainers) continuam pendentes, e passam a ser a única cobertura do filtro de transações por mês.
+- Os testes de serviço rodam sem banco, com mock, no `mvn test`. Os testes de integração (`*IT`) sobem um SQL Server 2022 num container (Testcontainers) e rodam no `mvn verify`: são a única cobertura das migrations, das consultas agregadas, do lock por usuário e do `ON DELETE SET NULL`. Exigem Docker na máquina e no CI.

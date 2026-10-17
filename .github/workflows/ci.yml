@@ -23,8 +23,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      # Inclui os *IT, que sobem um SQL Server no Docker do runner.
       - name: Rodar testes
-        run: mvn test
+        run: mvn -B verify
 
       - name: Rodar Checkstyle
         run: mvn checkstyle:check
