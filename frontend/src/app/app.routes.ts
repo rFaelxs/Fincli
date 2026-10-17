@@ -33,7 +33,7 @@ export const routes: Routes = [
       provisoria('gestao', 'Gestão'),
       provisoria('relatorio', 'Relatório'),
       { path: 'transacoes', loadChildren: () => import('./features/transacoes/transacoes.routes') },
-      provisoria('reservas', 'Reservas'),
+      { path: 'reservas', loadChildren: () => import('./features/reservas/reservas.routes') },
       provisoria('extrato', 'Extrato'),
     ],
   },
