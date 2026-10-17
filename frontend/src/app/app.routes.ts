@@ -32,7 +32,7 @@ export const routes: Routes = [
     children: [
       provisoria('gestao', 'Gestão'),
       provisoria('relatorio', 'Relatório'),
-      provisoria('transacoes', 'Transações'),
+      { path: 'transacoes', loadChildren: () => import('./features/transacoes/transacoes.routes') },
       provisoria('reservas', 'Reservas'),
       provisoria('extrato', 'Extrato'),
     ],

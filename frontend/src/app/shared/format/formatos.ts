@@ -36,3 +36,29 @@ export function iniciais(nome: string): string {
 export function mesPorExtenso(data: Date): string {
   return data.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 }
+
+const DUAS_CASAS = new Intl.NumberFormat('pt-BR', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+/** 1234.5 → "1.234,50": o número sem o "R$", para colunas que trazem a unidade no cabeçalho. */
+export function valor(numero: number): string {
+  return DUAS_CASAS.format(numero);
+}
+
+/** "2026-09-16" → "16/09". A data ISO é lida como texto, sem passar por `new Date(iso)`. */
+export function diaMes(iso: string): string {
+  const [, mes, dia] = iso.split('-');
+  return `${dia}/${mes}`;
+}
+
+/**
+ * A data de hoje em `yyyy-MM-dd`, no relógio local. `toISOString()` daria a data UTC: depois das
+ * 21h em Brasília, o campo nasceria com o dia seguinte.
+ */
+export function hojeIso(agora: Date = new Date()): string {
+  const mes = String(agora.getMonth() + 1).padStart(2, '0');
+  const dia = String(agora.getDate()).padStart(2, '0');
+  return `${agora.getFullYear()}-${mes}-${dia}`;
+}

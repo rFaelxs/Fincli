@@ -19,6 +19,23 @@ export interface Reserva {
   emergencia: boolean;
 }
 
+export type TipoTransacao = 'ENTRADA' | 'SAIDA';
+
+/** Transação como a API devolve. `descricao` pode vir nula. */
+export interface Transacao {
+  id: string;
+  valor: number;
+  categoria: string;
+  descricao: string | null;
+  /** `yyyy-MM-dd`, tratado como texto. */
+  data: string;
+  tipo: TipoTransacao;
+  essencial: boolean;
+}
+
+/** Corpo do POST e do PUT de transação. */
+export type DadosTransacao = Omit<Transacao, 'id'>;
+
 /** Corpo de erro `application/problem+json`. */
 export interface Problema {
   status?: number;
