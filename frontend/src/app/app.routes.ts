@@ -34,7 +34,11 @@ export const routes: Routes = [
       provisoria('relatorio', 'Relatório'),
       { path: 'transacoes', loadChildren: () => import('./features/transacoes/transacoes.routes') },
       { path: 'reservas', loadChildren: () => import('./features/reservas/reservas.routes') },
-      provisoria('extrato', 'Extrato'),
+      {
+        path: 'extrato',
+        title: 'Extrato · FinCLI',
+        loadComponent: () => import('./features/extrato/pages/extrato.page').then((m) => m.ExtratoPage),
+      },
     ],
   },
   { path: '**', redirectTo: '' },

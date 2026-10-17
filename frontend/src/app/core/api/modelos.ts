@@ -36,6 +36,19 @@ export interface Transacao {
 /** Corpo do POST e do PUT de transação. */
 export type DadosTransacao = Omit<Transacao, 'id'>;
 
+/** Uma linha do extrato: transação ou movimentação de reserva. */
+export interface ItemExtrato {
+  origem: 'TRANSACAO' | 'RESERVA';
+  /** `yyyy-MM-dd`, tratado como texto. */
+  data: string;
+  valor: number;
+  tipo: 'ENTRADA' | 'SAIDA' | 'ALOCACAO' | 'SAQUE';
+  /** "Reserva" nas movimentações. */
+  categoria: string;
+  /** Texto livre da transação, ou o nome da reserva no momento do movimento. */
+  descricao: string | null;
+}
+
 /** Corpo de erro `application/problem+json`. */
 export interface Problema {
   status?: number;
