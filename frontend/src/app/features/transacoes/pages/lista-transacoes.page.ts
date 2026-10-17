@@ -12,11 +12,13 @@ import { Filtros, contador, filtrar, totalDoPeriodo, ultimosMeses } from '../tra
 @Component({
   selector: 'app-lista-transacoes',
   imports: [RouterLink, FiltrosTransacoesComponent, TabelaTransacoesComponent],
+  // O contador fica ao lado do título, na mesma linha (spec 06, item 6).
+  styles: `.titulo-com-contador { display: flex; align-items: baseline; gap: var(--fin-s-3); }`,
   template: `<div class="pagina">
     <header class="head">
-      <div>
+      <div class="titulo-com-contador">
         <h1>Transações</h1>
-        <p class="asof">{{ contador(visiveis().length) }}</p>
+        <span class="asof">{{ contador(visiveis().length) }}</span>
       </div>
       <a class="btn" routerLink="/transacoes/nova">+ Nova transação</a>
     </header>
