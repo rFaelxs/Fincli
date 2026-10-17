@@ -24,6 +24,7 @@ import com.rfaelxs.web.service.RecursoNaoEncontradoException;
 import com.rfaelxs.web.service.resumo.Gestao;
 import com.rfaelxs.web.service.resumo.GestaoService;
 import com.rfaelxs.web.service.resumo.Lancamento;
+import com.rfaelxs.web.service.resumo.RelatorioService;
 import com.rfaelxs.web.service.resumo.Totais;
 import java.math.BigDecimal;
 import java.time.Clock;
@@ -60,6 +61,9 @@ class GestaoApiTest {
 
   @MockBean
   private ContaPrevistaService contaPrevistaService;
+
+  @MockBean
+  private RelatorioService relatorioService;
 
   @MockBean
   private UserDetailsService usuarios;

@@ -47,4 +47,17 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
       """)
   List<TotalMensal> somarPorMes(@Param("usuarioId") Long usuarioId,
       @Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
+
+  /** Saídas do período por categoria, da maior para a menor. */
+  @Query("""
+      select new com.rfaelxs.web.repository.TotalCategoria(t.categoria, sum(t.valor))
+      from Transacao t
+      where t.usuario.id = :usuarioId
+        and t.tipo = com.rfaelxs.web.domain.TipoTransacao.SAIDA
+        and t.data between :inicio and :fim
+      group by t.categoria
+      order by sum(t.valor) desc
+      """)
+  List<TotalCategoria> somarSaidasPorCategoria(@Param("usuarioId") Long usuarioId,
+      @Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
 }

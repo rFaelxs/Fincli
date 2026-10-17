@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -45,14 +46,20 @@ public class TratadorDeErros {
   }
 
   /**
-   * Id da URL que não é um UUID, como {@code /api/transacoes/abc}.
+   * Parâmetro que não converte para o tipo esperado. Sem este handler, o erro cairia na rede de
+   * segurança e viraria 500.
    *
-   * <p>Para quem chama, é só um recurso que não existe. Sem este handler, o erro de conversão
-   * cairia na rede de segurança e viraria 500.
+   * <p>Um id malformado no caminho, como {@code /api/transacoes/abc}, é só um recurso que não
+   * existe: 404. Um parâmetro de consulta malformado, como {@code ?mes=abc}, é erro de quem
+   * chamou: 400.
    */
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ProblemDetail idMalformado(MethodArgumentTypeMismatchException e) {
-    return problema(HttpStatus.NOT_FOUND, "Não encontrado", "Recurso não encontrado.");
+  public ProblemDetail parametroMalformado(MethodArgumentTypeMismatchException e) {
+    if (e.getParameter().hasParameterAnnotation(PathVariable.class)) {
+      return problema(HttpStatus.NOT_FOUND, "Não encontrado", "Recurso não encontrado.");
+    }
+    return problema(
+        HttpStatus.BAD_REQUEST, "Requisição inválida", "Parâmetro inválido: " + e.getName() + ".");
   }
 
   /**

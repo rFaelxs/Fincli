@@ -27,4 +27,17 @@ public interface MovimentacaoReservaRepository extends JpaRepository<Movimentaca
       """)
   List<TotalMovimentacaoMensal> somarPorMes(@Param("usuarioId") Long usuarioId,
       @Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
+
+  /**
+   * Somas do período por reserva e tipo, base do aporte médio. Movimentos de reserva já
+   * excluída ficam de fora: o join com a reserva descarta {@code reserva_id} nulo.
+   */
+  @Query("""
+      select new com.rfaelxs.web.repository.TotalPorReserva(r.id, m.tipo, sum(m.valor))
+      from MovimentacaoReserva m join m.reserva r
+      where m.usuario.id = :usuarioId and m.data between :inicio and :fim
+      group by r.id, m.tipo
+      """)
+  List<TotalPorReserva> somarPorReserva(@Param("usuarioId") Long usuarioId,
+      @Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
 }

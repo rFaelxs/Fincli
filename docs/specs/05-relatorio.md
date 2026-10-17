@@ -27,7 +27,9 @@ Regras que o servidor aplica e o front só exibe:
 - `reservas[].noRitmo`: falso para reserva sem meta ou sem aporte na janela.
 - `projecao.jaSaiu` é o total de saídas do mês; `projecao.aindaVence` é a soma das contas ainda por vencer; `projecao.sobraPrevista` é `sobra − aindaVence`.
 
-Em mês já fechado nada mais vence: `aindaVence` é 0,00 e `sobraPrevista` coincide com `sobra`.
+Em mês já fechado nada mais vence: `aindaVence` é 0,00 e `sobraPrevista` coincide com `sobra`. Em mês futuro, todas as contas do mês ainda vencem. No mês corrente, vencem as de hoje em diante.
+
+`mes` fora do formato `yyyy-MM` responde 400 com "Parâmetro inválido: mes.".
 
 ## Comportamento
 
@@ -115,6 +117,7 @@ Reaproveita `shared/ui` (card, medidor, estado vazio), `shared/format` (moeda, m
 ## Observação sobre o estado atual
 
 - O seletor mostra só os 12 últimos meses: não há como abrir um mês mais antigo, mesmo havendo dados.
+- Num mês passado, o ritmo das reservas usa a janela de três meses até aquele mês, mas o saldo, a meta e o progresso são os de hoje: o histórico de saldo de cada reserva não é reconstruído.
 - O estado de aberto dos três acordeões vive fora da tela: trocar de mês, ou sair e voltar ao Relatório, mantém cada pergunta como o usuário deixou.
 - O percentual de supérfluas sobre as saídas é calculado na tela, a partir de dois números que a API devolve.
 
