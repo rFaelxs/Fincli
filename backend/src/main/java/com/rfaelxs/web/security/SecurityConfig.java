@@ -8,9 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
@@ -22,8 +28,8 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
  * lidar com CSRF: o cookie {@code XSRF-TOKEN} é legível pelo front, que reenvia o valor no header
  * {@code X-XSRF-TOKEN} em toda mutação.
  *
- * <p>Tudo em {@code /api/**} exige sessão. As rotas públicas da API, como login e cadastro, entram
- * junto com o módulo de autenticação. O resto é o front, servido pelo próprio Spring (ADR 0002).
+ * <p>Em {@code /api/**}, só cadastro, login e o emissor do token CSRF são públicos. O resto da API
+ * exige sessão. Fora da API fica o front, servido pelo próprio Spring (ADR 0002).
  */
 @Configuration
 @EnableWebSecurity
@@ -33,6 +39,21 @@ public class SecurityConfig {
 
   public SecurityConfig(ObjectMapper json) {
     this.json = json;
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  /** Autenticação por CPF e senha, usada pelo {@code POST /api/login}. */
+  @Bean
+  public AuthenticationManager authenticationManager(
+      UserDetailsService usuarios, PasswordEncoder passwordEncoder) {
+    DaoAuthenticationProvider provedor = new DaoAuthenticationProvider();
+    provedor.setUserDetailsService(usuarios);
+    provedor.setPasswordEncoder(passwordEncoder);
+    return new ProviderManager(provedor);
   }
 
   /** Cadeia de filtros: CSRF por cookie, sessão no servidor e {@code /api/**} fechado. */
@@ -50,6 +71,7 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             .sessionFixation(fixation -> fixation.changeSessionId()))
         .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/api/csrf", "/api/cadastro", "/api/login").permitAll()
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll())
         .exceptionHandling(ex -> ex
@@ -58,6 +80,11 @@ public class SecurityConfig {
                     "Autenticação necessária."))
             .accessDeniedHandler((request, response, deniedException) ->
                 responder(response, HttpStatus.FORBIDDEN, "Acesso negado", "Acesso negado.")))
+        .logout(logout -> logout
+            .logoutUrl("/api/logout")
+            .deleteCookies("JSESSIONID")
+            .logoutSuccessHandler((request, response, authentication) ->
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT)))
         .formLogin(form -> form.disable())
         .httpBasic(basic -> basic.disable());
 

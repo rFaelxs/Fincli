@@ -15,7 +15,7 @@ O login passa a ser CPF e senha.
 - A senha é gravada com hash BCrypt e tem entre 8 e 100 caracteres.
 - O CPF é validado pelos dígitos verificadores no cadastro e gravado só com dígitos, sob índice único.
 - A mensagem de falha é sempre "CPF ou senha inválidos.", para CPF inexistente e para senha errada. Distinguir os dois permitiria descobrir quem tem conta.
-- O CPF só sai da aplicação mascarado, no formato `***.***.**NN`.
+- ~~O CPF só sai da aplicação mascarado, no formato `***.***.**NN`.~~ Substituído pela [ADR 0009](0009-cpf-fora-das-respostas.md): o CPF não sai nas respostas.
 
 ## Consequências
 

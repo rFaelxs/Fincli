@@ -1,5 +1,7 @@
 package com.rfaelxs.web.api;
 
+import com.rfaelxs.web.service.ConflitoException;
+import com.rfaelxs.web.service.ValorInvalidoException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +26,27 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class TratadorDeErros {
 
   private static final Logger log = LoggerFactory.getLogger(TratadorDeErros.class);
+
+  @ExceptionHandler(ValorInvalidoException.class)
+  public ProblemDetail valorInvalido(ValorInvalidoException e) {
+    return problema(HttpStatus.BAD_REQUEST, "Requisição inválida", e.getMessage());
+  }
+
+  @ExceptionHandler(ConflitoException.class)
+  public ProblemDetail conflito(ConflitoException e) {
+    return problema(HttpStatus.CONFLICT, "Conflito", e.getMessage());
+  }
+
+  /**
+   * Falha de autenticação no login.
+   *
+   * <p>A mensagem é a mesma para CPF inexistente e senha errada: distinguir os dois permitiria
+   * descobrir quem tem conta testando CPFs (ADR 0007).
+   */
+  @ExceptionHandler(AuthenticationException.class)
+  public ProblemDetail naoAutenticado(AuthenticationException e) {
+    return problema(HttpStatus.UNAUTHORIZED, "Não autorizado", "CPF ou senha inválidos.");
+  }
 
   /** Erros de anotação de validação, campo a campo. */
   @ExceptionHandler(MethodArgumentNotValidException.class)

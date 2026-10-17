@@ -12,5 +12,6 @@ Cada decisão que mudou a forma do projeto fica registrada aqui, com o contexto 
 | [0006](0006-sessao-em-cookie.md) | Sessão em cookie HttpOnly com CSRF | aceita |
 | [0007](0007-cpf-e-senha.md) | Login por CPF e senha | aceita, com pendência |
 | [0008](0008-persistencia.md) | SQL Server, BigDecimal e serviços sem estado | aceita |
+| [0009](0009-cpf-fora-das-respostas.md) | O CPF não sai nas respostas da API | aceita |
 
 O comportamento de cada tela está nas [specs](../specs/).

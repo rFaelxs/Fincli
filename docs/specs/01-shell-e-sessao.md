@@ -21,11 +21,11 @@ A moldura de toda rota autenticada: abre a sessão, monta a barra lateral, mostr
 | Método e rota | Uso ou corpo | Respostas |
 |---|---|---|
 | `GET /api/csrf` | Emite o cookie `XSRF-TOKEN`; chamado antes de qualquer mutação | 204, sem corpo |
-| `GET /api/me` | Identidade da sessão; chamada silenciosa no bootstrap | 200 `{ id, nome, cpf }` · 401 |
+| `GET /api/me` | Identidade da sessão; chamada silenciosa no bootstrap | 200 `{ id, nome }` · 401 |
 | `POST /api/logout` | Encerra a sessão e apaga `JSESSIONID` | 204 |
 | `GET /api/reservas` | Alimenta o card "GUARDADO" | 200, lista de reservas |
 
-`cpf` volta mascarado no formato `***.***.**NN`, só com os três últimos dígitos.
+O CPF não volta em nenhuma resposta ([ADR 0009](../adr/0009-cpf-fora-das-respostas.md)).
 
 ## Comportamento
 
@@ -60,7 +60,7 @@ A moldura de toda rota autenticada: abre a sessão, monta a barra lateral, mostr
 - [ ] CA-SHELL-11: Dado o foco dentro da barra de comando, quando o usuário digita a letra `g`, então nenhuma navegação acontece.
 - [ ] CA-SHELL-12: Dado um usuário na rota `/gestao`, quando ele pressiona `G`, então nenhuma navegação é disparada.
 - [ ] CA-SHELL-13: Dado que `POST /api/logout` responde 500, quando o usuário clica em "Sair", então a aplicação vai para `/login` mesmo assim.
-- [ ] CA-SHELL-14: Dado um usuário com CPF `12345678901`, quando `GET /api/me` responde, então a tela recebe `***.***.**01` e nunca o CPF completo.
+- [ ] CA-SHELL-14: Dado um usuário com CPF `12345678901`, quando `GET /api/me` responde, então o corpo traz só `id` e `nome`, sem nenhum campo de CPF.
 - [ ] CA-SHELL-15: Dado um erro 400 com `detail` "Verifique os campos enviados." e `campos` `{ "valor": "Informe o valor." }`, quando a tela lê o erro, então a mensagem exibida contém as duas frases.
 - [ ] CA-SHELL-16: Dado o navegador em `/dashboard`, quando a rota resolve, então a aplicação redireciona para `/gestao`.
 

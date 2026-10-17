@@ -19,8 +19,8 @@ Com sessão ativa, as duas redirecionam para `/gestao`.
 |---|---|---|
 | `GET /api/csrf` | Emite o cookie `XSRF-TOKEN` antes do primeiro POST | 204 |
 | `GET /api/me` | Detecta sessão ativa; chamada silenciosa | 200 · 401 |
-| `POST /api/cadastro` | `{ nome, cpf, senha, email? }` | 201 `{ id, nome, cpf }` · 400 · 409 |
-| `POST /api/login` | `{ cpf, senha }` | 200 `{ id, nome, cpf }` · 401 |
+| `POST /api/cadastro` | `{ nome, cpf, senha, email? }` | 201 `{ id, nome }` · 400 · 409 |
+| `POST /api/login` | `{ cpf, senha }` | 200 `{ id, nome }` · 401 |
 
 O CPF pode ir com ou sem máscara: o servidor remove tudo que não é dígito. `email` é opcional e o formulário atual não o envia.
 
@@ -45,7 +45,7 @@ O CPF pode ir com ou sem máscara: o servidor remove tudo que não é dígito. `
 17. O erro fica num bloco fixo acima do formulário e é apagado a cada novo envio.
 18. O cadastro cria a "Reserva de Emergência" com meta zerada, na mesma transação.
 19. O login descarta a sessão anterior antes de gravar a nova.
-20. O CPF só volta mascarado nas respostas, no formato `***.***.**NN`.
+20. O CPF não volta em nenhuma resposta ([ADR 0009](../adr/0009-cpf-fora-das-respostas.md)).
 
 ## Critérios de aceite
 
@@ -60,7 +60,7 @@ O CPF pode ir com ou sem máscara: o servidor remove tudo que não é dígito. `
 - [ ] CA-AUTH-09: Dado um cadastro com nome vazio, quando o formulário é enviado, então a resposta traz `campos.nome` igual a "Informe seu nome.".
 - [ ] CA-AUTH-10: Dado um cadastro válido, quando ele conclui, então `POST /api/login` é chamado em seguida e a aplicação navega para `/gestao`.
 - [ ] CA-AUTH-11: Dado um cadastro concluído, quando `GET /api/reservas` é consultado, então existe uma reserva "Reserva de Emergência" com `metaValor` 0,00 e `emergencia` verdadeiro.
-- [ ] CA-AUTH-12: Dado um usuário recém-cadastrado com CPF `52998224725`, quando `POST /api/cadastro` responde, então o corpo traz `cpf` igual a `***.***.**25`.
+- [ ] CA-AUTH-12: Dado um usuário recém-cadastrado com CPF `52998224725`, quando `POST /api/cadastro` responde, então o corpo traz só `id` e `nome`, sem nenhum campo de CPF.
 - [ ] CA-AUTH-13: Dado um erro exibido no formulário, quando o usuário envia de novo, então o bloco de erro é apagado antes da chamada.
 - [ ] CA-AUTH-14: Dada uma sessão aberta no navegador, quando o usuário faz login de novo, então o identificador de sessão anterior deixa de ser válido.
 
