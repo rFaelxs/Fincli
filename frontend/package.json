@@ -1,0 +1,35 @@
+{
+  "name": "fincli",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test --watch=false"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "packageManager": "npm@11.17.0",
+  "dependencies": {
+    "@angular/common": "22.1.8",
+    "@angular/compiler": "22.1.8",
+    "@angular/core": "22.1.8",
+    "@angular/forms": "22.1.8",
+    "@angular/platform-browser": "22.1.8",
+    "@angular/router": "22.1.8",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "22.1.8",
+    "@angular/cli": "22.1.8",
+    "@angular/compiler-cli": "22.1.8",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "vitest": "^4.0.8"
+  }
+}
