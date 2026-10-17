@@ -25,7 +25,8 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/tokens.css",
+              "src/styles/base.css"
             ]
           },
           "configurations": {
