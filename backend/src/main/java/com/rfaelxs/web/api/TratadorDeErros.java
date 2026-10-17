@@ -1,5 +1,6 @@
 package com.rfaelxs.web.api;
 
+import com.rfaelxs.web.service.ComandoNaoEntendidoException;
 import com.rfaelxs.web.service.ConflitoException;
 import com.rfaelxs.web.service.RecursoNaoEncontradoException;
 import com.rfaelxs.web.service.ValorInvalidoException;
@@ -38,6 +39,15 @@ public class TratadorDeErros {
   @ExceptionHandler(ConflitoException.class)
   public ProblemDetail conflito(ConflitoException e) {
     return problema(HttpStatus.CONFLICT, "Conflito", e.getMessage());
+  }
+
+  /**
+   * Texto da barra de comando que não virou lançamento. 422, e não 400: a requisição está bem
+   * formada; o conteúdo é que não vira lançamento.
+   */
+  @ExceptionHandler(ComandoNaoEntendidoException.class)
+  public ProblemDetail comandoNaoEntendido(ComandoNaoEntendidoException e) {
+    return problema(HttpStatus.UNPROCESSABLE_ENTITY, "Comando não entendido", e.getMessage());
   }
 
   @ExceptionHandler(RecursoNaoEncontradoException.class)

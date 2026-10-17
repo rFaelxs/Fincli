@@ -28,12 +28,12 @@ A resposta de `POST /api/comando` traz `tipo`, `id`, `reservaId`, `valor`, `desc
 ### Gramática, decidida no servidor
 
 1. O tipo vem da primeira palavra: `prever` ou `conta` é conta prevista; `guardar`, `poupar` ou `alocar` é aporte; `entrada`, `recebi` ou `+` é entrada. Sem nenhuma delas, o texto é uma saída.
-2. As palavras `salario`, `freela`, `pix` e `bonus` em qualquer posição também classificam o texto como entrada.
+2. As palavras `salario`, `freela`, `freelance`, `pix` e `bonus` em qualquer posição também classificam o texto como entrada.
 3. O valor é o primeiro número do texto. Com vírgula, o ponto é separador de milhar: `1.234,56` vale 1234,56. Sem vírgula, um ponto com uma ou duas casas é decimal (`12.50`); qualquer outro ponto é milhar (`1.234` vale 1234).
 4. Texto sem número não vira lançamento.
 5. A ordem das palavras não importa: `mercado 120 ontem essencial` e `ontem 120 mercado essencial` dão o mesmo resultado.
 6. `hoje`, `ontem` e `anteontem` definem a data; sem nenhuma delas, a data é hoje.
-7. A categoria é deduzida por palavra-chave, sem acento e em minúsculas: "Alimentação", "Moradia", "Saúde", "Transporte", "Lazer" e "Trabalho". Sem palavra-chave, entrada cai em "Trabalho" e saída em "Outros".
+7. A categoria é deduzida por palavra-chave, sem acento e em minúsculas: "Alimentação", "Moradia", "Saúde", "Transporte", "Lazer" e "Trabalho". Sem palavra-chave, entrada cai em "Trabalho" e saída em "Outros". Toda palavra-chave, inclusive as dos itens 1, 2, 6 e 8, casa como palavra inteira, delimitada por qualquer coisa que não seja letra: `gas` não pega "gasolina" e `bar` não pega "barato", mas `mercado` ainda pega "mercado120".
 8. Alimentação, Moradia, Saúde e Transporte nascem marcadas como essenciais; Lazer e Trabalho não. A palavra `essencial` força a marcação em qualquer saída.
 9. A descrição é o que sobra depois de retiradas as palavras de controle e o número. Artigos de ligação no começo são descartados, e a primeira letra vira maiúscula.
 10. Descrição vazia vira "Aporte" em aporte, "Conta" em conta prevista e "Lançamento" nos demais.
