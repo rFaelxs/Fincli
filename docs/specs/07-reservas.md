@@ -84,8 +84,8 @@ Cada reserva traz `id`, `nome`, `metaValor`, `saldoAtual`, `progresso` e `emerge
 35. Excluir a Reserva de Emergência responde 409 com "A Reserva de Emergência não pode ser excluída.".
 36. Excluir reserva com saldo responde 409 com "A reserva ainda tem saldo. Saque o valor antes de excluí-la.".
 37. Reserva inexistente, ou de outro usuário, responde 404 com "Reserva não encontrada.".
-38. Alocação e saque travam a linha da reserva, e o saldo disponível é lido dentro da transação, depois do lock.
-39. Alocação e saque gravam uma movimentação, que aparece no extrato e na lista de lançamentos da Gestão.
+38. Alocação, saque e exclusão travam a linha do usuário, e o saldo disponível é lido dentro da transação, depois do lock. Assim, duas alocações simultâneas em reservas diferentes também não passam juntas do disponível (ADR 0008).
+39. Alocação e saque gravam uma movimentação, que aparece no extrato e na lista de lançamentos da Gestão. Excluir a reserva não apaga as movimentações dela.
 
 ## Critérios de aceite
 

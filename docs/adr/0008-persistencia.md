@@ -18,7 +18,9 @@ O dinheiro era `double`, que acumula erro de ponto flutuante em somas de moeda.
 - **Chaves:** `BIGINT IDENTITY` como chave clusterizada e um `UNIQUEIDENTIFIER public_id` exposto na API. Um GUID aleatório como chave clusterizada fragmentaria o índice.
 - **Dinheiro:** `BigDecimal` com escala 2 e arredondamento `HALF_UP` no código; `DECIMAL(19,2)` no banco. Nunca `double`, nunca o tipo `MONEY`.
 - **Serviços sem estado:** recebem o usuário por parâmetro e vão ao banco a cada operação.
-- **Concorrência:** alocação e saque travam a linha da reserva com `PESSIMISTIC_WRITE`, e o saldo disponível é lido dentro da transação, depois do lock.
+- **Concorrência:** alocação, saque e exclusão de reserva travam a **linha do usuário** com `PESSIMISTIC_WRITE`, e o saldo disponível é lido dentro da transação, depois do lock. Travar só a reserva, como o backend antigo fazia, não basta: o saldo disponível é do usuário, e duas alocações simultâneas em reservas diferentes leriam o mesmo saldo e passariam juntas.
+- **Movimentações sobrevivem à reserva:** `movimentacao_reserva.reserva_id` é opcional, com `ON DELETE SET NULL`. Excluída a reserva, o movimento continua no extrato com o nome gravado.
+- **Datas no fuso de Brasília:** "hoje" vem de um `Clock` fixo em `America/Sao_Paulo`, não do fuso do servidor.
 - **Agregações no banco:** totais do mês e saldo disponível são somados por consulta, não carregando a lista inteira em memória.
 
 ## Consequências

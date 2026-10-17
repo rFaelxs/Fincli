@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.Nationalized;
@@ -26,6 +27,8 @@ public class Reserva {
 
   /** Nome da reserva que o cadastro cria para todo usuário. */
   public static final String NOME_EMERGENCIA = "Reserva de Emergência";
+
+  private static final BigDecimal CEM = BigDecimal.valueOf(100);
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,6 +81,34 @@ public class Reserva {
   /** A Reserva de Emergência que nasce com a conta, com meta zerada. */
   public static Reserva emergenciaDe(Usuario usuario) {
     return new Reserva(usuario, NOME_EMERGENCIA, BigDecimal.ZERO, true);
+  }
+
+  /**
+   * Soma ao saldo. Quem chama já validou o valor contra o saldo disponível, com o usuário
+   * travado.
+   */
+  public void alocar(BigDecimal valor) {
+    saldoAtual = saldoAtual.add(valor).setScale(2, RoundingMode.HALF_UP);
+  }
+
+  /** Subtrai do saldo. Quem chama já validou que o valor cabe no saldo da reserva. */
+  public void sacar(BigDecimal valor) {
+    saldoAtual = saldoAtual.subtract(valor).setScale(2, RoundingMode.HALF_UP);
+  }
+
+  public void alterarMeta(BigDecimal metaValor) {
+    this.metaValor = metaValor;
+  }
+
+  /**
+   * Percentual da meta já guardado, com uma casa decimal. Pode passar de 100. É 0,0 quando a
+   * reserva não tem meta.
+   */
+  public BigDecimal progresso() {
+    if (metaValor.signum() == 0) {
+      return BigDecimal.ZERO.setScale(1, RoundingMode.HALF_UP);
+    }
+    return saldoAtual.multiply(CEM).divide(metaValor, 1, RoundingMode.HALF_UP);
   }
 
   public Long getId() {
