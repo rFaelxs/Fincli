@@ -49,20 +49,20 @@ O CPF pode ir com ou sem máscara: o servidor remove tudo que não é dígito. `
 
 ## Critérios de aceite
 
-- [ ] CA-AUTH-01: Dado um usuário com sessão ativa, quando ele abre `/login`, então a aplicação substitui a rota por `/gestao` sem mostrar o formulário.
-- [ ] CA-AUTH-02: Dado um navegador sem sessão, quando `/login` monta, então o 401 de `GET /api/me` não redireciona nem mostra erro.
-- [ ] CA-AUTH-03: Dado o CPF `529.982.247-25` e a senha correta, quando o usuário envia o login, então `POST /api/login` recebe `cpf` com a máscara e a aplicação navega para `/gestao`.
-- [ ] CA-AUTH-04: Dado um CPF não cadastrado, quando o usuário tenta entrar, então a tela mostra "CPF ou senha inválidos." e permanece em `/login`.
-- [ ] CA-AUTH-05: Dado um CPF cadastrado com a senha errada, quando o usuário tenta entrar, então a mensagem é exatamente a mesma do CA-AUTH-04.
-- [ ] CA-AUTH-06: Dado o CPF `111.111.111-11`, quando o usuário envia o cadastro, então o servidor responde 400 com `detail` "CPF inválido.".
-- [ ] CA-AUTH-07: Dado um CPF já cadastrado, quando o usuário envia o cadastro, então o servidor responde 409 e a tela mostra "CPF já cadastrado.".
-- [ ] CA-AUTH-08: Dada a senha "1234567", quando o usuário envia o cadastro, então o servidor responde 400 com "A senha deve ter entre 8 e 100 caracteres.".
-- [ ] CA-AUTH-09: Dado um cadastro com nome vazio, quando o formulário é enviado, então a resposta traz `campos.nome` igual a "Informe seu nome.".
-- [ ] CA-AUTH-10: Dado um cadastro válido, quando ele conclui, então `POST /api/login` é chamado em seguida e a aplicação navega para `/gestao`.
-- [ ] CA-AUTH-11: Dado um cadastro concluído, quando `GET /api/reservas` é consultado, então existe uma reserva "Reserva de Emergência" com `metaValor` 0,00 e `emergencia` verdadeiro.
-- [ ] CA-AUTH-12: Dado um usuário recém-cadastrado com CPF `52998224725`, quando `POST /api/cadastro` responde, então o corpo traz só `id` e `nome`, sem nenhum campo de CPF.
-- [ ] CA-AUTH-13: Dado um erro exibido no formulário, quando o usuário envia de novo, então o bloco de erro é apagado antes da chamada.
-- [ ] CA-AUTH-14: Dada uma sessão aberta no navegador, quando o usuário faz login de novo, então o identificador de sessão anterior deixa de ser válido.
+- [x] CA-AUTH-01: Dado um usuário com sessão ativa, quando ele abre `/login`, então a aplicação substitui a rota por `/gestao` sem mostrar o formulário.
+- [x] CA-AUTH-02: Dado um navegador sem sessão, quando `/login` monta, então o 401 de `GET /api/me` não redireciona nem mostra erro.
+- [x] CA-AUTH-03: Dado o CPF `529.982.247-25` e a senha correta, quando o usuário envia o login, então `POST /api/login` recebe `cpf` com a máscara e a aplicação navega para `/gestao`.
+- [x] CA-AUTH-04: Dado um CPF não cadastrado, quando o usuário tenta entrar, então a tela mostra "CPF ou senha inválidos." e permanece em `/login`.
+- [x] CA-AUTH-05: Dado um CPF cadastrado com a senha errada, quando o usuário tenta entrar, então a mensagem é exatamente a mesma do CA-AUTH-04.
+- [x] CA-AUTH-06: Dado o CPF `111.111.111-11`, quando o usuário envia o cadastro, então o servidor responde 400 com `detail` "CPF inválido.".
+- [x] CA-AUTH-07: Dado um CPF já cadastrado, quando o usuário envia o cadastro, então o servidor responde 409 e a tela mostra "CPF já cadastrado.".
+- [x] CA-AUTH-08: Dada a senha "1234567", quando o usuário envia o cadastro, então o servidor responde 400 com "A senha deve ter entre 8 e 100 caracteres.".
+- [x] CA-AUTH-09: Dado um cadastro com nome vazio, quando o formulário é enviado, então a resposta traz `campos.nome` igual a "Informe seu nome.".
+- [x] CA-AUTH-10: Dado um cadastro válido, quando ele conclui, então `POST /api/login` é chamado em seguida e a aplicação navega para `/gestao`.
+- [x] CA-AUTH-11: Dado um cadastro concluído, quando `GET /api/reservas` é consultado, então existe uma reserva "Reserva de Emergência" com `metaValor` 0,00 e `emergencia` verdadeiro.
+- [x] CA-AUTH-12: Dado um usuário recém-cadastrado com CPF `52998224725`, quando `POST /api/cadastro` responde, então o corpo traz só `id` e `nome`, sem nenhum campo de CPF.
+- [x] CA-AUTH-13: Dado um erro exibido no formulário, quando o usuário envia de novo, então o bloco de erro é apagado antes da chamada.
+- [x] CA-AUTH-14: Dada uma sessão aberta no navegador, quando o usuário faz login de novo, então o identificador de sessão anterior deixa de ser válido.
 
 ## Estrutura Angular
 

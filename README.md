@@ -2,7 +2,7 @@
 
 Gestão financeira pessoal na web: registre entradas e saídas, guarde dinheiro em reservas com meta e veja, logo ao abrir, quanto dá para gastar até o fim do mês.
 
-> O projeto está sendo reescrito. O **backend** novo está completo; o **front em Angular** está em construção. O comportamento de cada tela está especificado em [`docs/specs/`](docs/specs/) e as decisões de arquitetura em [`docs/adr/`](docs/adr/).
+> O projeto foi reescrito: **backend** em Spring Boot e **front** em Angular, com as oito telas completas. O comportamento de cada tela está especificado em [`docs/specs/`](docs/specs/), com os critérios de aceite marcados conforme a cobertura de testes, e as decisões de arquitetura em [`docs/adr/`](docs/adr/).
 
 ## 🎯 Problema
 
@@ -78,6 +78,20 @@ A API sobe em **http://localhost:8080**.
 | `FINCLI_COOKIE_SECURE` | cookie de sessão só em HTTPS | `true` |
 | `FINCLI_PORT` | porta HTTP | `8080` |
 
+## 🖥️ Executando o front
+
+**Pré-requisitos:** Node 24.15 ou mais novo e o backend rodando em `localhost:8080` (seção acima).
+
+```powershell
+cd frontend
+npm ci
+npm start             # no PowerShell com scripts bloqueados, use npm.cmd
+```
+
+Abra **http://localhost:4200**. O servidor de desenvolvimento encaminha `/api/**` para o backend (`proxy.conf.json`): o navegador vê uma origem só, sem CORS, e o cookie de sessão funciona como em produção.
+
+> Por enquanto front e backend sobem separados. Servir o build do Angular de dentro do JAR do Spring é a [ADR 0002](docs/adr/0002-empacotamento-monolitico.md), ainda não implementada.
+
 ## 🧪 Testes
 
 ```powershell
@@ -85,11 +99,17 @@ cd backend
 mvn test              # testes unitários e de API, sem banco — segundos
 mvn verify            # + testes de integração contra um SQL Server num container
 mvn checkstyle:check  # Google Java Style
+
+cd ../frontend
+npm test              # Vitest em Node com jsdom, sem navegador
+npm run build         # build de produção em dist/fincli/browser
 ```
 
 Os testes de integração (`*IT`) precisam do Docker rodando. Eles aplicam as migrations num SQL Server 2022 real e conferem as consultas agregadas, o isolamento entre usuários e duas alocações simultâneas que não podem passar juntas do saldo disponível.
 
-O CI roda `mvn verify` e o Checkstyle em todo push e pull request para `master`.
+Os testes do front cobrem os critérios de aceite de tela das specs, inclusive a gramática da barra de comando, que repete em TypeScript os mesmos casos do `ComandoParserTest.java`. Os elementos que um teste ponta a ponta precisa encontrar levam o atributo `data-cy`, pensado para um Cypress futuro.
+
+O CI roda `mvn verify` e o Checkstyle em todo push e pull request para `master`. **Os testes do front ainda não rodam no CI.**
 
 ## 📁 Estrutura
 
@@ -105,7 +125,13 @@ O CI roda `mvn verify` e o Checkstyle em todo push e pull request para `master`.
 │       │   └── resumo/          # números da Gestão e do Relatório
 │       ├── security/            # sessão, CSRF e login
 │       └── config/              # relógio da aplicação, no fuso de Brasília
-├── frontend/                    # Angular (em construção)
+├── frontend/                    # Angular
+│   └── src/app/
+│       ├── core/                # sessão, CSRF, interceptor de 401, tipos da API
+│       ├── layout/shell/        # barra lateral, card "GUARDADO", atalhos G e R
+│       ├── features/            # uma pasta por tela: gestao, relatorio, transacoes,
+│       │                        #   reservas, extrato, auth
+│       └── shared/              # formatos pt-BR, toast, faixa de aviso
 ├── docs/
 │   ├── specs/                   # comportamento de cada tela e contrato da API
 │   ├── adr/                     # decisões de arquitetura

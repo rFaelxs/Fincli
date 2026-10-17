@@ -67,34 +67,34 @@ Em mês já fechado nada mais vence: `aindaVence` é 0,00 e `sobraPrevista` coin
 
 ## Critérios de aceite
 
-- [ ] CA-REL-01: Dado o mês `2026-09` no seletor, quando a tela carrega, então `GET /api/relatorio?mes=2026-09` é chamado e o rótulo mostra "RELATÓRIO · SETEMBRO DE 2026".
-- [ ] CA-REL-02: Dado o seletor aberto, quando a lista pinta, então traz 12 opções, a primeira sendo o mês corrente por extenso.
-- [ ] CA-REL-03: Dada a troca do mês para `2026-08`, quando a resposta chega, então a barra, o gráfico e as três perguntas são repintados com os dados de agosto.
-- [ ] CA-REL-04: Dado `essenciais` 1.200,00, `superfluas` 800,00, `aportes` 300,00 e `sobra` 500,00, quando a barra pinta, então ela tem quatro segmentos com essas proporções.
-- [ ] CA-REL-05: Dado `aportes` igual a −200,00, quando a barra pinta, então o segmento "reservas" não aparece.
-- [ ] CA-REL-06: Dado um segmento com 5% da largura, quando a barra pinta, então ele fica sem rótulo visível e mantém o nome e o valor no `title`.
-- [ ] CA-REL-07: Dados todos os totais em 0,00, quando a barra pinta, então mostra "nada lançado neste mês".
-- [ ] CA-REL-08: Dado `sobra` igual a −150,00, quando os totais pintam, então "SOBRA" mostra "−R$ 150,00".
-- [ ] CA-REL-09: Dado `entradas` igual a 5.000,00, quando os totais pintam, então "ENTROU" mostra "+R$ 5.000,00".
-- [ ] CA-REL-10: Dado um histórico com sobras 400, −200, 0, 900, 100 e 300, quando o gráfico pinta, então a coluna de 900 é a mais alta e a de −200 recebe o tratamento negativo.
-- [ ] CA-REL-11: Dado um mês do histórico com sobra 0,00, quando o gráfico pinta, então a coluna aparece com a altura mínima, não sumindo do eixo.
-- [ ] CA-REL-12: Dada uma sobra de 3.210,00, quando o rótulo da coluna pinta, então mostra "3,2k".
-- [ ] CA-REL-13: Dado um usuário sem movimento em nenhum dos seis meses, quando o gráfico pinta, então as seis colunas aparecem com rótulo "0".
-- [ ] CA-REL-14: Dado o carregamento da tela, quando as perguntas pintam, então só a primeira está com `aria-expanded="true"`.
-- [ ] CA-REL-15: Dado o clique no título da segunda pergunta, quando ela abre, então o foco permanece no botão dela.
-- [ ] CA-REL-16: Dado `superfluas` 800,00 e `saidas` 2.500,00, quando a primeira pergunta pinta, então o destaque é "R$ 800,00 em supérfluas" e o texto começa com "É 32%".
-- [ ] CA-REL-17: Dado `saidas` igual a 0,00, quando a primeira pergunta pinta, então o texto é "Nada saiu neste mês, então não há o que explicar.".
-- [ ] CA-REL-18: Dadas cinco categorias de saída no mês, quando `GET /api/relatorio` responde, então `topCategorias` traz as quatro maiores.
-- [ ] CA-REL-19: Dadas três reservas com meta e duas no ritmo, quando a segunda pergunta pinta, então o destaque é "2 de 3 no ritmo".
-- [ ] CA-REL-20: Dado que nenhuma reserva tem meta, quando a segunda pergunta pinta, então o destaque é "nenhuma meta ainda".
-- [ ] CA-REL-21: Dada uma reserva com meta 10.000,00, saldo 4.000,00 e aporte médio 500,00, quando o mês de referência é `2026-09`, então `previsao` é `2027-09` e a linha mostra "meta em set/27".
-- [ ] CA-REL-22: Dada uma reserva com meta 5.000,00 e aporte médio 0,00, quando a segunda pergunta pinta, então a linha mostra "sem ritmo" e `noRitmo` é falso.
-- [ ] CA-REL-23: Dada uma reserva sem meta, quando a segunda pergunta pinta, então a linha mostra "sem meta" e ela fica fora da contagem "N de M".
-- [ ] CA-REL-24: Dada uma reserva com saldo maior ou igual à meta, quando o mês de referência é `2026-09`, então `previsao` é `2026-09` e `noRitmo` é verdadeiro.
-- [ ] CA-REL-25: Dado `sobra` 710,00 e `aindaVence` 210,00, quando a terceira pergunta pinta, então o destaque é "+R$ 500,00 livres" e o texto termina com "(R$ 210,00).".
-- [ ] CA-REL-26: Dada `sobraPrevista` igual a −200,00, quando a terceira pergunta pinta, então o destaque é "−R$ 200,00 no vermelho".
-- [ ] CA-REL-27: Dado o mês `2026-07`, já fechado, quando `GET /api/relatorio` responde, então `aindaVence` é 0,00 e `sobraPrevista` iguala `sobra`.
-- [ ] CA-REL-28: Dado que `GET /api/relatorio` responde 500, quando a tela tenta carregar, então um toast mostra o `detail` e o conteúdo anterior continua visível.
+- [x] CA-REL-01: Dado o mês `2026-09` no seletor, quando a tela carrega, então `GET /api/relatorio?mes=2026-09` é chamado e o rótulo mostra "RELATÓRIO · SETEMBRO DE 2026".
+- [x] CA-REL-02: Dado o seletor aberto, quando a lista pinta, então traz 12 opções, a primeira sendo o mês corrente por extenso.
+- [x] CA-REL-03: Dada a troca do mês para `2026-08`, quando a resposta chega, então a barra, o gráfico e as três perguntas são repintados com os dados de agosto.
+- [x] CA-REL-04: Dado `essenciais` 1.200,00, `superfluas` 800,00, `aportes` 300,00 e `sobra` 500,00, quando a barra pinta, então ela tem quatro segmentos com essas proporções.
+- [x] CA-REL-05: Dado `aportes` igual a −200,00, quando a barra pinta, então o segmento "reservas" não aparece.
+- [x] CA-REL-06: Dado um segmento com 5% da largura, quando a barra pinta, então ele fica sem rótulo visível e mantém o nome e o valor no `title`.
+- [x] CA-REL-07: Dados todos os totais em 0,00, quando a barra pinta, então mostra "nada lançado neste mês".
+- [x] CA-REL-08: Dado `sobra` igual a −150,00, quando os totais pintam, então "SOBRA" mostra "−R$ 150,00".
+- [x] CA-REL-09: Dado `entradas` igual a 5.000,00, quando os totais pintam, então "ENTROU" mostra "+R$ 5.000,00".
+- [x] CA-REL-10: Dado um histórico com sobras 400, −200, 0, 900, 100 e 300, quando o gráfico pinta, então a coluna de 900 é a mais alta e a de −200 recebe o tratamento negativo.
+- [x] CA-REL-11: Dado um mês do histórico com sobra 0,00, quando o gráfico pinta, então a coluna aparece com a altura mínima, não sumindo do eixo.
+- [x] CA-REL-12: Dada uma sobra de 3.210,00, quando o rótulo da coluna pinta, então mostra "3,2k".
+- [x] CA-REL-13: Dado um usuário sem movimento em nenhum dos seis meses, quando o gráfico pinta, então as seis colunas aparecem com rótulo "0".
+- [x] CA-REL-14: Dado o carregamento da tela, quando as perguntas pintam, então só a primeira está com `aria-expanded="true"`.
+- [x] CA-REL-15: Dado o clique no título da segunda pergunta, quando ela abre, então o foco permanece no botão dela.
+- [x] CA-REL-16: Dado `superfluas` 800,00 e `saidas` 2.500,00, quando a primeira pergunta pinta, então o destaque é "R$ 800,00 em supérfluas" e o texto começa com "É 32%".
+- [x] CA-REL-17: Dado `saidas` igual a 0,00, quando a primeira pergunta pinta, então o texto é "Nada saiu neste mês, então não há o que explicar.".
+- [x] CA-REL-18: Dadas cinco categorias de saída no mês, quando `GET /api/relatorio` responde, então `topCategorias` traz as quatro maiores.
+- [x] CA-REL-19: Dadas três reservas com meta e duas no ritmo, quando a segunda pergunta pinta, então o destaque é "2 de 3 no ritmo".
+- [x] CA-REL-20: Dado que nenhuma reserva tem meta, quando a segunda pergunta pinta, então o destaque é "nenhuma meta ainda".
+- [x] CA-REL-21: Dada uma reserva com meta 10.000,00, saldo 4.000,00 e aporte médio 500,00, quando o mês de referência é `2026-09`, então `previsao` é `2027-09` e a linha mostra "meta em set/27".
+- [x] CA-REL-22: Dada uma reserva com meta 5.000,00 e aporte médio 0,00, quando a segunda pergunta pinta, então a linha mostra "sem ritmo" e `noRitmo` é falso.
+- [x] CA-REL-23: Dada uma reserva sem meta, quando a segunda pergunta pinta, então a linha mostra "sem meta" e ela fica fora da contagem "N de M".
+- [x] CA-REL-24: Dada uma reserva com saldo maior ou igual à meta, quando o mês de referência é `2026-09`, então `previsao` é `2026-09` e `noRitmo` é verdadeiro.
+- [x] CA-REL-25: Dado `sobra` 710,00 e `aindaVence` 210,00, quando a terceira pergunta pinta, então o destaque é "+R$ 500,00 livres" e o texto termina com "(R$ 210,00).".
+- [x] CA-REL-26: Dada `sobraPrevista` igual a −200,00, quando a terceira pergunta pinta, então o destaque é "−R$ 200,00 no vermelho".
+- [x] CA-REL-27: Dado o mês `2026-07`, já fechado, quando `GET /api/relatorio` responde, então `aindaVence` é 0,00 e `sobraPrevista` iguala `sobra`.
+- [x] CA-REL-28: Dado que `GET /api/relatorio` responde 500, quando a tela tenta carregar, então um toast mostra o `detail` e o conteúdo anterior continua visível.
 
 ## Estrutura Angular
 

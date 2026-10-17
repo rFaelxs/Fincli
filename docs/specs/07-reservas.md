@@ -89,31 +89,31 @@ Cada reserva traz `id`, `nome`, `metaValor`, `saldoAtual`, `progresso` e `emerge
 
 ## Critérios de aceite
 
-- [ ] CA-RES-01: Dadas as reservas "Viagem", "Carro" e a de emergência, quando `/reservas` carrega, então a de emergência é a primeira e "Carro" vem antes de "Viagem".
-- [ ] CA-RES-02: Dadas duas reservas com saldos 1.200,00 e 300,00, quando a tela carrega, então o subtítulo mostra "R$ 1.500,00 guardados no total".
-- [ ] CA-RES-03: Dada uma reserva com saldo 1.250,00 e meta 10.000,00, quando o card pinta, então mostra "12,5%" e "R$ 1.250,00 / R$ 10.000,00".
-- [ ] CA-RES-04: Dada uma reserva com saldo 12.000,00 e meta 10.000,00, quando o card pinta, então o medidor fica em 100% e o percentual mostra "120,0%".
-- [ ] CA-RES-05: Dada uma reserva com meta 0,00, quando `GET /api/reservas` responde, então `progresso` é 0,0.
-- [ ] CA-RES-06: Dada a Reserva de Emergência, quando o card pinta, então mostra o chip "protegida" e nenhum botão de excluir.
-- [ ] CA-RES-07: Dado o clique em excluir, quando o usuário cancela a confirmação, então nenhuma chamada é feita.
-- [ ] CA-RES-08: Dada uma reserva com saldo 0,00, quando a exclusão é confirmada, então o servidor responde 204, o toast "Reserva excluída." aparece e a lista recarrega.
-- [ ] CA-RES-09: Dada uma reserva com saldo 300,00, quando a exclusão é confirmada, então o servidor responde 409 e o toast mostra "A reserva ainda tem saldo. Saque o valor antes de excluí-la.".
-- [ ] CA-RES-10: Dada a Reserva de Emergência, quando `DELETE /api/reservas/{id}` é chamado, então a resposta é 409 com "A Reserva de Emergência não pode ser excluída.".
-- [ ] CA-RES-11: Dado o nome "Viagem" e a meta 8.000,00, quando o envio conclui, então a reserva é criada e a aplicação volta para `/reservas`.
-- [ ] CA-RES-12: Dada a meta −1, quando o envio é feito, então o servidor responde 400 com "A meta da reserva não pode ser negativa." e a mensagem aparece no topo do formulário.
-- [ ] CA-RES-13: Dado o nome em branco, quando o envio é feito, então a resposta traz `campos.nome` igual a "Informe o nome da reserva.".
-- [ ] CA-RES-14: Dada a rota `/reservas/:id/meta` de uma reserva com meta 5.000,00, quando a carga termina, então o campo nasce com 5000,00 e o subtítulo vira "Defina o novo valor-alvo.".
-- [ ] CA-RES-15: Dada a nova meta 12.000,00, quando "Salvar meta" conclui, então `PUT /api/reservas/{id}/meta` é chamado e a aplicação volta para `/reservas`.
-- [ ] CA-RES-16: Dada a rota `/reservas/:id/alocar`, quando a tela carrega, então `GET /api/saldo` é chamado e "Saldo disponível:" aparece no resumo.
-- [ ] CA-RES-17: Dada a rota `/reservas/:id/sacar`, quando a tela carrega, então "Saldo disponível:" não aparece e `GET /api/saldo` não é chamado.
-- [ ] CA-RES-18: Dado um saldo disponível de 200,00, quando o usuário aloca 300,00, então o servidor responde 400 com "Saldo insuficiente para esta alocação." e a rota continua em `/reservas/:id/alocar`.
-- [ ] CA-RES-19: Dado um saldo disponível de 500,00, quando o usuário aloca 300,00, então o saldo da reserva sobe 300,00 e a aplicação volta para `/reservas`.
-- [ ] CA-RES-20: Dada uma reserva com saldo 100,00, quando o usuário saca 150,00, então o servidor responde 400 com "Saldo da reserva insuficiente para este saque.".
-- [ ] CA-RES-21: Dado o valor 0, quando o usuário tenta alocar, então o servidor responde 400 com "O valor de alocação deve ser positivo.".
-- [ ] CA-RES-22: Dada uma alocação de 300,00 concluída, quando o extrato é aberto, então existe um item de origem `RESERVA`, tipo `ALOCACAO`, com valor 300,00.
-- [ ] CA-RES-23: Dado o id de uma reserva de outro usuário, quando `GET /api/reservas/{id}` é chamado, então a resposta é 404 com "Reserva não encontrada.".
-- [ ] CA-RES-24: Dadas entradas de 5.000,00, saídas de 2.000,00 e 1.000,00 já alocados, quando `GET /api/saldo` responde, então `saldoDisponivel` é 2.000,00.
-- [ ] CA-RES-25: Dadas duas alocações simultâneas de 300,00 com saldo disponível de 500,00, quando as duas rodam, então só uma conclui e a outra responde 400.
+- [x] CA-RES-01: Dadas as reservas "Viagem", "Carro" e a de emergência, quando `/reservas` carrega, então a de emergência é a primeira e "Carro" vem antes de "Viagem".
+- [x] CA-RES-02: Dadas duas reservas com saldos 1.200,00 e 300,00, quando a tela carrega, então o subtítulo mostra "R$ 1.500,00 guardados no total".
+- [x] CA-RES-03: Dada uma reserva com saldo 1.250,00 e meta 10.000,00, quando o card pinta, então mostra "12,5%" e "R$ 1.250,00 / R$ 10.000,00".
+- [x] CA-RES-04: Dada uma reserva com saldo 12.000,00 e meta 10.000,00, quando o card pinta, então o medidor fica em 100% e o percentual mostra "120,0%".
+- [x] CA-RES-05: Dada uma reserva com meta 0,00, quando `GET /api/reservas` responde, então `progresso` é 0,0.
+- [x] CA-RES-06: Dada a Reserva de Emergência, quando o card pinta, então mostra o chip "protegida" e nenhum botão de excluir.
+- [x] CA-RES-07: Dado o clique em excluir, quando o usuário cancela a confirmação, então nenhuma chamada é feita.
+- [x] CA-RES-08: Dada uma reserva com saldo 0,00, quando a exclusão é confirmada, então o servidor responde 204, o toast "Reserva excluída." aparece e a lista recarrega.
+- [x] CA-RES-09: Dada uma reserva com saldo 300,00, quando a exclusão é confirmada, então o servidor responde 409 e o toast mostra "A reserva ainda tem saldo. Saque o valor antes de excluí-la.".
+- [x] CA-RES-10: Dada a Reserva de Emergência, quando `DELETE /api/reservas/{id}` é chamado, então a resposta é 409 com "A Reserva de Emergência não pode ser excluída.".
+- [x] CA-RES-11: Dado o nome "Viagem" e a meta 8.000,00, quando o envio conclui, então a reserva é criada e a aplicação volta para `/reservas`.
+- [x] CA-RES-12: Dada a meta −1, quando o envio é feito, então o servidor responde 400 com "A meta da reserva não pode ser negativa." e a mensagem aparece no topo do formulário.
+- [x] CA-RES-13: Dado o nome em branco, quando o envio é feito, então a resposta traz `campos.nome` igual a "Informe o nome da reserva.".
+- [x] CA-RES-14: Dada a rota `/reservas/:id/meta` de uma reserva com meta 5.000,00, quando a carga termina, então o campo nasce com 5000,00 e o subtítulo vira "Defina o novo valor-alvo.".
+- [x] CA-RES-15: Dada a nova meta 12.000,00, quando "Salvar meta" conclui, então `PUT /api/reservas/{id}/meta` é chamado e a aplicação volta para `/reservas`.
+- [x] CA-RES-16: Dada a rota `/reservas/:id/alocar`, quando a tela carrega, então `GET /api/saldo` é chamado e "Saldo disponível:" aparece no resumo.
+- [x] CA-RES-17: Dada a rota `/reservas/:id/sacar`, quando a tela carrega, então "Saldo disponível:" não aparece e `GET /api/saldo` não é chamado.
+- [x] CA-RES-18: Dado um saldo disponível de 200,00, quando o usuário aloca 300,00, então o servidor responde 400 com "Saldo insuficiente para esta alocação." e a rota continua em `/reservas/:id/alocar`.
+- [x] CA-RES-19: Dado um saldo disponível de 500,00, quando o usuário aloca 300,00, então o saldo da reserva sobe 300,00 e a aplicação volta para `/reservas`.
+- [x] CA-RES-20: Dada uma reserva com saldo 100,00, quando o usuário saca 150,00, então o servidor responde 400 com "Saldo da reserva insuficiente para este saque.".
+- [x] CA-RES-21: Dado o valor 0, quando o usuário tenta alocar, então o servidor responde 400 com "O valor de alocação deve ser positivo.".
+- [x] CA-RES-22: Dada uma alocação de 300,00 concluída, quando o extrato é aberto, então existe um item de origem `RESERVA`, tipo `ALOCACAO`, com valor 300,00.
+- [x] CA-RES-23: Dado o id de uma reserva de outro usuário, quando `GET /api/reservas/{id}` é chamado, então a resposta é 404 com "Reserva não encontrada.".
+- [x] CA-RES-24: Dadas entradas de 5.000,00, saídas de 2.000,00 e 1.000,00 já alocados, quando `GET /api/saldo` responde, então `saldoDisponivel` é 2.000,00.
+- [x] CA-RES-25: Dadas duas alocações simultâneas de 300,00 com saldo disponível de 500,00, quando as duas rodam, então só uma conclui e a outra responde 400.
 
 ## Estrutura Angular
 

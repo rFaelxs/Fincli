@@ -47,22 +47,22 @@ O CPF não volta em nenhuma resposta ([ADR 0009](../adr/0009-cpf-fora-das-respos
 
 ## Critérios de aceite
 
-- [ ] CA-SHELL-01: Dado um navegador sem cookie de sessão, quando o usuário abre `/gestao`, então a aplicação chama `GET /api/me`, recebe 401 e substitui a rota por `/login`.
-- [ ] CA-SHELL-02: Dado um usuário com sessão, quando o shell monta, então `GET /api/csrf` é chamado antes de `GET /api/me`.
-- [ ] CA-SHELL-03: Dado o cookie `XSRF-TOKEN` com valor `abc123`, quando a tela dispara `POST /api/logout`, então a requisição leva o header `X-XSRF-TOKEN: abc123`.
-- [ ] CA-SHELL-04: Dado um usuário na rota `/transacoes`, quando a barra lateral é montada, então só o item "Transações" tem `aria-current="page"`.
-- [ ] CA-SHELL-05: Dado que `GET /api/reservas` devolve duas reservas com `saldoAtual` 1.200,00 e 300,00, quando o card carrega, então mostra "R$ 1.500,00" e a legenda começa com "em 2 reservas".
-- [ ] CA-SHELL-06: Dado que o usuário tem só a Reserva de Emergência com `metaValor` 0, quando o card carrega, então a legenda é "em 1 reserva", sem o trecho de percentual.
-- [ ] CA-SHELL-07: Dado que a Reserva de Emergência tem `metaValor` 10.000,00 e `progresso` 12,5, quando o card carrega, então a legenda termina com " · emergência 12,5%".
-- [ ] CA-SHELL-08: Dado que `GET /api/reservas` falha com 500, quando o card carrega, então o valor mostra "—", a legenda "não consegui carregar" e o restante da tela continua funcionando.
-- [ ] CA-SHELL-09: Dado o usuário "Rafael Siqueira", quando o rodapé é montado, então o avatar mostra "RS".
-- [ ] CA-SHELL-10: Dado um usuário na rota `/relatorio`, quando ele pressiona `G`, então a aplicação navega para `/gestao`.
-- [ ] CA-SHELL-11: Dado o foco dentro da barra de comando, quando o usuário digita a letra `g`, então nenhuma navegação acontece.
-- [ ] CA-SHELL-12: Dado um usuário na rota `/gestao`, quando ele pressiona `G`, então nenhuma navegação é disparada.
-- [ ] CA-SHELL-13: Dado que `POST /api/logout` responde 500, quando o usuário clica em "Sair", então a aplicação vai para `/login` mesmo assim.
-- [ ] CA-SHELL-14: Dado um usuário com CPF `12345678901`, quando `GET /api/me` responde, então o corpo traz só `id` e `nome`, sem nenhum campo de CPF.
-- [ ] CA-SHELL-15: Dado um erro 400 com `detail` "Verifique os campos enviados." e `campos` `{ "valor": "Informe o valor." }`, quando a tela lê o erro, então a mensagem exibida contém as duas frases.
-- [ ] CA-SHELL-16: Dado o navegador em `/dashboard`, quando a rota resolve, então a aplicação redireciona para `/gestao`.
+- [x] CA-SHELL-01: Dado um navegador sem cookie de sessão, quando o usuário abre `/gestao`, então a aplicação chama `GET /api/me`, recebe 401 e substitui a rota por `/login`.
+- [x] CA-SHELL-02: Dado um usuário com sessão, quando o shell monta, então `GET /api/csrf` é chamado antes de `GET /api/me`.
+- [x] CA-SHELL-03: Dado o cookie `XSRF-TOKEN` com valor `abc123`, quando a tela dispara `POST /api/logout`, então a requisição leva o header `X-XSRF-TOKEN: abc123`.
+- [x] CA-SHELL-04: Dado um usuário na rota `/transacoes`, quando a barra lateral é montada, então só o item "Transações" tem `aria-current="page"`.
+- [x] CA-SHELL-05: Dado que `GET /api/reservas` devolve duas reservas com `saldoAtual` 1.200,00 e 300,00, quando o card carrega, então mostra "R$ 1.500,00" e a legenda começa com "em 2 reservas".
+- [x] CA-SHELL-06: Dado que o usuário tem só a Reserva de Emergência com `metaValor` 0, quando o card carrega, então a legenda é "em 1 reserva", sem o trecho de percentual.
+- [x] CA-SHELL-07: Dado que a Reserva de Emergência tem `metaValor` 10.000,00 e `progresso` 12,5, quando o card carrega, então a legenda termina com " · emergência 12,5%".
+- [x] CA-SHELL-08: Dado que `GET /api/reservas` falha com 500, quando o card carrega, então o valor mostra "—", a legenda "não consegui carregar" e o restante da tela continua funcionando.
+- [x] CA-SHELL-09: Dado o usuário "Rafael Siqueira", quando o rodapé é montado, então o avatar mostra "RS".
+- [x] CA-SHELL-10: Dado um usuário na rota `/relatorio`, quando ele pressiona `G`, então a aplicação navega para `/gestao`.
+- [x] CA-SHELL-11: Dado o foco dentro da barra de comando, quando o usuário digita a letra `g`, então nenhuma navegação acontece.
+- [x] CA-SHELL-12: Dado um usuário na rota `/gestao`, quando ele pressiona `G`, então nenhuma navegação é disparada.
+- [x] CA-SHELL-13: Dado que `POST /api/logout` responde 500, quando o usuário clica em "Sair", então a aplicação vai para `/login` mesmo assim.
+- [x] CA-SHELL-14: Dado um usuário com CPF `12345678901`, quando `GET /api/me` responde, então o corpo traz só `id` e `nome`, sem nenhum campo de CPF.
+- [x] CA-SHELL-15: Dado um erro 400 com `detail` "Verifique os campos enviados." e `campos` `{ "valor": "Informe o valor." }`, quando a tela lê o erro, então a mensagem exibida contém as duas frases.
+- [x] CA-SHELL-16: Dado o navegador em `/dashboard`, quando a rota resolve, então a aplicação redireciona para `/gestao`.
 
 ## Estrutura Angular
 

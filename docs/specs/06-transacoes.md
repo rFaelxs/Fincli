@@ -77,28 +77,28 @@ Lista, criação, edição e exclusão de entradas e saídas, com filtro por mê
 
 ## Critérios de aceite
 
-- [ ] CA-TRX-01: Dado um usuário com 12 transações em três meses, quando `/transacoes` carrega, então só as do mês corrente aparecem e o contador reflete esse número.
-- [ ] CA-TRX-02: Dado o filtro de tipo em "Entradas", quando a lista repinta, então nenhuma linha de saída aparece.
-- [ ] CA-TRX-03: Dada a busca "merc", quando a lista repinta, então aparecem as transações cuja descrição ou categoria contém "merc", em qualquer caixa.
-- [ ] CA-TRX-04: Dada uma saída de 120,00 em `2026-09-16` com descrição "Mercado" e categoria "Alimentação", quando a linha pinta, então mostra "16/09", "Mercado", "Alimentação", o chip "↓ saída" e "−120,00".
-- [ ] CA-TRX-05: Dada uma saída essencial, quando a linha pinta, então ela traz também o chip "essencial".
-- [ ] CA-TRX-06: Dada uma entrada essencial, quando a linha pinta, então o chip "essencial" não aparece.
-- [ ] CA-TRX-07: Dada uma transação com descrição nula, quando a linha pinta, então a célula mostra um traço apagado.
-- [ ] CA-TRX-08: Dadas entradas de 5.000,00 e saídas de 2.500,00 no filtro, quando o rodapé pinta, então o total mostra "+2.500,00".
-- [ ] CA-TRX-09: Dadas saídas maiores que as entradas no filtro, quando o rodapé pinta, então o total começa com "−".
-- [ ] CA-TRX-10: Dado um filtro sem resultado, quando a tabela pinta, então mostra "Nenhuma transação encontrada." e o total vira um traço.
-- [ ] CA-TRX-11: Dado o clique em excluir, quando o usuário cancela a confirmação, então nenhuma chamada é feita.
-- [ ] CA-TRX-12: Dado o clique em excluir confirmado, quando `DELETE` responde 204, então o toast "Transação excluída." aparece e a lista recarrega.
-- [ ] CA-TRX-13: Dada a tela de criação recém-aberta, quando ela monta, então a data traz o dia de hoje e o tipo está em "Saída".
-- [ ] CA-TRX-14: Dado o envio com descrição em branco, quando `POST /api/transacoes` é chamado, então `descricao` vai nula no corpo.
-- [ ] CA-TRX-15: Dado um envio válido, quando o servidor responde 201, então a aplicação substitui a rota por `/transacoes`.
-- [ ] CA-TRX-16: Dado um envio com valor −10, quando o servidor responde 400, então a mensagem "O valor da transação não pode ser negativo." aparece no topo do formulário e os campos continuam preenchidos.
-- [ ] CA-TRX-17: Dado um envio com categoria em branco, quando o servidor responde 400, então a mensagem exibida inclui "Informe a categoria.".
-- [ ] CA-TRX-18: Dada a rota `/transacoes/:id/editar` com um id válido, quando a carga termina, então o formulário aparece preenchido e o subtítulo vira "Altere os campos e salve.".
-- [ ] CA-TRX-19: Dada a rota de edição com um id inexistente, quando `GET /api/transacoes/{id}` responde 404, então o formulário continua escondido e "Transação não encontrada." aparece no lugar do subtítulo.
-- [ ] CA-TRX-20: Dado o id de uma transação de outro usuário, quando `GET /api/transacoes/{id}` é chamado, então a resposta é 404, nunca 403.
-- [ ] CA-TRX-21: Dada a edição de uma transação de 120,00 para 150,00, quando o envio conclui, então `PUT /api/transacoes/{id}` é chamado e a aplicação volta para `/transacoes`.
-- [ ] CA-TRX-22: Dado o clique em "Cancelar" na criação, quando a navegação acontece, então a aplicação vai para `/transacoes` sem chamar a API.
+- [x] CA-TRX-01: Dado um usuário com 12 transações em três meses, quando `/transacoes` carrega, então só as do mês corrente aparecem e o contador reflete esse número.
+- [x] CA-TRX-02: Dado o filtro de tipo em "Entradas", quando a lista repinta, então nenhuma linha de saída aparece.
+- [x] CA-TRX-03: Dada a busca "merc", quando a lista repinta, então aparecem as transações cuja descrição ou categoria contém "merc", em qualquer caixa.
+- [x] CA-TRX-04: Dada uma saída de 120,00 em `2026-09-16` com descrição "Mercado" e categoria "Alimentação", quando a linha pinta, então mostra "16/09", "Mercado", "Alimentação", o chip "↓ saída" e "−120,00".
+- [x] CA-TRX-05: Dada uma saída essencial, quando a linha pinta, então ela traz também o chip "essencial".
+- [x] CA-TRX-06: Dada uma entrada essencial, quando a linha pinta, então o chip "essencial" não aparece.
+- [x] CA-TRX-07: Dada uma transação com descrição nula, quando a linha pinta, então a célula mostra um traço apagado.
+- [x] CA-TRX-08: Dadas entradas de 5.000,00 e saídas de 2.500,00 no filtro, quando o rodapé pinta, então o total mostra "+2.500,00".
+- [x] CA-TRX-09: Dadas saídas maiores que as entradas no filtro, quando o rodapé pinta, então o total começa com "−".
+- [x] CA-TRX-10: Dado um filtro sem resultado, quando a tabela pinta, então mostra "Nenhuma transação encontrada." e o total vira um traço.
+- [x] CA-TRX-11: Dado o clique em excluir, quando o usuário cancela a confirmação, então nenhuma chamada é feita.
+- [x] CA-TRX-12: Dado o clique em excluir confirmado, quando `DELETE` responde 204, então o toast "Transação excluída." aparece e a lista recarrega.
+- [x] CA-TRX-13: Dada a tela de criação recém-aberta, quando ela monta, então a data traz o dia de hoje e o tipo está em "Saída".
+- [x] CA-TRX-14: Dado o envio com descrição em branco, quando `POST /api/transacoes` é chamado, então `descricao` vai nula no corpo.
+- [x] CA-TRX-15: Dado um envio válido, quando o servidor responde 201, então a aplicação substitui a rota por `/transacoes`.
+- [x] CA-TRX-16: Dado um envio com valor −10, quando o servidor responde 400, então a mensagem "O valor da transação não pode ser negativo." aparece no topo do formulário e os campos continuam preenchidos.
+- [x] CA-TRX-17: Dado um envio com categoria em branco, quando o servidor responde 400, então a mensagem exibida inclui "Informe a categoria.".
+- [x] CA-TRX-18: Dada a rota `/transacoes/:id/editar` com um id válido, quando a carga termina, então o formulário aparece preenchido e o subtítulo vira "Altere os campos e salve.".
+- [x] CA-TRX-19: Dada a rota de edição com um id inexistente, quando `GET /api/transacoes/{id}` responde 404, então o formulário continua escondido e "Transação não encontrada." aparece no lugar do subtítulo.
+- [x] CA-TRX-20: Dado o id de uma transação de outro usuário, quando `GET /api/transacoes/{id}` é chamado, então a resposta é 404, nunca 403.
+- [x] CA-TRX-21: Dada a edição de uma transação de 120,00 para 150,00, quando o envio conclui, então `PUT /api/transacoes/{id}` é chamado e a aplicação volta para `/transacoes`.
+- [x] CA-TRX-22: Dado o clique em "Cancelar" na criação, quando a navegação acontece, então a aplicação vai para `/transacoes` sem chamar a API.
 
 ## Estrutura Angular
 

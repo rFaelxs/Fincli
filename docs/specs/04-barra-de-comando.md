@@ -70,38 +70,38 @@ A resposta de `POST /api/comando` traz `tipo`, `id`, `reservaId`, `valor`, `desc
 
 ## Critérios de aceite
 
-- [ ] CA-CMD-01: Dado o texto `mercado 120 ontem`, quando o usuário envia, então é criada uma saída de 120,00 na categoria "Alimentação", marcada como essencial, com a data de ontem e a descrição "Mercado".
-- [ ] CA-CMD-02: Dado o texto `ontem 120 mercado`, quando o usuário envia, então o resultado é igual ao do CA-CMD-01.
-- [ ] CA-CMD-03: Dado o texto `cinema 60`, quando o usuário envia, então é criada uma saída na categoria "Lazer" não essencial.
-- [ ] CA-CMD-04: Dado o texto `cinema 60 essencial`, quando o usuário envia, então a saída é marcada como essencial.
-- [ ] CA-CMD-05: Dado o texto `freela 450`, quando o usuário envia, então é criada uma entrada de 450,00 na categoria "Trabalho".
-- [ ] CA-CMD-06: Dado o texto `1.234,56 aluguel`, quando o usuário envia, então o valor gravado é 1234,56.
-- [ ] CA-CMD-07: Dado o texto `almoço 12.50`, quando o usuário envia, então o valor gravado é 12,50.
-- [ ] CA-CMD-08: Dado o texto `feira 1.234`, quando o usuário envia, então o valor gravado é 1234,00.
-- [ ] CA-CMD-09: Dado o texto `mercado sem numero`, quando o usuário digita, então nenhum preview aparece e o envio não acontece.
-- [ ] CA-CMD-10: Dado o texto `mercado sem numero` enviado por outro cliente, quando `POST /api/comando` responde, então o status é 422 e o `detail` começa com "Não entendi".
-- [ ] CA-CMD-11: Dado o texto `prever energia 210 dia 22`, quando o usuário envia, então é criada uma conta prevista "Energia" de 210,00, com vencimento no dia 22 e recorrente.
-- [ ] CA-CMD-12: Dado o texto `prever energia 210 dia 22 uma vez`, quando o usuário envia, então a conta é avulsa, com `mesReferencia` igual ao mês da data do comando.
-- [ ] CA-CMD-13: Dado o texto `prever internet 99`, quando o usuário envia num dia 5, então o vencimento é o dia 5.
-- [ ] CA-CMD-14: Dado o texto `guardar 300`, quando o usuário envia, então 300,00 são alocados na Reserva de Emergência.
-- [ ] CA-CMD-15: Dado o texto `guardar 300 viagem` e a reserva "Viagem Japão", quando o usuário envia, então a alocação cai em "Viagem Japão".
-- [ ] CA-CMD-16: Dadas as reservas "Viagem Chile" e "Viagem Japão", quando o usuário envia `guardar 300 viagem`, então a resposta é 422 e o `detail` lista os dois nomes.
-- [ ] CA-CMD-17: Dado um saldo disponível de 200,00, quando o usuário envia `guardar 300`, então a resposta é 400 com "Saldo insuficiente para esta alocação.".
-- [ ] CA-CMD-18: Dado um texto de 60 caracteres que não vira lançamento, quando a resposta 422 chega, então o eco no `detail` tem 40 caracteres seguidos de reticências.
-- [ ] CA-CMD-19: Dado o texto `uber 32 hoje` no campo, quando o preview pinta, então mostra "vai lançar", "saída R$ 32,00", "transporte", o dia de hoje e "essencial".
-- [ ] CA-CMD-20: Dado o texto `prever energia 210 dia 22` no campo, quando o preview pinta, então mostra "vai prever", "conta R$ 210,00", "vence dia 22" e "todo mês".
-- [ ] CA-CMD-21: Dado o campo vazio, quando a tela pinta, então as três sugestões aparecem sob o rótulo "tente:".
-- [ ] CA-CMD-22: Dado o clique na sugestão "uber 32 hoje", quando o campo é preenchido, então ele recebe o foco e o preview aparece.
-- [ ] CA-CMD-23: Dado o foco fora do campo, quando o usuário pressiona `Ctrl+K`, então o campo recebe foco e o texto fica selecionado.
-- [ ] CA-CMD-24: Dado o texto `mercado 120` no campo, quando o usuário pressiona `Esc`, então o campo esvazia e o preview some.
-- [ ] CA-CMD-25: Dado o envio de `mercado 120`, quando a resposta chega, então a faixa mostra "Lançado R$ 120,00 · Mercado" com a ação "desfazer".
-- [ ] CA-CMD-26: Dado o envio de `recebi 450 freela`, quando a resposta chega, então a mensagem começa com "Recebido".
-- [ ] CA-CMD-27: Dada uma saída recém-lançada, quando o usuário clica em "desfazer", então `DELETE /api/transacoes/{id}` é chamado e a tela recarrega.
-- [ ] CA-CMD-28: Dado um aporte de 300,00 recém-lançado, quando o usuário clica em "desfazer", então `POST /api/reservas/{reservaId}/sacar` é chamado com 300,00 e o toast "Aporte desfeito — o saque ficou registrado no extrato." aparece.
-- [ ] CA-CMD-29: Dado um aporte desfeito, quando o extrato é aberto, então a alocação e o saque aparecem como dois itens.
-- [ ] CA-CMD-30: Dado um envio em voo, quando a resposta ainda não chegou, então o campo está desabilitado.
-- [ ] CA-CMD-31: Dado um erro de servidor no envio, quando a faixa de erro aparece, então as sugestões ficam escondidas.
-- [ ] CA-CMD-32: Dado um navegador identificado como Mac, quando a barra monta, então a tecla mostrada é "⌘K".
+- [x] CA-CMD-01: Dado o texto `mercado 120 ontem`, quando o usuário envia, então é criada uma saída de 120,00 na categoria "Alimentação", marcada como essencial, com a data de ontem e a descrição "Mercado".
+- [x] CA-CMD-02: Dado o texto `ontem 120 mercado`, quando o usuário envia, então o resultado é igual ao do CA-CMD-01.
+- [x] CA-CMD-03: Dado o texto `cinema 60`, quando o usuário envia, então é criada uma saída na categoria "Lazer" não essencial.
+- [x] CA-CMD-04: Dado o texto `cinema 60 essencial`, quando o usuário envia, então a saída é marcada como essencial.
+- [x] CA-CMD-05: Dado o texto `freela 450`, quando o usuário envia, então é criada uma entrada de 450,00 na categoria "Trabalho".
+- [x] CA-CMD-06: Dado o texto `1.234,56 aluguel`, quando o usuário envia, então o valor gravado é 1234,56.
+- [x] CA-CMD-07: Dado o texto `almoço 12.50`, quando o usuário envia, então o valor gravado é 12,50.
+- [x] CA-CMD-08: Dado o texto `feira 1.234`, quando o usuário envia, então o valor gravado é 1234,00.
+- [x] CA-CMD-09: Dado o texto `mercado sem numero`, quando o usuário digita, então nenhum preview aparece e o envio não acontece.
+- [x] CA-CMD-10: Dado o texto `mercado sem numero` enviado por outro cliente, quando `POST /api/comando` responde, então o status é 422 e o `detail` começa com "Não entendi".
+- [x] CA-CMD-11: Dado o texto `prever energia 210 dia 22`, quando o usuário envia, então é criada uma conta prevista "Energia" de 210,00, com vencimento no dia 22 e recorrente.
+- [x] CA-CMD-12: Dado o texto `prever energia 210 dia 22 uma vez`, quando o usuário envia, então a conta é avulsa, com `mesReferencia` igual ao mês da data do comando.
+- [x] CA-CMD-13: Dado o texto `prever internet 99`, quando o usuário envia num dia 5, então o vencimento é o dia 5.
+- [x] CA-CMD-14: Dado o texto `guardar 300`, quando o usuário envia, então 300,00 são alocados na Reserva de Emergência.
+- [x] CA-CMD-15: Dado o texto `guardar 300 viagem` e a reserva "Viagem Japão", quando o usuário envia, então a alocação cai em "Viagem Japão".
+- [x] CA-CMD-16: Dadas as reservas "Viagem Chile" e "Viagem Japão", quando o usuário envia `guardar 300 viagem`, então a resposta é 422 e o `detail` lista os dois nomes.
+- [x] CA-CMD-17: Dado um saldo disponível de 200,00, quando o usuário envia `guardar 300`, então a resposta é 400 com "Saldo insuficiente para esta alocação.".
+- [x] CA-CMD-18: Dado um texto de 60 caracteres que não vira lançamento, quando a resposta 422 chega, então o eco no `detail` tem 40 caracteres seguidos de reticências.
+- [x] CA-CMD-19: Dado o texto `uber 32 hoje` no campo, quando o preview pinta, então mostra "vai lançar", "saída R$ 32,00", "transporte", o dia de hoje e "essencial".
+- [x] CA-CMD-20: Dado o texto `prever energia 210 dia 22` no campo, quando o preview pinta, então mostra "vai prever", "conta R$ 210,00", "vence dia 22" e "todo mês".
+- [x] CA-CMD-21: Dado o campo vazio, quando a tela pinta, então as três sugestões aparecem sob o rótulo "tente:".
+- [x] CA-CMD-22: Dado o clique na sugestão "uber 32 hoje", quando o campo é preenchido, então ele recebe o foco e o preview aparece.
+- [ ] CA-CMD-23 (adiado, ver "A confirmar" da spec 04): Dado o foco fora do campo, quando o usuário pressiona `Ctrl+K`, então o campo recebe foco e o texto fica selecionado.
+- [x] CA-CMD-24: Dado o texto `mercado 120` no campo, quando o usuário pressiona `Esc`, então o campo esvazia e o preview some.
+- [x] CA-CMD-25: Dado o envio de `mercado 120`, quando a resposta chega, então a faixa mostra "Lançado R$ 120,00 · Mercado" com a ação "desfazer".
+- [x] CA-CMD-26: Dado o envio de `recebi 450 freela`, quando a resposta chega, então a mensagem começa com "Recebido".
+- [x] CA-CMD-27: Dada uma saída recém-lançada, quando o usuário clica em "desfazer", então `DELETE /api/transacoes/{id}` é chamado e a tela recarrega.
+- [x] CA-CMD-28: Dado um aporte de 300,00 recém-lançado, quando o usuário clica em "desfazer", então `POST /api/reservas/{reservaId}/sacar` é chamado com 300,00 e o toast "Aporte desfeito — o saque ficou registrado no extrato." aparece.
+- [x] CA-CMD-29: Dado um aporte desfeito, quando o extrato é aberto, então a alocação e o saque aparecem como dois itens.
+- [x] CA-CMD-30: Dado um envio em voo, quando a resposta ainda não chegou, então o campo está desabilitado.
+- [x] CA-CMD-31: Dado um erro de servidor no envio, quando a faixa de erro aparece, então as sugestões ficam escondidas.
+- [ ] CA-CMD-32 (adiado, ver "A confirmar" da spec 04): Dado um navegador identificado como Mac, quando a barra monta, então a tecla mostrada é "⌘K".
 
 ## Estrutura Angular
 

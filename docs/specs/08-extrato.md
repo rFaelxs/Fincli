@@ -38,19 +38,19 @@ A rota mora hoje no `DashboardController`, que faz a junção e a ordenação. A
 
 ## Critérios de aceite
 
-- [ ] CA-EXT-01: Dada uma transação em `2026-09-16` e uma movimentação em `2026-09-18`, quando a tela carrega, então a movimentação aparece antes da transação.
-- [ ] CA-EXT-02: Dadas duas transações em `2026-09-16`, quando a tela pinta, então elas ficam sob um único cabeçalho "16 de set. de 2026".
-- [ ] CA-EXT-03: Dada uma entrada de 450,00 com descrição "Freela", quando o item pinta, então mostra "↑", "Freela", "Entrada · Trabalho" e "+R$ 450,00".
-- [ ] CA-EXT-04: Dada uma saída de 120,00, quando o item pinta, então mostra "↓" e "−R$ 120,00".
-- [ ] CA-EXT-05: Dada uma alocação de 300,00 na reserva "Viagem", quando o item pinta, então mostra "◎", "Viagem", "Alocação · Reserva" e "R$ 300,00" sem sinal.
-- [ ] CA-EXT-06: Dado um saque de 300,00, quando o item pinta, então o rótulo é "Saque · Reserva" e o valor aparece sem sinal.
-- [ ] CA-EXT-07: Dada uma transação com descrição nula e categoria "Alimentação", quando o item pinta, então o título mostra "Alimentação".
-- [ ] CA-EXT-08: Dado um usuário sem nenhum lançamento, quando a tela carrega, então mostra "Nada por aqui ainda.".
-- [ ] CA-EXT-09: Dado que `GET /api/extrato` responde 500, quando a tela carrega, então um toast mostra o `detail` e a lista fica vazia.
-- [ ] CA-EXT-10: Dado um segundo usuário com lançamentos, quando `GET /api/extrato` é chamado pelo primeiro, então nenhum item do segundo aparece.
-- [ ] CA-EXT-11: Dada uma reserva renomeada depois de uma alocação, quando o extrato é aberto, então o item mostra o nome gravado no momento do movimento.
-- [ ] CA-EXT-12: Dado um aporte desfeito pela barra de comando, quando o extrato é aberto, então a alocação e o saque aparecem como dois itens.
-- [ ] CA-EXT-13: Dadas uma transação e uma alocação, ambas em `2026-09-16`, quando `GET /api/extrato` responde, então a transação vem antes da alocação.
+- [x] CA-EXT-01: Dada uma transação em `2026-09-16` e uma movimentação em `2026-09-18`, quando a tela carrega, então a movimentação aparece antes da transação.
+- [x] CA-EXT-02: Dadas duas transações em `2026-09-16`, quando a tela pinta, então elas ficam sob um único cabeçalho "16 de set. de 2026".
+- [x] CA-EXT-03: Dada uma entrada de 450,00 com descrição "Freela", quando o item pinta, então mostra "↑", "Freela", "Entrada · Trabalho" e "+R$ 450,00".
+- [x] CA-EXT-04: Dada uma saída de 120,00, quando o item pinta, então mostra "↓" e "−R$ 120,00".
+- [x] CA-EXT-05: Dada uma alocação de 300,00 na reserva "Viagem", quando o item pinta, então mostra "◎", "Viagem", "Alocação · Reserva" e "R$ 300,00" sem sinal.
+- [x] CA-EXT-06: Dado um saque de 300,00, quando o item pinta, então o rótulo é "Saque · Reserva" e o valor aparece sem sinal.
+- [x] CA-EXT-07: Dada uma transação com descrição nula e categoria "Alimentação", quando o item pinta, então o título mostra "Alimentação".
+- [x] CA-EXT-08: Dado um usuário sem nenhum lançamento, quando a tela carrega, então mostra "Nada por aqui ainda.".
+- [x] CA-EXT-09: Dado que `GET /api/extrato` responde 500, quando a tela carrega, então um toast mostra o `detail` e a lista fica vazia.
+- [x] CA-EXT-10: Dado um segundo usuário com lançamentos, quando `GET /api/extrato` é chamado pelo primeiro, então nenhum item do segundo aparece.
+- [x] CA-EXT-11: Dada uma reserva renomeada depois de uma alocação, quando o extrato é aberto, então o item mostra o nome gravado no momento do movimento.
+- [x] CA-EXT-12: Dado um aporte desfeito pela barra de comando, quando o extrato é aberto, então a alocação e o saque aparecem como dois itens.
+- [x] CA-EXT-13: Dadas uma transação e uma alocação, ambas em `2026-09-16`, quando `GET /api/extrato` responde, então a transação vem antes da alocação.
 
 ## Estrutura Angular
 

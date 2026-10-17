@@ -35,6 +35,12 @@ Ordem sugerida de construção: shell e autenticação; depois transações, res
 
 As decisões que moldam estas specs — Angular, empacotamento no JAR, sessão em cookie, saída do CLI e da Selic — estão nos [ADRs](../adr/).
 
+## Situação dos critérios de aceite
+
+Um critério marcado (`[x]`) está coberto por teste automatizado: no backend (`backend/src/test`, inclusive os testes de integração `*IT` contra SQL Server real) ou no front (`frontend/src/**/*.spec.ts`). As oito telas também foram conferidas à mão no navegador, contra o backend real, na entrega da reescrita (2026-10-17).
+
+Ficaram abertos só os critérios de atalho e foco por teclado, adiados de propósito: CA-CMD-23, CA-CMD-32 e CA-GESTAO-20. O motivo está em "A confirmar", na spec 04.
+
 ## Sobre os identificadores
 
 Não existe documento de requisitos no repositório. Os ids **RF** vêm do mapa das specs da reescrita e os **RN** foram numerados aqui: todos estão marcados como **proposto** dentro de cada spec, e precisam ser conferidos contra o documento de requisitos antes de virarem referência.

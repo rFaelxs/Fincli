@@ -66,28 +66,28 @@ porDia     = livre / máx(diasRestantes, 1)
 
 ## Critérios de aceite
 
-- [ ] CA-GESTAO-01: Dado `livre` igual a 1.014,00 e `fimDoMes` igual a `2026-09-30`, quando a tela carrega, então o rótulo é "DÁ PRA GASTAR · ATÉ 30 DE SETEMBRO" e o número grande mostra "R$ 1.014,00".
-- [ ] CA-GESTAO-02: Dado `porDia` igual a 84,50 e `diasRestantes` igual a 12, quando a tela carrega, então a pílula mostra "R$ 84,50 por dia · 12 dias".
-- [ ] CA-GESTAO-03: Dado `diasRestantes` igual a 1, quando a tela carrega, então a pílula termina com "1 dia".
-- [ ] CA-GESTAO-04: Dado `livre` igual a −300,00, quando a tela carrega, então o rótulo começa com "NO VERMELHO ·", a pílula mostra "R$ 300,00 no vermelho" e o número grande mostra "R$ 300,00" sem sinal.
-- [ ] CA-GESTAO-05: Dado `entradas`, `saidas` e `aportes` iguais a 0,00, quando a tela carrega, então o rótulo é "SEM LANÇAMENTOS AINDA" e a pílula mostra "setembro está em branco".
-- [ ] CA-GESTAO-06: Dado `entradas` 5.000,00 e `saidas` 2.500,00, quando a tela carrega, então "ENTROU" mostra "+R$ 5.000,00", "SAIU" mostra "−R$ 2.500,00" e o medidor de "SAIU" fica em 50%.
-- [ ] CA-GESTAO-07: Dado `aportes` igual a −200,00, quando a tela carrega, então "GUARDEI" mostra "−R$ 200,00".
-- [ ] CA-GESTAO-08: Dado `entradas` igual a 0,00 e `saidas` igual a 800,00, quando a tela carrega, então o medidor de "SAIU" fica em 0%.
-- [ ] CA-GESTAO-09: Dado um lançamento de saída essencial de 120,00 em `2026-09-16` com descrição "Mercado", quando a lista pinta, então a linha mostra "16/09", "Mercado", o chip "essencial" e "−R$ 120,00".
-- [ ] CA-GESTAO-10: Dado um lançamento de tipo `APORTE` de 300,00, quando a lista pinta, então o valor aparece sem sinal, com o chip "guardado" e o rótulo oculto "guardado".
-- [ ] CA-GESTAO-11: Dado `ultimosLancamentos` vazio, quando a lista pinta, então mostra "Nenhum lançamento neste mês ainda.".
-- [ ] CA-GESTAO-12: Dado um mês com 9 lançamentos, quando `GET /api/hoje` responde, então `ultimosLancamentos` traz 6 itens e a lista mostra 6 linhas.
-- [ ] CA-GESTAO-13: Dada uma conta "Energia" de 210,00 que vence em `2026-09-22`, quando a seção pinta, então mostra "Energia", "R$ 210,00" e "vence 22/09".
-- [ ] CA-GESTAO-14: Dado `previstas` vazio, quando a seção pinta, então o texto orienta a escrever `prever energia 210 dia 22` na barra.
-- [ ] CA-GESTAO-15: Dado o clique em remover na conta "Energia", quando `DELETE /api/previstas/{id}` responde 204, então a faixa mostra "Removido Energia" com a ação "desfazer" e a tela recarrega.
-- [ ] CA-GESTAO-16: Dada uma conta recorrente recém-removida, quando o usuário clica em "desfazer", então `POST /api/previstas` é chamado com `mesReferencia` nulo.
-- [ ] CA-GESTAO-17: Dada uma conta avulsa de `2026-09` recém-removida, quando o usuário clica em "desfazer", então `POST /api/previstas` é chamado com `mesReferencia` igual a `2026-09`.
-- [ ] CA-GESTAO-18: Dado que `GET /api/hoje` responde 500, quando a tela carrega, então a faixa de erro aparece com o botão "tentar de novo".
-- [ ] CA-GESTAO-19: Dado o botão "tentar de novo", quando o usuário o aciona, então a tela refaz `GET /api/hoje` e some com a faixa.
-- [ ] CA-GESTAO-20: Dado o primeiro `Tab` na tela, quando o foco entra, então o link "Pular para a barra de comando" é o elemento focado.
-- [ ] CA-GESTAO-21: Dado hoje igual a `2026-09-30`, quando `GET /api/hoje` responde, então `diasRestantes` é 0 e `porDia` iguala `livre`.
-- [ ] CA-GESTAO-22: Dada uma conta recorrente com dia 31 e o mês `2026-02`, quando a tela carrega, então o vencimento mostrado é 28/02.
+- [x] CA-GESTAO-01: Dado `livre` igual a 1.014,00 e `fimDoMes` igual a `2026-09-30`, quando a tela carrega, então o rótulo é "DÁ PRA GASTAR · ATÉ 30 DE SETEMBRO" e o número grande mostra "R$ 1.014,00".
+- [x] CA-GESTAO-02: Dado `porDia` igual a 84,50 e `diasRestantes` igual a 12, quando a tela carrega, então a pílula mostra "R$ 84,50 por dia · 12 dias".
+- [x] CA-GESTAO-03: Dado `diasRestantes` igual a 1, quando a tela carrega, então a pílula termina com "1 dia".
+- [x] CA-GESTAO-04: Dado `livre` igual a −300,00, quando a tela carrega, então o rótulo começa com "NO VERMELHO ·", a pílula mostra "R$ 300,00 no vermelho" e o número grande mostra "R$ 300,00" sem sinal.
+- [x] CA-GESTAO-05: Dado `entradas`, `saidas` e `aportes` iguais a 0,00, quando a tela carrega, então o rótulo é "SEM LANÇAMENTOS AINDA" e a pílula mostra "setembro está em branco".
+- [x] CA-GESTAO-06: Dado `entradas` 5.000,00 e `saidas` 2.500,00, quando a tela carrega, então "ENTROU" mostra "+R$ 5.000,00", "SAIU" mostra "−R$ 2.500,00" e o medidor de "SAIU" fica em 50%.
+- [x] CA-GESTAO-07: Dado `aportes` igual a −200,00, quando a tela carrega, então "GUARDEI" mostra "−R$ 200,00".
+- [x] CA-GESTAO-08: Dado `entradas` igual a 0,00 e `saidas` igual a 800,00, quando a tela carrega, então o medidor de "SAIU" fica em 0%.
+- [x] CA-GESTAO-09: Dado um lançamento de saída essencial de 120,00 em `2026-09-16` com descrição "Mercado", quando a lista pinta, então a linha mostra "16/09", "Mercado", o chip "essencial" e "−R$ 120,00".
+- [x] CA-GESTAO-10: Dado um lançamento de tipo `APORTE` de 300,00, quando a lista pinta, então o valor aparece sem sinal, com o chip "guardado" e o rótulo oculto "guardado".
+- [x] CA-GESTAO-11: Dado `ultimosLancamentos` vazio, quando a lista pinta, então mostra "Nenhum lançamento neste mês ainda.".
+- [x] CA-GESTAO-12: Dado um mês com 9 lançamentos, quando `GET /api/hoje` responde, então `ultimosLancamentos` traz 6 itens e a lista mostra 6 linhas.
+- [x] CA-GESTAO-13: Dada uma conta "Energia" de 210,00 que vence em `2026-09-22`, quando a seção pinta, então mostra "Energia", "R$ 210,00" e "vence 22/09".
+- [x] CA-GESTAO-14: Dado `previstas` vazio, quando a seção pinta, então o texto orienta a escrever `prever energia 210 dia 22` na barra.
+- [x] CA-GESTAO-15: Dado o clique em remover na conta "Energia", quando `DELETE /api/previstas/{id}` responde 204, então a faixa mostra "Removido Energia" com a ação "desfazer" e a tela recarrega.
+- [x] CA-GESTAO-16: Dada uma conta recorrente recém-removida, quando o usuário clica em "desfazer", então `POST /api/previstas` é chamado com `mesReferencia` nulo.
+- [x] CA-GESTAO-17: Dada uma conta avulsa de `2026-09` recém-removida, quando o usuário clica em "desfazer", então `POST /api/previstas` é chamado com `mesReferencia` igual a `2026-09`.
+- [x] CA-GESTAO-18: Dado que `GET /api/hoje` responde 500, quando a tela carrega, então a faixa de erro aparece com o botão "tentar de novo".
+- [x] CA-GESTAO-19: Dado o botão "tentar de novo", quando o usuário o aciona, então a tela refaz `GET /api/hoje` e some com a faixa.
+- [ ] CA-GESTAO-20 (adiado, ver "A confirmar" da spec 04): Dado o primeiro `Tab` na tela, quando o foco entra, então o link "Pular para a barra de comando" é o elemento focado.
+- [x] CA-GESTAO-21: Dado hoje igual a `2026-09-30`, quando `GET /api/hoje` responde, então `diasRestantes` é 0 e `porDia` iguala `livre`.
+- [x] CA-GESTAO-22: Dada uma conta recorrente com dia 31 e o mês `2026-02`, quando a tela carrega, então o vencimento mostrado é 28/02.
 
 ## Estrutura Angular
 
