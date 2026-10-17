@@ -1,6 +1,7 @@
 package com.rfaelxs.web.api;
 
 import com.rfaelxs.web.service.ConflitoException;
+import com.rfaelxs.web.service.RecursoNaoEncontradoException;
 import com.rfaelxs.web.service.ValorInvalidoException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
@@ -35,6 +37,22 @@ public class TratadorDeErros {
   @ExceptionHandler(ConflitoException.class)
   public ProblemDetail conflito(ConflitoException e) {
     return problema(HttpStatus.CONFLICT, "Conflito", e.getMessage());
+  }
+
+  @ExceptionHandler(RecursoNaoEncontradoException.class)
+  public ProblemDetail naoEncontrado(RecursoNaoEncontradoException e) {
+    return problema(HttpStatus.NOT_FOUND, "Não encontrado", e.getMessage());
+  }
+
+  /**
+   * Id da URL que não é um UUID, como {@code /api/transacoes/abc}.
+   *
+   * <p>Para quem chama, é só um recurso que não existe. Sem este handler, o erro de conversão
+   * cairia na rede de segurança e viraria 500.
+   */
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ProblemDetail idMalformado(MethodArgumentTypeMismatchException e) {
+    return problema(HttpStatus.NOT_FOUND, "Não encontrado", "Recurso não encontrado.");
   }
 
   /**
