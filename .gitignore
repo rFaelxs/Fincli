@@ -38,9 +38,6 @@ build/
 .DS_Store
 
 ### FinCLI ###
-dependency-reduced-pom.xml
-data/
-
 # Credenciais de desenvolvimento — nunca versionar
 .env.local
 backend/.env.local
