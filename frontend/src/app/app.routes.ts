@@ -1,12 +1,6 @@
 import { Routes } from '@angular/router';
 import { autenticadoGuard, publicoGuard, raizGuard } from './core/auth/guardas';
-import { EmConstrucaoPage } from './layout/em-construcao.page';
 import { ShellComponent } from './layout/shell/shell.component';
-
-/** As telas ainda não construídas ficam provisórias, para a navegação do shell funcionar. */
-function provisoria(path: string, titulo: string) {
-  return { path, component: EmConstrucaoPage, data: { titulo }, title: `${titulo} · FinCLI` };
-}
 
 export const routes: Routes = [
   // A raiz não tem tela: o guarda decide entre a Gestão e o login.
@@ -35,7 +29,12 @@ export const routes: Routes = [
         title: 'Gestão · FinCLI',
         loadComponent: () => import('./features/gestao/pages/gestao.page').then((m) => m.GestaoPage),
       },
-      provisoria('relatorio', 'Relatório'),
+      {
+        path: 'relatorio',
+        title: 'Relatório · FinCLI',
+        loadComponent: () =>
+          import('./features/relatorio/pages/relatorio.page').then((m) => m.RelatorioPage),
+      },
       { path: 'transacoes', loadChildren: () => import('./features/transacoes/transacoes.routes') },
       { path: 'reservas', loadChildren: () => import('./features/reservas/reservas.routes') },
       {

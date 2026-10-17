@@ -91,7 +91,7 @@ describe('ShellComponent', () => {
 
     expect(tela().querySelector('.resumo .val')?.textContent).toBe('—');
     expect(tela().querySelector('.resumo .leg')?.textContent).toBe('não consegui carregar');
-    expect(tela().querySelector('main h1')?.textContent).toBe('Relatório');
+    expect(tela().querySelector('main h1')?.textContent).toBe('Para onde foi o dinheiro');
   });
 
   // CA-SHELL-09 e item 11

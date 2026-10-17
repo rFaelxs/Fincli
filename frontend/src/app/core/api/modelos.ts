@@ -107,6 +107,34 @@ export interface ResultadoComando {
   mensagem: string;
 }
 
+/** `GET /api/relatorio`: os números do mês escolhido, todos calculados no servidor (spec 05). */
+export interface Relatorio {
+  /** `yyyy-MM`. */
+  mes: string;
+  entradas: number;
+  saidas: number;
+  essenciais: number;
+  superfluas: number;
+  aportes: number;
+  sobra: number;
+  /** Seis meses, do mais antigo ao mais recente, com os vazios zerados. */
+  historico: { mes: string; sobra: number }[];
+  /** Até quatro categorias de saída, da maior para a menor. */
+  topCategorias: { nome: string; total: number }[];
+  reservas: {
+    id: string;
+    nome: string;
+    saldo: number;
+    meta: number;
+    progresso: number;
+    aporteMedio: number;
+    /** `yyyy-MM`; nulo sem meta ou sem aporte. */
+    previsao: string | null;
+    noRitmo: boolean;
+  }[];
+  projecao: { jaSaiu: number; aindaVence: number; sobraPrevista: number };
+}
+
 /** Corpo de erro `application/problem+json`. */
 export interface Problema {
   status?: number;
