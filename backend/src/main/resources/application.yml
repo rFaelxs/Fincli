@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: fincli-backend
+
+  datasource:
+    # Credenciais nunca ficam no repositório. Defina as variáveis de ambiente antes de subir.
+    url: ${FINCLI_DB_URL:jdbc:sqlserver://localhost:1433;databaseName=fincli;encrypt=true;trustServerCertificate=true}
+    username: ${FINCLI_DB_USER}
+    password: ${FINCLI_DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    # O schema é do Flyway. O Hibernate só valida que as entidades batem com o banco (ADR 0008).
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+server:
+  port: ${FINCLI_PORT:8080}
+  servlet:
+    session:
+      # Sessão em cookie HttpOnly, SameSite=Lax e Secure, com 30 minutos (ADR 0006).
+      timeout: 30m
+      cookie:
+        http-only: true
+        same-site: lax
+        # Exige HTTPS. Em desenvolvimento sobre http://localhost, use FINCLI_COOKIE_SECURE=false.
+        secure: ${FINCLI_COOKIE_SECURE:true}
+
+logging:
+  level:
+    root: INFO
